@@ -1,0 +1,26 @@
+form{
+  padding: 20px 50px;
+}
+h2{
+  padding-left: 50px;
+}
+.radio-containers{
+  display: flex;
+  justify-content: flex-end;
+}
+.radio-containers > div {
+  width: 75%;
+}
+.radio-containers  span{
+  padding-right: 40px;
+}
+.title{
+  display: inline-block;
+  width: 25%;
+}
+.content{
+  display: inline;
+}
+form > div {
+  margin-bottom: 40px;
+}

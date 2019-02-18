@@ -1,0 +1,46 @@
+<h2>Add a new picture</h2>
+
+<form (ngSubmit)="handleSubmit(form)" #form>
+
+<div class="radio-containers">
+  <div class="">
+    <span>
+      <input type="radio" id="exisitng album" name="useExistingAlbum" [value]="true" [checked]="isUseExisting" [(ngModel)]="useExisting">
+      <label for="exisitng album">Use existing album</label>
+    </span>
+
+    <input type="radio" id="new album" name="useExistingAlbum" [value]="false" [checked]="isUseExisting" [(ngModel)]="useExisting">
+    <label for="new album">Make new album</label>
+  </div>
+</div>
+
+<div class="">
+<div class="title">
+  Album Name:
+</div>
+<div *ngIf="useExisting; else newAlbumBlock" class="content">
+  <select class="" name="albumName">
+    <option value="Odin">Odin</option>
+  </select>
+</div>
+<ng-template #newAlbumBlock>
+  <div class="content">
+    <input name="albumName" value="newAlbum" placeholder="Name of new album">
+  </div>
+</ng-template>
+</div>
+
+<div class="">
+  <label for="" class="title">Picture title:</label>
+  <input type="text" name="pictureTitle" value="testTitle">
+</div>
+
+<div class="">
+  <div class="title">
+    Upload file:
+  </div>
+  <input type="file" name="picture" value="">
+</div>
+  <input type="hidden" name="username" value="testUser">
+  <button type="submit" name="button">Send</button>
+</form>
