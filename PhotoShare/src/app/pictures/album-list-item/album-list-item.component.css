@@ -1,0 +1,25 @@
+.container{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: black 1px solid;
+  border-radius: 2%;
+  background-color: lightblue;
+}
+p{
+  margin-top: 15px;
+  margin-bottom: 0px;
+}
+.preview{
+  width: 70%;
+  height: 60%;
+  border: 1px black solid;
+}
+img{
+  vertical-align: bottom;
+  border: 2px transparent solid;
+  height: 50%;
+  width: 50%;
+}

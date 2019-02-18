@@ -1,0 +1,8 @@
+<div class="container">
+  <div class="preview">
+
+  <img *ngFor="let picture of album.picsSrc" [src]="picture.thumbnailSrc" alt="">
+  </div>
+    <p>{{album._id}}</p>
+    <p>{{album.numberOfPics}} {{pictureOrPictures()}}</p>
+</div>

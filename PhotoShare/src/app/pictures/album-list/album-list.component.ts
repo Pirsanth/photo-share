@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AjaxService} from "../../services/ajax.service";
-import {Album} from "../../customTypes";
+import {Album} from "./../../customTypes";
 
 @Component({
   selector: 'app-album-list',
@@ -14,8 +14,6 @@ albumList: Album[];
   ngOnInit() {
     this.http.getAllAlbums().subscribe((arr) => {
       console.log(arr);
-
-      //console.log(arr[0].picsSrc[0].thumbnailSrc)
         this.albumList = arr;
     })
   }

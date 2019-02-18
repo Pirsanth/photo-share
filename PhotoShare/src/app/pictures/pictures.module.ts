@@ -7,8 +7,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AlbumListComponent } from './album-list/album-list.component';
 import { PictureListComponent } from './picture-list/picture-list.component';
 import { PictureDetailComponent } from './picture-detail/picture-detail.component';
+import { AlbumListItemComponent } from './album-list-item/album-list-item.component';
 @NgModule({
-  declarations: [PictureShellComponent, AlbumListComponent, PictureListComponent, PictureDetailComponent],
+  declarations: [PictureShellComponent, AlbumListComponent, PictureListComponent, PictureDetailComponent, AlbumListItemComponent],
   imports: [
     CommonModule,
     PicturesRoutingModule,

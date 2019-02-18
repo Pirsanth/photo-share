@@ -1,132 +1,21 @@
 
 <div class="main-container">
-    <div class="container">
-      <div class="" *ngIf="albumList" class="preview">
-        <img [src]="albumList[0].picsSrc[0].thumbnailSrc" alt="">
-        <img [src]="albumList[0].picsSrc[1].thumbnailSrc" alt="">
-        <img [src]="albumList[0].picsSrc[2].thumbnailSrc" alt="">
-        <img [src]="albumList[0].picsSrc[3].thumbnailSrc" alt="">
-      </div>
-        <p>Album name here</p>
-        <p>54 pictures</p>
-    </div>
 
-    <div class="container">
-      <div class="" *ngIf="albumList" class="preview">
-        <img [src]="albumList[1].picsSrc[0].thumbnailSrc" alt="">
-        <img [src]="albumList[1].picsSrc[1].thumbnailSrc" alt="">
-        <img [src]="albumList[1].picsSrc[2].thumbnailSrc" alt="">
-        <img [src]="albumList[1].picsSrc[3].thumbnailSrc" alt="">
-      </div>
-        <p>Album name here</p>
-        <p>54 pictures</p>
-    </div>
+<app-album-list-item *ngFor="let album of albumList" [album]="album" class="list-item">{{album}}</app-album-list-item>
 
-    <div class="container">
-      <div class="" *ngIf="albumList" class="preview">
-        <img [src]="albumList[0].picsSrc[0].thumbnailSrc" alt="">
-        <img [src]="albumList[0].picsSrc[1].thumbnailSrc" alt="">
-        <img [src]="albumList[0].picsSrc[2].thumbnailSrc" alt="">
-        <img [src]="albumList[0].picsSrc[3].thumbnailSrc" alt="">
-      </div>
-        <p>Album name here</p>
-        <p>54 pictures</p>
-    </div>
 
-    <div class="container">
-      <div class="" *ngIf="albumList" class="preview">
-        <img [src]="albumList[1].picsSrc[0].thumbnailSrc" alt="">
-        <img [src]="albumList[1].picsSrc[1].thumbnailSrc" alt="">
-        <img [src]="albumList[1].picsSrc[2].thumbnailSrc" alt="">
-        <img [src]="albumList[1].picsSrc[3].thumbnailSrc" alt="">
-      </div>
-        <p>Album name here</p>
-        <p>54 pictures</p>
-    </div>
-    <div class="container">
-      <div class="" *ngIf="albumList" class="preview">
-        <img [src]="albumList[0].picsSrc[0].thumbnailSrc" alt="">
-        <img [src]="albumList[0].picsSrc[1].thumbnailSrc" alt="">
-        <img [src]="albumList[0].picsSrc[2].thumbnailSrc" alt="">
-        <img [src]="albumList[0].picsSrc[3].thumbnailSrc" alt="">
-      </div>
-        <p>Album name here</p>
-        <p>54 pictures</p>
-    </div>
-
-    <div class="container">
-      <div class="" *ngIf="albumList" class="preview">
-        <img [src]="albumList[1].picsSrc[0].thumbnailSrc" alt="">
-        <img [src]="albumList[1].picsSrc[1].thumbnailSrc" alt="">
-        <img [src]="albumList[1].picsSrc[2].thumbnailSrc" alt="">
-        <img [src]="albumList[1].picsSrc[3].thumbnailSrc" alt="">
-      </div>
-        <p>Album name here</p>
-        <p>54 pictures</p>
-    </div>
-    <div class="container">
-      <div class="" *ngIf="albumList" class="preview">
-        <img [src]="albumList[0].picsSrc[0].thumbnailSrc" alt="">
-        <img [src]="albumList[0].picsSrc[1].thumbnailSrc" alt="">
-        <img [src]="albumList[0].picsSrc[2].thumbnailSrc" alt="">
-        <img [src]="albumList[0].picsSrc[3].thumbnailSrc" alt="">
-      </div>
-        <p>Album name here</p>
-        <p>54 pictures</p>
-    </div>
-
-    <div class="container">
-      <div class="" *ngIf="albumList" class="preview">
-        <img [src]="albumList[1].picsSrc[0].thumbnailSrc" alt="">
-        <img [src]="albumList[1].picsSrc[1].thumbnailSrc" alt="">
-        <img [src]="albumList[1].picsSrc[2].thumbnailSrc" alt="">
-        <img [src]="albumList[1].picsSrc[3].thumbnailSrc" alt="">
-      </div>
-        <p>Album name here</p>
-        <p>54 pictures</p>
-    </div>
-
-    <div class="container">
-      <div class="" *ngIf="albumList" class="preview">
-        <img [src]="albumList[0].picsSrc[0].thumbnailSrc" alt="">
-        <img [src]="albumList[0].picsSrc[1].thumbnailSrc" alt="">
-        <img [src]="albumList[0].picsSrc[2].thumbnailSrc" alt="">
-        <img [src]="albumList[0].picsSrc[3].thumbnailSrc" alt="">
-      </div>
-        <p>Album name here</p>
-        <p>54 pictures</p>
-    </div>
-
-    <div class="container">
-      <div class="" *ngIf="albumList" class="preview">
-        <img [src]="albumList[1].picsSrc[0].thumbnailSrc" alt="">
-        <img [src]="albumList[1].picsSrc[1].thumbnailSrc" alt="">
-        <img [src]="albumList[1].picsSrc[2].thumbnailSrc" alt="">
-        <img [src]="albumList[1].picsSrc[3].thumbnailSrc" alt="">
-      </div>
-        <p>Album name here</p>
-        <p>54 pictures</p>
-    </div>
-
-    <div class="container">
-      <div class="" *ngIf="albumList" class="preview">
-        <img [src]="albumList[0].picsSrc[0].thumbnailSrc" alt="">
-        <img [src]="albumList[0].picsSrc[1].thumbnailSrc" alt="">
-        <img [src]="albumList[0].picsSrc[2].thumbnailSrc" alt="">
-        <img [src]="albumList[0].picsSrc[3].thumbnailSrc" alt="">
-      </div>
-        <p>Album name here</p>
-        <p>54 pictures</p>
-    </div>
-
-    <div class="container">
-      <div class="" *ngIf="albumList" class="preview">
-        <img [src]="albumList[1].picsSrc[0].thumbnailSrc" alt="">
-        <img [src]="albumList[1].picsSrc[1].thumbnailSrc" alt="">
-        <img [src]="albumList[1].picsSrc[2].thumbnailSrc" alt="">
-        <img [src]="albumList[1].picsSrc[3].thumbnailSrc" alt="">
-      </div>
-        <p>Album name here</p>
-        <p>54 pictures</p>
-    </div>
 </div>
+
+<!--
+
+    <div class="container">
+      <div class="" *ngIf="albumList" class="preview">
+        <img [src]="albumList[1].picsSrc[0].thumbnailSrc" alt="">
+        <img [src]="albumList[1].picsSrc[1].thumbnailSrc" alt="">
+        <img [src]="albumList[1].picsSrc[2].thumbnailSrc" alt="">
+        <img [src]="albumList[1].picsSrc[3].thumbnailSrc" alt="">
+      </div>
+        <p>Album name here</p>
+        <p>54 pictures</p>
+    </div>
+-->
