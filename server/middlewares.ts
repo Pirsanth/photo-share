@@ -1,6 +1,6 @@
-import {Request,Response, NextFunction} from "express";
+import {Request, Response, NextFunction} from "express";
 import jimp from "jimp";
-import {addNewPicture} from "../model/manageAlbums";
+import {addNewPictures} from "../model/manageAlbums";
 import {Picture} from "./customTypes";
 type MiddlewareFunction = (req: Request, res: Response, next: NextFunction) => void;
 
@@ -8,7 +8,6 @@ type MiddlewareFunction = (req: Request, res: Response, next: NextFunction) => v
 export let extractFormData:MiddlewareFunction = function (req, res, next){
   try{
     req.pictureData = {
-        uploadedBy: req.body.username,
         albumName: req.body.albumName,
         pictureTitle: req.body.pictureTitle,
         username: req.body.username,
@@ -22,23 +21,39 @@ export let extractFormData:MiddlewareFunction = function (req, res, next){
   }
   next();
 }
-export let makeThumbnail:MiddlewareFunction = function (req, res, next){
-  jimp.read(`public/${req.pictureData.originalSrc}`)
-        .then(img => {
-          return img
-                .cover(350, 350)
-                .write(`public/${req.pictureData.thumbnailSrc}`);
-        })
-        .then(()=> next())
-        .catch((err) =>{
-          console.log(err);
-          res.status(500).json({error: "There was an error creating the thumbnail"})
-        })
+
+export let makeThumbnails:MiddlewareFunction = function (req, res, next){
+  let fileArray =  req.files as Express.Multer.File[];
+  Promise.all(fileArray.map((file) => createAThumbnail(file.filename)))
+  .then(x => next())
+  .catch(err => {console.log(err)
+                 res.status(500).json({error: "There was a problem creating the thumbnails"})
+                });
+
+  function createAThumbnail(filename:string):Promise<jimp>{
+    return  jimp.read(`public/originals/${filename}`)
+            .then(img => {
+              return img
+              .cover(350, 350)
+              .write(`public/thumbnails/${filename}`);
+             })
+ }
 }
-export let savePictureJSONToDatabase:MiddlewareFunction = function (req, res, next){
-    var picture = new Picture(req.pictureData.pictureTitle, req.pictureData.originalSrc,
-                              req.pictureData.thumbnailSrc, req.pictureData.username);
-    addNewPicture(req.pictureData.albumName, picture)
+//a||b //if a is false b is sent
+
+//pictureTitle1
+
+export let savePictureJSONsToDatabase:MiddlewareFunction = function (req, res, next){
+  let pictureArray:Picture[] = [];
+
+  let fileArray =  req.files as Express.Multer.File[];
+  fileArray.forEach((file, index) =>{
+    var picture = new Picture( req.body[`pictureTitle${index}`] || file.filename ,
+                  req.body.username, file.filename);
+    pictureArray.push(picture);
+  })
+
+    addNewPictures(req.body.albumName , pictureArray)
     .then(x => next())
     .catch((err) => {
       console.log(err);

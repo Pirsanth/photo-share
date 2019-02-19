@@ -5,11 +5,11 @@
 <div class="radio-containers">
   <div class="">
     <span>
-      <input type="radio" id="exisitng album" name="useExistingAlbum" [value]="true" [checked]="isUseExisting" [(ngModel)]="useExisting">
+      <input type="radio" id="exisitng album" name="useExistingAlbum" [value]="true" [checked]="useExisting" [(ngModel)]="useExisting">
       <label for="exisitng album">Use existing album</label>
     </span>
 
-    <input type="radio" id="new album" name="useExistingAlbum" [value]="false" [checked]="isUseExisting" [(ngModel)]="useExisting">
+    <input type="radio" id="new album" name="useExistingAlbum" [value]="false" [checked]="!useExisting" [(ngModel)]="useExisting">
     <label for="new album">Make new album</label>
   </div>
 </div>
@@ -30,17 +30,58 @@
 </ng-template>
 </div>
 
-<div class="">
-  <label for="" class="title">Picture title:</label>
-  <input type="text" name="pictureTitle" value="testTitle">
+<div class="radio-containers">
+  <div class="">
+    <span>
+      <input type="radio" id="Automatic picture title" name="customPictureTitle" [value]="false" [checked]="!customPictureTitle" [(ngModel)]="customPictureTitle">
+      <label for="Automatic picture title">Automatic picture title</label>
+    </span>
+
+    <input type="radio" id="Custom picture title" name="customPictureTitle" [value]="true" [checked]="customPictureTitle" [(ngModel)]="customPictureTitle">
+    <label for="Custom picture title">Custom picture title</label>
+  </div>
 </div>
 
-<div class="">
-  <div class="title">
-    Upload file:
+  <div class="">
+    <div class="title">
+      Upload image:
+    </div>
+    <input type="file" name="picture" value="" accept="image/*" #fileInput multiple (change)="readFile(fileInput.files)">
   </div>
-  <input type="file" name="picture" value="">
-</div>
+
+  <div class="title">
+    Preview image:
+  </div>
+
+  <div class="preview-container" *ngIf="previewSrc.length; else noPictureSelectedBlock">
+    <ng-container *ngFor="let src of previewSrc;index as i">
+      <div class="picture-container">
+        <!-- *ngIf="previewSrc; else noPictureSelectedBlock" This goes on the img eleemnt-->
+        <img [src]="src" class="" alt="Preview of image to upload" >
+      </div>
+
+      <div class="title-container" *ngIf="customPictureTitle">
+        <div class="title">
+          Picture title:
+        </div>
+        <div class="content">
+          <input type="text" name="pictureTitle{{i}}" value="">
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <ng-template #noPictureSelectedBlock>
+    <p class="content">Please select one or multiple images to preview</p>
+  </ng-template>
+
+
+
   <input type="hidden" name="username" value="testUser">
-  <button type="submit" name="button">Send</button>
+  
+  <div class="">
+    <button type="submit" name="button">Send</button>
+  </div>
 </form>
+
+<button type="button" name="button" (click)="print()"> Print to console</button>

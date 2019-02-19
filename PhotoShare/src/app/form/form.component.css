@@ -24,3 +24,17 @@ h2{
 form > div {
   margin-bottom: 40px;
 }
+img{
+  height: 200px;
+}
+.preview-container > div.picture-container{
+    width: 75%;
+}
+.preview-container{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.preview-container > div.title-container{
+  width: 100%;
+}

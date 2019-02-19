@@ -14,9 +14,10 @@ export class AjaxService {
   public baseURL: string = "http://localhost:3000";
   constructor(private http: HttpClient) {}
 
-  sendForm(formData: FormData){
+  sendForm(formData: FormData, isMultiple: boolean){
     const albumName = this.getAlbumName(formData)
-    const postUrl = `${this.baseURL}/albums/${albumName}`;
+    let postUrl = `${this.baseURL}/albums/${albumName}/`;
+
     return this.http.post(postUrl, formData,
             {observe: "body", responseType: "json"})
             .pipe(catchError((error) => {

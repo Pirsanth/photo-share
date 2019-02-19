@@ -1,7 +1,7 @@
 export interface Album{
   _id: string,
   numberOfPics: number,
-  numberOfComments?: number,
+  numberOfComments: number,
   picsSrc: Picture[]
 }
 export class Picture{
