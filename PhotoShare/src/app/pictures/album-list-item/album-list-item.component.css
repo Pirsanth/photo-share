@@ -16,10 +16,21 @@ p{
   width: 70%;
   height: 60%;
   border: 1px black solid;
+  display: flex;
+  flex-wrap: wrap;
 }
-img{
+img,.icon{
   vertical-align: bottom;
-  border: 2px transparent solid;
+  border: 1px black solid;
   height: 50%;
   width: 50%;
+}
+.center-and-color{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #708090;
+}
+.enlarge{
+  font-size: 50px;
 }

@@ -8,10 +8,18 @@ import {Album} from "./../../customTypes";
 })
 export class AlbumListItemComponent implements OnInit {
   @Input() album:Album
+  placeholders: string[] = [];
 
   constructor() { }
 
   ngOnInit() {
+    const {numberOfPics} = this.album;
+    if(numberOfPics < 4){
+        for(let i=0; i < 4-numberOfPics; i++){
+          this.placeholders.push("placeholder");
+        }
+    }
+
   }
   pictureOrPictures(): string{
     return (this.album.numberOfPics > 1)? "pictures": "picture";

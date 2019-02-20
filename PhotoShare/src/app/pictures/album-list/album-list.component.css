@@ -1,7 +1,9 @@
 .main-container{
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: space-between;
+  width: 85%;
+  margin: 0 auto;
 }
 .list-item{
   width: 50%;
@@ -9,8 +11,8 @@
   width: 40%;
   height: 400px;
   margin-bottom: 50px;
-  width: 40%;
-  height: 400px;
+  width: 43%;
+  height: 350px;
 }
 .main-container > app-album-list-item:nth-of-type(1),app-album-list-item:nth-of-type(2){
   margin-top: 50px;

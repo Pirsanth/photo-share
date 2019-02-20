@@ -2,6 +2,11 @@
   <div class="preview">
 
   <img *ngFor="let picture of album.picsSrc" [src]="picture.thumbnailSrc" alt="">
+
+  <div class="icon center-and-color" *ngFor="let placeholder of placeholders">
+    <fa-icon [icon]="['fas', 'camera']" class="enlarge"></fa-icon>
+  </div>
+
   </div>
     <p>{{album._id}}</p>
     <p>{{album.numberOfPics}} {{pictureOrPictures()}}</p>
