@@ -16,8 +16,15 @@ mongo.MongoClient.connect("mongodb://localhost:27017/photoShare", {useNewUrlPars
 .then((cur)=> cur.toArray())
 .then((arr: Album[]) => {
   if(isZoomSpecified()){
-    const index:number = +process.argv[3];
-    console.log(arr[index].picsSrc)
+    const albumIndex:string = process.argv[3];
+    const pictureIndex:string = process.argv[4];
+    //keep is as a string so if is truthy when the pictureIndex is 0 ("0")  
+    if(pictureIndex){
+      console.log(arr[albumIndex].picsSrc.reverse()[pictureIndex])
+    }
+    else{
+      console.log(arr[albumIndex].picsSrc.reverse())
+    }
   }
   else{
     console.log(arr)
