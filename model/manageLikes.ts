@@ -12,7 +12,7 @@ export async function addLikes(albumName:string, pictureTitle: string, likeOrDis
 
     const collection = await getCollection();
     const {result} = await collection.updateOne(queryObject , updateObject, {upsert: false });
-    console.log(result);
+
     if(result.nModified){
       res.status(204).send();
     }
@@ -49,7 +49,7 @@ export async function editLikes(req: Request, res: Response){
 
     const collection = await getCollection();
     const {result} = await collection.updateOne(queryObject , updateObject, {upsert: false, arrayFilters: [{previousVote: {name: username, value: oldValue}}] });
-    console.log(result);
+
     if(result.nModified){
       res.status(204).send();
     }
@@ -68,16 +68,16 @@ export async function removeLikes(req: Request, res: Response){
   const albumName = req.params["albumName"];
   const pictureTitle = req.params["pictureTitle"];
 
-  const username = req.body.username;
-  const oldValue:likeOrDislike = req.body.oldValue;
+  const username = req.query.username;
+  const oldValue:likeOrDislike = +req.query.oldValue as likeOrDislike;
 
   try{
     const queryObject = { _id:albumName, picsSrc: { $elemMatch: {title:pictureTitle, "voters":{name: username, value: oldValue} }}};
-    const updateObject = {$pullAll: {"picsSrc.$.voters": [{name: username, value: oldValue}] }};
+    const updateObject = {$pullAll: {"picsSrc.$.voters": [{name: username, value: oldValue}] }, $inc: {"picsSrc.$.likes": -oldValue}};
 
     const collection = await getCollection();
     const {result} = await collection.updateOne(queryObject , updateObject, {upsert: false });
-    console.log(result);
+
     if(result.nModified){
       res.status(204).send();
     }

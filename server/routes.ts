@@ -4,7 +4,7 @@ import {Request} from "express"
 
 import {makeThumbnails, extractFormData, savePictureJSONsToDatabase} from "./middlewares";
 import {getAllAlbums, getAnAlbum} from "../model/manageAlbums";
-import { addLikes, editLikes, removeLikes} from "../model/manageLikes";
+import { addLikes, removeLikes, editLikes} from "../model/manageLikes";
 import {upload} from "./multerSetup";
 var cors = require("cors");
 
@@ -49,7 +49,6 @@ app.post("/albums/:albumName/", upload.array("picture"), makeThumbnails, savePic
     res.status(201).json({error: null, data: "Picture(s) successfully added"});
 });
 app.post("/likes/:albumName/:pictureTitle", function(req, res){
-
   const albumName = req.params["albumName"];
   const pictureTitle = req.params["pictureTitle"];
 
@@ -65,5 +64,4 @@ app.put("/likes/:albumName/:pictureTitle", function(req, res){
 app.delete("/likes/:albumName/:pictureTitle", function(req, res){
     removeLikes(req, res);
 })
-
 app.listen(3000);
