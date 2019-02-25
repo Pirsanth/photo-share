@@ -44,7 +44,7 @@ export async function editLikes(req: Request, res: Response){
 
 
   try{
-    const queryObject = { _id:albumName, picsSrc: { $elemMatch: {title:pictureTitle,"voters": {name: username, value: oldValue}}}};
+    const queryObject = { _id:albumName, picsSrc: { $elemMatch: {title:pictureTitle, "voters": {name: username, value: oldValue}}}};
     const updateObject = {$inc: {"picsSrc.$.likes": newValue*2}, $set: { "picsSrc.$.voters.$[previousVote].value": newValue} };
 
     const collection = await getCollection();
@@ -60,7 +60,7 @@ export async function editLikes(req: Request, res: Response){
   }
   catch(err){
     console.log(err);
-    res.status(500).json({error: "There was a problem accessing the database when trying to add likes"})
+    res.status(500).json({error: "There was a problem accessing the database when trying to edit likes"})
   }
 }
 
@@ -71,11 +71,10 @@ export async function removeLikes(req: Request, res: Response){
   const username = req.body.username;
   const oldValue:likeOrDislike = req.body.oldValue;
 
-  // db.survey.update( { _id: 1 }, { $pullAll: { scores: [ 0, 5 ] } } )
   try{
-    const queryObject = { _id:albumName, picsSrc: { $elemMatch: {title:pictureTitle, "voters":{$elemMatch: {name: username, value: oldValue}}}}};
-  //  const updateObject = {$pullAll: {picSrc}};
-//db.survey.update( { _id: 1 }, { $pullAll: { scores: [ 0, 5 ] } } )
+    const queryObject = { _id:albumName, picsSrc: { $elemMatch: {title:pictureTitle, "voters":{name: username, value: oldValue} }}};
+    const updateObject = {$pullAll: {"picsSrc.$.voters": [{name: username, value: oldValue}] }};
+
     const collection = await getCollection();
     const {result} = await collection.updateOne(queryObject , updateObject, {upsert: false });
     console.log(result);
@@ -83,12 +82,12 @@ export async function removeLikes(req: Request, res: Response){
       res.status(204).send();
     }
     else{
-      res.status(400).json({error: "Either the picture or album does not exist or the user has already voted"});
+      res.status(400).json({error: "The vote to delete cannot be found"});
     }
 
   }
   catch(err){
     console.log(err);
-    res.status(500).json({error: "There was a problem accessing the database when trying to add likes"})
+    res.status(500).json({error: "There was a problem accessing the database when trying to remove likes"})
   }
 }

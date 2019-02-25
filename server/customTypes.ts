@@ -8,8 +8,8 @@ declare global {
 }
 
 export class Picture{
-  score: number = 0;
-  voters: number[] = [];
+  likes: number = 0;
+  voters: votes[] = [];
   numberOfComments: number = 0;
   originalSrc: string;
   thumbnailSrc:string;
@@ -18,7 +18,10 @@ export class Picture{
     this.thumbnailSrc = `thumbnails/${filename}`;
   }
 }
-
+interface votes {
+  name: string;
+  value: 1 | -1
+}
 export interface PictureData {
   originalSrc: string;
   thumbnailSrc: string;
