@@ -8,11 +8,11 @@ import { FormComponent } from './form/form.component';
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faPlusSquare, faUser, faImages, faFolder, faClock, faCamera } from '@fortawesome/free-solid-svg-icons';
+import { faPlusSquare, faUser, faImages, faFolder, faClock, faCamera, faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {PicturesModule} from "./pictures/pictures.module"
 
-library.add(faPlusSquare, faUser, faImages, faFolder, faClock, faCamera);
+library.add(faPlusSquare, faUser, faImages, faFolder, faClock, faCamera, faArrowUp, faArrowDown);
 
 @NgModule({
   declarations: [

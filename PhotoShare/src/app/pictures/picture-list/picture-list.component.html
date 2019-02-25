@@ -1,3 +1,24 @@
-<p>
-  picture-list works!
-</p>
+
+<div class="container">
+  <app-picture-list-item *ngFor="let pic of album.picsSrc"
+  [thumbnailSrc]="pic.thumbnailSrc"
+  [likes]="pic.likes"
+  [title]="pic.title"
+  [uploadedBy]="pic.uploadedBy"
+  [numberOfComments]="pic.numberOfComments"
+  [albumName]="album._id"
+  [voters]="pic.voters"
+  >
+  </app-picture-list-item>
+</div>
+
+<!--
+
+numberOfComments: 0
+originalSrc: "originals/newAlbum-1550677755643.jpg"
+likes: 0
+thumbnailSrc: "thumbnails/newAlbum-1550677755643.jpg"
+title: "newAlbum-1550677755643.jpg"
+uploadedBy: "testUser"
+voters: []
+-->

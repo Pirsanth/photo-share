@@ -8,8 +8,9 @@ import { AlbumListComponent } from './album-list/album-list.component';
 import { PictureListComponent } from './picture-list/picture-list.component';
 import { PictureDetailComponent } from './picture-detail/picture-detail.component';
 import { AlbumListItemComponent } from './album-list-item/album-list-item.component';
+import { PictureListItemComponent } from './picture-list-item/picture-list-item.component';
 @NgModule({
-  declarations: [PictureShellComponent, AlbumListComponent, PictureListComponent, PictureDetailComponent, AlbumListItemComponent],
+  declarations: [PictureShellComponent, AlbumListComponent, PictureListComponent, PictureDetailComponent, AlbumListItemComponent, PictureListItemComponent],
   imports: [
     CommonModule,
     PicturesRoutingModule,

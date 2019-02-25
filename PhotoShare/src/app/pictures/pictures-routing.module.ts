@@ -6,10 +6,12 @@ import {PictureListComponent} from "./picture-list/picture-list.component";
 import {PictureDetailComponent} from "./picture-detail/picture-detail.component";
 import {AlbumListComponent} from "./album-list/album-list.component";
 
+
 const routes: Routes = [
   {path:"pictures", component: PictureShellComponent,
   children: [{path: "albums", component: AlbumListComponent},
-             {path: "", component: AlbumListComponent}
+             {path: "albums/:albumName", component: PictureListComponent},
+             {path: "", redirectTo: "albums", pathMatch: "full"},
             ]}
 ];
 

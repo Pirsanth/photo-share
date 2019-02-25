@@ -19,7 +19,6 @@ export class AlbumListItemComponent implements OnInit {
           this.placeholders.push("placeholder");
         }
     }
-
   }
   pictureOrPictures(): string{
     return (this.album.numberOfPics > 1)? "pictures": "picture";

@@ -5,9 +5,17 @@ export interface Album{
   picsSrc: Picture[]
 }
 export class Picture{
-  score: number = 0;
-  voters: number[] = [];
+  likes: number = 0;
+  voters: votes[] = [];
   numberOfComments: number = 0;
-  constructor(public title:string, public originalSrc:string, public thumbnailSrc:string,public uploadedBy: string){
+  originalSrc: string;
+  thumbnailSrc:string;
+  constructor(private title:string, private uploadedBy: string, filename: string){
+    this.originalSrc = `originals/${filename}`;
+    this.thumbnailSrc = `thumbnails/${filename}`;
   }
+}
+interface votes {
+  name: string;
+  value: 1 | -1
 }
