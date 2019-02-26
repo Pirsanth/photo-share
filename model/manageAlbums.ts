@@ -20,3 +20,12 @@ export function getAnAlbum(albumName: string):Promise<Album> {
   return getCollection()
          .then(coll => coll.findOne({_id: albumName}))
 }
+
+//covered query for the add new picture form
+export async function getAlbumsList():Promise<Array<string>> {
+    const collection = await getCollection();
+    const cursor = await collection.find( {}, {projection: {_id:1} } );
+    const arrayOfDocumentsWithJustId = await cursor.toArray();
+
+    return arrayOfDocumentsWithJustId.map(x => x._id);
+}

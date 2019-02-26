@@ -3,7 +3,7 @@ import express from "express";
 import {Request} from "express"
 
 import {makeThumbnails, extractFormData, savePictureJSONsToDatabase} from "./middlewares";
-import {getAllAlbums, getAnAlbum} from "../model/manageAlbums";
+import {getAllAlbums, getAnAlbum, getAlbumsList} from "../model/manageAlbums";
 import { addLikes, removeLikes, editLikes} from "../model/manageLikes";
 import {upload} from "./multerSetup";
 var cors = require("cors");
@@ -42,6 +42,16 @@ app.get("/albums/:albumName", function(req, res){
       console.log(err);
       res.status(500).json({error: `Error retrieving album ${albumName} from the database`})
     })
+});
+app.get("/albumsList/", async function(req, res){
+  try{
+    const albumsNameArray = await getAlbumsList();
+    res.status(200).json({error: null, data: albumsNameArray});
+  }
+  catch(err){
+    res.status(500).json({error:`Server error while trying to retrieve the list of albums`});
+  }
+
 });
 
 app.post("/albums/:albumName/", upload.array("picture"), makeThumbnails, savePictureJSONsToDatabase, function (req, res) {
