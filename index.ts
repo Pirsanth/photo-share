@@ -1,7 +1,7 @@
 
 require("./model/sharedDB")
 .initializeConnection()
-.then(() => { require("./server/routes")
+.then(() => { require("./server")
                console.log("Server started")})
 .catch((err) => {
 console.log(err);

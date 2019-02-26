@@ -1,5 +1,5 @@
 import {getCollectionFactory} from "./sharedDB";
-import {Picture, PictureData, Album} from "../server/customTypes";
+import {Picture, PictureData, Album} from "../customTypes";
 let getCollection = getCollectionFactory("albums");
 
 export function addNewPictures(albumName:string, pictureArray:Picture[]) {

@@ -36,7 +36,7 @@ export class AjaxService {
             .pipe(map((album: Album) => this.addBaseUrlToImageSrc(album)))
   }
   getAlbumsList():Observable<Array<string>>{
-    return this.http.get(`${this.baseURL}/albumsList/`)
+    return this.http.get(`${this.baseURL}/albums/albumsList/`)
            .pipe( pluck("data") )
   }
 
