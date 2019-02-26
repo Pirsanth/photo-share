@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AjaxService} from "../services/ajax.service";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'app-form',
@@ -11,10 +12,12 @@ export class FormComponent implements OnInit {
   previewSrc: Array<string | ArrayBuffer> = [];
   multipleUpload: boolean = false;
   customPictureTitle: boolean = false;
+  albumList: string[];
 
-  constructor(private ajax:AjaxService) { }
+  constructor(private ajax:AjaxService, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.route.data.subscribe( data => this.albumList = data.albumList)
   }
   handleSubmit(form: HTMLFormElement){
     let formData = new FormData(form);

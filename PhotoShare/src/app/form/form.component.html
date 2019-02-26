@@ -20,7 +20,7 @@
 </div>
 <div *ngIf="useExisting; else newAlbumBlock" class="content">
   <select class="" name="albumName">
-    <option value="Odin">Odin</option>
+    <option value={{albumName}} *ngFor="let albumName of albumList">{{albumName}}</option>
   </select>
 </div>
 <ng-template #newAlbumBlock>
@@ -78,7 +78,7 @@
 
 
   <input type="hidden" name="username" value="testUser">
-  
+
   <div class="">
     <button type="submit" name="button">Send</button>
   </div>

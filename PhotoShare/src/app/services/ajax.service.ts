@@ -35,10 +35,11 @@ export class AjaxService {
             .pipe(pluck("data"))
             .pipe(map((album: Album) => this.addBaseUrlToImageSrc(album)))
   }
-
-  sendLikes(){
-
+  getAlbumsList():Observable<Array<string>>{
+    return this.http.get(`${this.baseURL}/albumsList/`)
+           .pipe( pluck("data") )
   }
+
   private getAlbumName(formData: FormData){
      return formData.get("albumName");
   }
