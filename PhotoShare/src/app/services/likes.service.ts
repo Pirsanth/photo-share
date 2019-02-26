@@ -21,17 +21,17 @@ export class LikesService {
 
   addLikes(value: likeOrDislike, albumName: string, pictureTitle: string){
     const body = { username: this.username, likeOrDislike: value}
-    return this.http.post(`${this.baseURL}/likes/${albumName}/${pictureTitle}`,body
+    return this.http.post(`${this.baseURL}/albums/likes/${albumName}/${pictureTitle}`,body
       , {observe: "body", responseType: "json"})
     }
   removeLikes(value: likeOrDislike, albumName: string, pictureTitle: string){
     const transmittedValue:string = value + "";
-    return this.http.delete(`${this.baseURL}/likes/${albumName}/${pictureTitle}`,
+    return this.http.delete(`${this.baseURL}/albums/likes/${albumName}/${pictureTitle}`,
             {observe: "body", responseType: "json", params: {username: this.username, oldValue: transmittedValue}})
   }
   editLikes(oldValue: likeOrDislike, newValue: likeOrDislike, albumName: string, pictureTitle: string){
     const body = { username: this.username, oldValue, newValue}
-    return this.http.put(`${this.baseURL}/likes/${albumName}/${pictureTitle}`,body,
+    return this.http.put(`${this.baseURL}/albums/likes/${albumName}/${pictureTitle}`,body,
           {observe: "body", responseType: "json"})
     }
 }

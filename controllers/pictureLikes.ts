@@ -1,4 +1,4 @@
-import * as model from "../model/manageLikes";
+import * as model from "../model/managePictureLikes";
 import { Request, Response } from "express";
 type likeOrDislike = 1 | -1;
 

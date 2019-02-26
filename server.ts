@@ -1,6 +1,5 @@
 import express from "express";
 import albumRouter from "./routes/albums";
-import likesRouter from "./routes/likes";
 const cors = require("cors");
 
 const app = express();
@@ -10,8 +9,8 @@ app.use(cors());
 app.use(express.json())
 app.use(express.static('public/'));
 
-app.use("/albums", albumRouter);
-app.use("/likes", likesRouter);
+app.use("/albums/", albumRouter);
+
 
 
 app.listen(3000);
