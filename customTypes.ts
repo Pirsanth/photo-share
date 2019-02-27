@@ -1,3 +1,4 @@
+import uuid from "uuid/v4";
 
 declare global {
   namespace Express {
@@ -13,7 +14,7 @@ export class Picture{
   numberOfComments: number = 0;
   originalSrc: string;
   thumbnailSrc:string;
-  constructor(private title:string, private uploadedBy: string, filename: string){
+  constructor(public title:string, public uploadedBy: string, filename: string){
     this.originalSrc = `originals/${filename}`;
     this.thumbnailSrc = `thumbnails/${filename}`;
   }
@@ -35,4 +36,28 @@ export interface Album{
   numberOfPics: number,
   numberOfComments: number,
   picsSrc: Picture[]
+}
+
+export interface commentObject{
+  text: string;
+  commentId: string;
+  commentAuthorUsername: string;
+  likes: number;
+  voters: string[]; //string of other usernames
+}
+export class Comment implements commentObject{
+  voters = [];
+  likes = 0;
+  commentId: string;
+  constructor( public text:string, public commentAuthorUsername: string ){
+      this.commentId = uuid();
+    }
+}
+
+export class CommentsDocument {
+  _id: {albumName: string, pictureTitle: string};
+  comments: commentObject[] = [];
+  constructor( albumName:string, pictureTitle: string, public pictureUploadedBy: string, public originalSrc: string ){
+    this._id = { albumName, pictureTitle };
+  }
 }

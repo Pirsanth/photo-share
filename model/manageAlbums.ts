@@ -1,5 +1,6 @@
 import {getCollectionFactory} from "./sharedDB";
 import {Picture, PictureData, Album} from "../customTypes";
+import { addEmptyCommentsDocuments } from "./manageComments";
 let getCollection = getCollectionFactory("albums");
 
 export function addNewPictures(albumName:string, pictureArray:Picture[]) {
@@ -7,6 +8,7 @@ export function addNewPictures(albumName:string, pictureArray:Picture[]) {
 
   return getCollection()
          .then(coll => coll.updateOne({_id: albumName}, updateObject, {upsert: true}))
+         .then(x => addEmptyCommentsDocuments(albumName, pictureArray) )
 }
 
 const projectionObject = { picsSrc: {$slice: -4} };
