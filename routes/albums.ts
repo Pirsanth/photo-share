@@ -8,7 +8,6 @@ import { upload } from "../middlewares/multerSetup";
 
 router.get("/", controller.getAllAlbumsJSON);
 
-// TODO: Fix the route for this on the frontend
 router.get("/albumsList/", controller.getListOfAvailableAlbums);
 
 router.get("/:albumName/", controller.getAnAlbumJSON);
