@@ -1,11 +1,9 @@
 import {getCollectionFactory} from "./sharedDB";
-import {Picture, PictureData, Album} from "../customTypes";
 let getCollection = getCollectionFactory("albums");
-import { Response, Request } from "express";
 
 type likeOrDislike = 1 | -1;
 
-export async function addLikes(albumName:string, pictureTitle: string, likeOrDislike: 1 | -1, username: string, res: Response){
+export async function addLikes(albumName:string, pictureTitle: string, likeOrDislike: 1 | -1, username: string){
     const queryObject = { _id:albumName, picsSrc: { $elemMatch: {title:pictureTitle,"voters.name":{$ne: username}}}};
     const updateObject = {$inc: {"picsSrc.$.likes": likeOrDislike}, $push:{"picsSrc.$.voters": {name: username, value: likeOrDislike}}};
 

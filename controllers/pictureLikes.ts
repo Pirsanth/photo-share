@@ -10,7 +10,7 @@ async function addLikes (req: Request, res: Response) {
     const username = req.body.username;
     const likeOrDislike = req.body.likeOrDislike;
 
-    const result = await model.addLikes(albumName, pictureTitle, likeOrDislike, username, res)
+    const result = await model.addLikes(albumName, pictureTitle, likeOrDislike, username)
 
     if(result.nModified){
       res.status(204).send();
