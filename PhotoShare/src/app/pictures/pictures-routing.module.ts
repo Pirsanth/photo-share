@@ -11,6 +11,7 @@ const routes: Routes = [
   {path:"pictures", component: PictureShellComponent,
   children: [{path: "albums", component: AlbumListComponent},
              {path: "albums/:albumName", component: PictureListComponent},
+             {path: "albums/:albumName/:pictureTitle", component: PictureDetailComponent},
              {path: "", redirectTo: "albums", pathMatch: "full"},
             ]}
 ];
