@@ -21,3 +21,9 @@ export async function getCommentsDocument(albumName:string, pictureTitle:string)
   const document = await collection.findOne( {_id: {albumName, pictureTitle} } )
   return document;
 }
+
+export async function removeComment(albumName:string, pictureTitle:string, commentId:string){
+  const collection = await getCollection();
+  const {result} = await collection.updateOne({_id:{albumName, pictureTitle}, "comments.commentId": commentId}, {$pull: {comments: { commentId } }}, {upsert: false});
+  return result;
+}

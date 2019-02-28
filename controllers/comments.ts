@@ -44,5 +44,26 @@ async function addComment(req: Request, res: Response){
   }
 }
 
+async function removeComment(req: Request, res: Response){
+  try{
+    const albumName = req.params["albumName"];
+    const pictureTitle = req.params["pictureTitle"];
 
-export default { addComment, retrieveComments }
+    const body: {commentId: string} = req.body;
+
+    const result = await model.removeComment(albumName, pictureTitle, body.commentId);
+
+    if(result.n){
+      res.status(204).send();
+    }
+    else{
+      res.status(404).json({error: "The comment to remove cannot be found"});
+    }
+  }
+  catch(err){
+    console.log(err);
+    res.status(500).json({error: "There was a server error while attempting to remove the comment"});
+  }
+}
+
+export default { addComment, retrieveComments, removeComment }

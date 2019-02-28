@@ -8,6 +8,8 @@ router.get("/:albumName/:pictureTitle", controller.retrieveComments);
 
 router.post("/:albumName/:pictureTitle", controller.addComment);
 
+router.delete("/:albumName/:pictureTitle", controller.removeComment);
+
 router.post("/likes/:albumName/:pictureTitle", likesController.addLikes);
 
 router.delete("/likes/:albumName/:pictureTitle", likesController.removeLikes );
