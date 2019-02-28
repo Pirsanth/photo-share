@@ -60,7 +60,7 @@ textarea{
 }
 .comment-container .button-container{
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -69,4 +69,7 @@ p{
 }
 .isLiked{
   color: #3b5998;
+}
+.content .comment{
+  margin: 0px 40px;
 }

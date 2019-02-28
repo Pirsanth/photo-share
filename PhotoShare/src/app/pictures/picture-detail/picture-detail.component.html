@@ -10,15 +10,21 @@
         <img src="" alt="">
       </div>
       <div class="content">
-        <div class="">
+        <div class="comment">
           <h3>{{comment.commentAuthorUsername}}</h3>
           <p>{{comment.text}}</p>
         </div>
         <div class="button-container">
-          <div class="">
-            Current Likes: <span>{{comment.likes}}</span>
+          <div class="" >
+            <button type="button" name="button" *ngIf="comment.commentAuthorUsername === username"><fa-icon [icon]="['fas', 'trash-alt']" ></fa-icon> Remove comment</button>
           </div>
+
+          <div class="">
+          <span class="">
+            Current Likes: <span>{{comment.likes}}</span>
+          </span>
           <button type="button" name="button" (click)="handleLikeButton(comment)" [class.isLiked]="comment.liked"><fa-icon [icon]="['fas', 'thumbs-up']" ></fa-icon> Like comment</button>
+        </div>
         </div>
       </div>
     </div>

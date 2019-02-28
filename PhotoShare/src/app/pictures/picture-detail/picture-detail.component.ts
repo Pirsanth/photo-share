@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommentsService } from "../../services/comments.service";
 import { ActivatedRoute } from "@angular/router";
 import { CommentsDocument, commentObjectWithLikedBoolean } from "../../customTypes";
+import { AjaxService } from "../../services/ajax.service";
 
 @Component({
   selector: 'app-picture-detail',
@@ -15,10 +16,13 @@ export class PictureDetailComponent implements OnInit {
   pictureTitle: string;
   liked:boolean = true;
   postingNewComment:boolean = false;
+  username:string;
 
-  constructor(private ajax:CommentsService, private route: ActivatedRoute) { }
+  constructor(private ajax:CommentsService, private route: ActivatedRoute, private user:AjaxService) { }
 
   ngOnInit() {
+    this.username = this.user.username;
+
     this.route.paramMap.subscribe( paramMap => {
       this.albumName = paramMap.get("albumName");
       this.pictureTitle = paramMap.get("pictureTitle");
