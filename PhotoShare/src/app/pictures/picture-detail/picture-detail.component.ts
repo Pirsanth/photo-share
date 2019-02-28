@@ -58,6 +58,10 @@ export class PictureDetailComponent implements OnInit {
     this.ajax.addANewComment(this.albumName, this.pictureTitle, text)
     .subscribe(x => this.postingNewComment = false);
   }
+  handleDelete(commentId:string){
+    this.ajax.removeExistingComment(this.albumName, this.pictureTitle, commentId)
+    .subscribe( x => console.log("Comment was successful removed on the server") )
+  }
   print(){
     console.log(this.commentsArray)
   }

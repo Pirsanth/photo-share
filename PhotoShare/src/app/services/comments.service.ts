@@ -39,6 +39,11 @@ export class CommentsService {
     const body = {text, username};
     return this.http.post(postUrl, body, {observe: "body", responseType: "json"})
   }
+  removeExistingComment(albumName:string, pictureTitle:string, commentId:string ){
+    const deletetUrl = this.ajax.baseURL + `/comments/${albumName}/${pictureTitle}`;
+    const body = {commentId};
+    return this.http.request("DELETE", deletetUrl,{body, observe: "body", responseType: "json"});
+  }
   private addLikedAttributeToCommentObject(commentObject: commentObject):commentObjectWithLikedBoolean{
     const username = this.ajax.username;
     const liked:boolean = commentObject.voters.some((voter) => voter === username);

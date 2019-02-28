@@ -16,7 +16,7 @@
         </div>
         <div class="button-container">
           <div class="" >
-            <button type="button" name="button" *ngIf="comment.commentAuthorUsername === username"><fa-icon [icon]="['fas', 'trash-alt']" ></fa-icon> Remove comment</button>
+                <button type="button" name="button" *ngIf="comment.commentAuthorUsername === username" (click)="handleDelete(comment.commentId)"><fa-icon [icon]="['fas', 'trash-alt']" ></fa-icon> Remove comment</button>
           </div>
 
           <div class="">
