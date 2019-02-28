@@ -1,3 +1,4 @@
+
 export interface Album{
   _id: string,
   numberOfPics: number,
@@ -18,4 +19,23 @@ export class Picture{
 interface votes {
   name: string;
   value: 1 | -1
+}
+
+export interface commentObject{
+  text: string;
+  commentId: string;
+  commentAuthorUsername: string;
+  likes: number;
+  voters: string[]; //string of other usernames
+}
+export interface commentObjectWithLikedBoolean extends commentObject{
+  liked: boolean;
+}
+
+export class CommentsDocument<T>{
+  _id: {albumName: string, pictureTitle: string};
+  comments: Array<T> = [];
+  constructor( albumName:string, pictureTitle: string, public pictureUploadedBy: string, public originalSrc: string ){
+    this._id = { albumName, pictureTitle };
+  }
 }
