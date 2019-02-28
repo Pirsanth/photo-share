@@ -1,3 +1,37 @@
-<p>
-  picture-detail works!
-</p>
+  <h2>Picture title</h2>
+  <div class="main-container">
+          <img class="main-picture" [src]="mainImageSrc" alt="">
+    <div class="title">
+      Comments
+    </div>
+
+    <div class="comment-container" *ngFor="let comment of commentsArray">
+      <div class="avatar">
+        <img src="" alt="">
+      </div>
+      <div class="content">
+        <div class="">
+          <h3>{{comment.commentAuthorUsername}}</h3>
+          <p>{{comment.text}}</p>
+        </div>
+        <div class="button-container">
+          <div class="">
+            Current Likes: <span>{{comment.likes}}</span>
+          </div>
+          <button type="button" name="button" (click)="handleLikeButton(comment)" [class.isLiked]="comment.liked"><fa-icon [icon]="['fas', 'thumbs-up']" ></fa-icon> Like comment</button>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="form-container">
+      <div class="avatar">
+        <img src="" alt="">
+      </div>
+      <div class="content">
+        <textarea name="name" rows="2" cols="40" placeholder="Add new comment" #newComment></textarea>
+        <button type="button" name="button" (click)="handlePostComment(newComment.value)" [disabled]="postingNewComment" >Post comment</button>
+      </div>
+    </div>
+
+  </div>
