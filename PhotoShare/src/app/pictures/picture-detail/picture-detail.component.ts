@@ -1,45 +1,44 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommentsService } from "../../services/comments.service";
 import { ActivatedRoute } from "@angular/router";
 import { CommentsDocument, commentObjectWithLikedBoolean } from "../../customTypes";
 import { AjaxService } from "../../services/ajax.service";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: 'app-picture-detail',
   templateUrl: './picture-detail.component.html',
-  styleUrls: ['./picture-detail.component.css']
+  styleUrls: ['./picture-detail.component.css'],
+  providers: [CommentsService]
 })
-export class PictureDetailComponent implements OnInit {
+export class PictureDetailComponent implements OnInit, OnDestroy {
   commentsArray: commentObjectWithLikedBoolean[];
   mainImageSrc: string;
-  albumName: string;
-  pictureTitle: string;
   liked:boolean = true;
   postingNewComment:boolean = false;
   username:string;
+  subscription: Subscription;
 
-  constructor(private ajax:CommentsService, private route: ActivatedRoute, private user:AjaxService) { }
+  constructor(private ajax:CommentsService, private user:AjaxService) { }
 
   ngOnInit() {
     this.username = this.user.username;
-
-    this.route.paramMap.subscribe( paramMap => {
-      this.albumName = paramMap.get("albumName");
-      this.pictureTitle = paramMap.get("pictureTitle");
-
-      this.ajax.getCommentDocument(this.albumName, this.pictureTitle).subscribe( (commentDoc:CommentsDocument<commentObjectWithLikedBoolean>) => {
+      this.subscription = this.ajax.commentsSubject$
+      .subscribe( (commentDoc:CommentsDocument<commentObjectWithLikedBoolean>) => {
         console.log(commentDoc)
         this.commentsArray = commentDoc.comments;
         this.mainImageSrc = commentDoc.originalSrc;
-
       })
-    })
+
+  }
+  ngOnDestroy(){
+    this.subscription.unsubscribe();
   }
   likeComment(commentId:string){
-    this.ajax.likeComment(this.albumName, this.pictureTitle, commentId).subscribe(x => console.log("Comment like was successful added"))
+    this.ajax.likeComment(commentId).subscribe(x => console.log("Comment like was successful added"))
   }
   unlikeComment(commentId:string){
-    this.ajax.removeLike(this.albumName, this.pictureTitle, commentId).subscribe(x => console.log("Comment like was successful removed"))
+    this.ajax.removeLike(commentId).subscribe(x => console.log("Comment like was successful removed"))
   }
   handleLikeButton(comment: commentObjectWithLikedBoolean){
       if(comment.liked){
@@ -55,12 +54,18 @@ export class PictureDetailComponent implements OnInit {
   }
   handlePostComment(text:string){
     this.postingNewComment = true;
-    this.ajax.addANewComment(this.albumName, this.pictureTitle, text)
-    .subscribe(x => this.postingNewComment = false);
+    this.ajax.addANewComment(text)
+    .subscribe(x => {
+      this.postingNewComment = false
+      this.ajax.resetTimer();
+    });
   }
   handleDelete(commentId:string){
-    this.ajax.removeExistingComment(this.albumName, this.pictureTitle, commentId)
-    .subscribe( x => console.log("Comment was successful removed on the server") )
+    this.ajax.removeExistingComment(commentId)
+    .subscribe( x => {
+      console.log("Comment was successful removed on the server")
+      this.ajax.resetTimer();
+    })
   }
   print(){
     console.log(this.commentsArray)
