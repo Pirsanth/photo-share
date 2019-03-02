@@ -2,7 +2,7 @@ import express from "express";
 const router = express.Router();
 import controller from "../controllers/albums";
 import likesController from "../controllers/pictureLikes";
-import { makeThumbnails } from "../middlewares/middlewares";
+import { makeThumbnails } from "../middlewares/photos";
 import { upload } from "../middlewares/multerSetup";
 //the base url is albums
 

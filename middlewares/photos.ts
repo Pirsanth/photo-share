@@ -1,8 +1,8 @@
-import {Request, Response, NextFunction} from "express";
+
 import jimp from "jimp";
 import {addNewPictures} from "../model/manageAlbums";
+import { MiddlewareFunction } from "../customTypes";
 
-type MiddlewareFunction = (req: Request, res: Response, next: NextFunction) => void;
 
 
 export let makeThumbnails:MiddlewareFunction = function (req, res, next){

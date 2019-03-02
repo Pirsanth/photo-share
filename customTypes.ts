@@ -1,9 +1,10 @@
 import uuid from "uuid/v4";
+import {Request, Response, NextFunction} from "express";
 
 declare global {
   namespace Express {
     interface Request{
-      pictureData: PictureData
+      payload: {username: string};
     }
   }
 }
@@ -61,3 +62,11 @@ export class CommentsDocument {
     this._id = { albumName, pictureTitle };
   }
 }
+export class User {
+  _id:string;
+  constructor(username, public password){
+    this._id = username;
+  }
+}
+
+export type MiddlewareFunction = (req: Request, res: Response, next: NextFunction) => void;
