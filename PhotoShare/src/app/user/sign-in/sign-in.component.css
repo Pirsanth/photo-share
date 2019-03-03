@@ -1,0 +1,19 @@
+.main-container{
+  background: lightblue;
+  width: 800px;
+  margin: 0 auto;
+  margin-top: 30px;
+  padding: 50px;
+}
+
+form{
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+}
+label{
+
+}
+input{
+  width: 50%;
+}

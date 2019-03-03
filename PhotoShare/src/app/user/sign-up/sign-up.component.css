@@ -1,0 +1,35 @@
+.main-container{
+  background: lightblue;
+  width: 800px;
+  margin: 0 auto;
+  margin-top: 30px;
+  padding: 50px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+h3{
+  width: 100%;
+}
+
+form{
+  display: flex;
+  flex-direction: column;
+}
+label{
+}
+input{
+}
+.picture-container{
+  width: 200px;
+  border: 1px red solid;
+}
+.picture{
+  width: 180px;
+  height: 180px;
+  border: 1px red solid;
+}
+.choose{
+  width: 180px;
+  padding: 10px;
+}
