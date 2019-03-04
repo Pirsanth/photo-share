@@ -17,7 +17,7 @@ async function signUp(req: Request, res: Response){
 
     if(insertedCount){
       const token = await makeToken(requestedUsername);
-      res.status(200).json({error: null, data: token})
+      res.status(200).json({error: null, data: {token, username: requestedUsername}})
     }
   }
   catch(err){
