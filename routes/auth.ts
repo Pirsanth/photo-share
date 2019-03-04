@@ -11,7 +11,9 @@ router.post("/signUp", upload.single("profilePicture"), makeUserAvatar, controll
 
 router.post("/signIn", controller.signIn);
 
-//router.post("/refresh", controller.handleRefreshToken)
+router.post("/refresh", controller.handleRefreshRoute);
+
+router.post("/logout", controller.handleLogout);
 
 router.get("/test", checkAccessToken, (req, res) =>{
     res.send("You have reached the secret page");

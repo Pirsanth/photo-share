@@ -6,10 +6,12 @@ import jwt from "jsonwebtoken";
 import util from "util";
 import uuid from "uuid/v4";
 import { RefreshTokensDocument } from "../customTypes";
+import { VerifyOptions } from "jsonwebtoken";
 
 
 const signToken = util.promisify(jwt.sign);
-const verifyToken = util.promisify(jwt.verify);
+type refreshTokenPayload = {exp:number, jti:string};
+const verifyRefreshToken = util.promisify<string,string,VerifyOptions, refreshTokenPayload>(jwt.verify);
 
 async function signUp(req: Request, res: Response){
   try{
@@ -73,6 +75,53 @@ async function signIn(req: Request, res: Response){
     res.status(500).json({error: "Server error while validating user credentials"});
   }
 }
+async function handleRefreshRoute(req: Request, res: Response){
+    const refreshToken = req.body.refreshToken;
+
+    try{
+      var payload: refreshTokenPayload = await verifyRefreshToken(refreshToken, "anotherSecret", {});
+    }
+    catch(err){
+      res.status(403).json({error:err.message});
+      return;
+    }
+
+      const document = await refreshTokenModel.findRefreshToken(payload.jti)
+
+      if(document){
+        try{
+          const accessToken = await makeAccessToken(document.username);
+          res.status(200).json({data: accessToken});
+        }
+        catch(err){
+          console.log(err);
+          res.status(403).json({error: "Server error while trying to create a new accesstoken"});
+        }
+      }
+      else{
+        res.status(403).json({error: "The user appears to have logged out"});
+      }
+}
+
+async function handleLogout(req: Request, res: Response){
+  const refreshToken = req.body["refreshToken"];
+
+  try{
+    var payload: refreshTokenPayload = await verifyRefreshToken(refreshToken, "anotherSecret", {});
+  }
+  catch(err){
+    res.status(403).json({error:err.message});
+    return;
+  }
+  const result = await refreshTokenModel.invalidateRefreshToken(payload.jti)
+
+  if(result.n){
+    res.status(200).json({error:null, data: "The logout was a success. The refresh token id has been deleted from the database"});
+  }
+  else{
+    res.status(403).json({error: "The token id to delete could not be found in the database. Perhaps you've already logged out?"});
+  }
+}
 
 async function makeAccessToken(username: string){
   //expires in 1 hour
@@ -91,4 +140,4 @@ async function makeRefreshToken(uid: string){
   return await signToken(payload, "anotherSecret");
 }
 
-export default {signUp, signIn};
+export default {signUp, signIn, handleRefreshRoute, handleLogout};
