@@ -9,12 +9,15 @@ import { PictureListComponent } from './picture-list/picture-list.component';
 import { PictureDetailComponent } from './picture-detail/picture-detail.component';
 import { AlbumListItemComponent } from './album-list-item/album-list-item.component';
 import { PictureListItemComponent } from './picture-list-item/picture-list-item.component';
+import { ReactiveFormsModule } from "@angular/forms";
+
 @NgModule({
   declarations: [PictureShellComponent, AlbumListComponent, PictureListComponent, PictureDetailComponent, AlbumListItemComponent, PictureListItemComponent],
   imports: [
     CommonModule,
     PicturesRoutingModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    ReactiveFormsModule
   ]
 })
 export class PicturesModule { }

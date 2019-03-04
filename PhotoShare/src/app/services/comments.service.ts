@@ -5,6 +5,7 @@ import { CommentsDocument, commentObject, commentObjectWithLikedBoolean } from "
 import { Observable, Subject, timer, Subscription } from "rxjs";
 import { pluck, map, switchMap } from "rxjs/operators";
 import { ActivatedRoute } from "@angular/router";
+import { AuthenticationService } from "./authentication.service";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class CommentsService implements OnDestroy {
   commentsSubject$: Subject<CommentsDocument<commentObjectWithLikedBoolean>> = new Subject();
   subscription:Subscription;
 
-  constructor(private http:HttpClient, private ajax:AjaxService, private route:ActivatedRoute) {
+  constructor(private http:HttpClient, private ajax:AjaxService, private route:ActivatedRoute, private auth:AuthenticationService) {
       this.route.paramMap.subscribe( paramMap => {
         this.albumName = paramMap.get("albumName");
         this.pictureTitle = paramMap.get("pictureTitle");
@@ -46,18 +47,18 @@ export class CommentsService implements OnDestroy {
   }
   likeComment(commentId:string){
     const postUrl = this.ajax.baseURL + `/comments/likes/${this.albumName}/${this.pictureTitle}`;
-    const body = {username: this.ajax.username, commentId};
+    const body = {username: this.auth.currentUser, commentId};
     return this.http.post(postUrl, body, {observe: "body", responseType: "json"})
   }
   removeLike(commentId:string){
     const deletetUrl = this.ajax.baseURL + `/comments/likes/${this.albumName}/${this.pictureTitle}`;
-    const body = {username: this.ajax.username, commentId};
+    const body = {username: this.auth.currentUser, commentId};
     return this.http.request("DELETE", deletetUrl,{body, observe: "body", responseType: "json"});
   }
   //body: {text: string, username: string}
   addANewComment(text: string){
     const postUrl = this.ajax.baseURL + `/comments/${this.albumName}/${this.pictureTitle}`;
-    const username = this.ajax.username;
+    const username = this.auth.currentUser;
     const body = {text, username};
     return this.http.post(postUrl, body, {observe: "body", responseType: "json"})
   }
@@ -67,7 +68,7 @@ export class CommentsService implements OnDestroy {
     return this.http.request("DELETE", deletetUrl,{body, observe: "body", responseType: "json"});
   }
   private addLikedAttributeToCommentObject(commentObject: commentObject):commentObjectWithLikedBoolean{
-    const username = this.ajax.username;
+    const username = this.auth.currentUser;
     const liked:boolean = commentObject.voters.some((voter) => voter === username);
     return {...commentObject, liked};
   }

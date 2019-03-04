@@ -5,25 +5,36 @@
 
   <div class="picture-container">
     <div class="picture">
-
+      <img [src]="previewSrc" alt="">
     </div>
-    <button class="choose">
+    <button class="choose" (click)="file.click()">
       Choose Picture
     </button>
   </div>
 
-  <form class="" action="index.html" method="post">
-    <label for="username">Username:</label>
-    <input type="text" name="" value="" id="username">
+  <form (ngSubmit)="handleSubmit(form)" #form>
+    <div class="">
+      <label for="username">Username:</label>
+      <input type="text" name="username" value="" id="username">
+    </div>
 
+  <div class="">
     <label for="location">Location</label>
-    <input type="text" name="" value="" id="location">
+    <input type="text" name="location" value="" id="location">
+  </div>
 
+  <div class="">
     <label for="password">Password</label>
-    <input type="text" name="" value="" id="password">
+    <input type="text" name="password" value="" id="password">
+  </div>
 
+  <div class="">
     <label for="repeatPassword">Repeat Password</label>
-    <input type="text" name="" value="" id="repeatPassword">
-  </form>
+    <input type="text" name="repeatPassword" value="" id="repeatPassword">
+  </div>
+
+  <input type="file" #file name="profilePicture" value="" accept="image/*" (change)="readFileIntoAURL(file.files[0])">
+  <input type="submit" name="" value="Create user">
+</form>
 
 </div>

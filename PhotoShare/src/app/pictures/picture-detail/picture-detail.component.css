@@ -47,9 +47,11 @@ textarea{
   padding: 20px;
   overflow: auto;
 }
-.form-container button{
+.form-container .button-container{
   height: 20%;
-  width: 20%;
+}
+.form-container .button-container button{
+  margin: 0px 40px;
 }
 .comment-container button, h3{
   margin: 8px;

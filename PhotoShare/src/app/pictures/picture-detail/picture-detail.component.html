@@ -7,7 +7,7 @@
 
     <div class="comment-container" *ngFor="let comment of commentsArray">
       <div class="avatar">
-        <img src="" alt="">
+        <img src="http://localhost:3000/avatars/{{comment.commentAuthorUsername}}.jpg" alt="">
       </div>
       <div class="content">
         <div class="comment">
@@ -18,7 +18,6 @@
           <div class="" >
                 <button type="button" name="button" *ngIf="comment.commentAuthorUsername === username" (click)="handleDelete(comment.commentId)"><fa-icon [icon]="['fas', 'trash-alt']" ></fa-icon> Remove comment</button>
           </div>
-
           <div class="">
           <span class="">
             Current Likes: <span>{{comment.likes}}</span>
@@ -35,8 +34,11 @@
         <img src="" alt="">
       </div>
       <div class="content">
-        <textarea name="name" rows="2" cols="40" placeholder="Add new comment" #newComment></textarea>
-        <button type="button" name="button" (click)="handlePostComment(newComment.value)" [disabled]="postingNewComment" >Post comment</button>
+        <textarea name="name" rows="2" cols="40" placeholder="Add new comment" #newComment [formControl]="commentInput"></textarea>
+        <div class="button-container">
+          <button type="button" name="button" (click)="handlePostComment(newComment.value)" [disabled]="postingNewComment" >Post comment</button>
+
+        </div>
       </div>
     </div>
 

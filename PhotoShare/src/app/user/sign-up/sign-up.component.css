@@ -13,18 +13,25 @@ h3{
 }
 
 form{
-  display: flex;
-  flex-direction: column;
+}
+form > div{
+  margin-bottom: 30px;
 }
 label{
+  display: block;
+  margin-bottom: 5px;
 }
 input{
+  padding: 5px;
+}
+input[type="file"]{
+  display: none;
 }
 .picture-container{
   width: 200px;
   border: 1px red solid;
 }
-.picture{
+.picture, img{
   width: 180px;
   height: 180px;
   border: 1px red solid;
@@ -32,4 +39,5 @@ input{
 .choose{
   width: 180px;
   padding: 10px;
+
 }

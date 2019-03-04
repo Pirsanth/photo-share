@@ -4,6 +4,7 @@ import { ActivatedRoute } from "@angular/router";
 import { CommentsDocument, commentObjectWithLikedBoolean } from "../../customTypes";
 import { AjaxService } from "../../services/ajax.service";
 import { Subscription } from "rxjs";
+import { FormControl, Validators } from "@angular/forms";
 
 @Component({
   selector: 'app-picture-detail',
@@ -18,14 +19,15 @@ export class PictureDetailComponent implements OnInit, OnDestroy {
   postingNewComment:boolean = false;
   username:string;
   subscription: Subscription;
+  commentInput = new FormControl("", Validators.required);
 
   constructor(private ajax:CommentsService, private user:AjaxService) { }
 
   ngOnInit() {
     this.username = this.user.username;
-      this.subscription = this.ajax.commentsSubject$
+    this.subscription = this.ajax.commentsSubject$
       .subscribe( (commentDoc:CommentsDocument<commentObjectWithLikedBoolean>) => {
-        console.log(commentDoc)
+        //console.log(commentDoc)
         this.commentsArray = commentDoc.comments;
         this.mainImageSrc = commentDoc.originalSrc;
       })
@@ -68,6 +70,7 @@ export class PictureDetailComponent implements OnInit, OnDestroy {
     })
   }
   print(){
-    console.log(this.commentsArray)
+    console.log(this.commentInput)
+
   }
 }
