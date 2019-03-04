@@ -1,8 +1,12 @@
 import {Request, Response} from "express";
 import { User } from "../customTypes";
-import * as model from "../model/manageUsers";
+import * as userModel from "../model/manageUsers";
+import * as refreshTokenModel from "../model/manageRefreshTokens";
 import jwt from "jsonwebtoken";
 import util from "util";
+import uuid from "uuid/v4";
+import { RefreshTokensDocument } from "../customTypes";
+
 
 const signToken = util.promisify(jwt.sign);
 const verifyToken = util.promisify(jwt.verify);
@@ -13,11 +17,18 @@ async function signUp(req: Request, res: Response){
     const password = req.body.password;
     var user = new User(requestedUsername, password);
 
-    const insertedCount = await model.addNewUser(user);
+    const insertedCount = await userModel.addNewUser(user);
 
     if(insertedCount){
-      const token = await makeToken(requestedUsername);
-      res.status(200).json({error: null, data: {token, username: requestedUsername}})
+      const tokensArray = await Promise.all([
+        makeAccessToken(requestedUsername),
+        createAndRegisterRefreshToken(requestedUsername)
+      ]);
+      res.status(200).json(
+        {error: null,
+         data:
+          {username: requestedUsername, accessToken: tokensArray[0], refreshToken: tokensArray[1]}
+        });
     }
   }
   catch(err){
@@ -31,12 +42,19 @@ async function signIn(req: Request, res: Response){
     const username = req.body.username;
     const password = req.body.password;
 
-    const user: User|null = await model.findUser(username);
+    const user: User|null = await userModel.findUser(username);
 
     if(user){
         if(user.password === password){
-          let token = await makeToken(username);
-          res.status(200).json({error:null, data: token});
+          const tokensArray = await Promise.all([
+            makeAccessToken(username),
+            createAndRegisterRefreshToken(username)
+          ]);
+          res.status(200).json(
+            {error: null,
+             data:
+              {username, accessToken: tokensArray[0], refreshToken: tokensArray[1]}
+            });
         }
         else{
           /*I think 403 is more appropriate because Authorization will not help and the request SHOULD NOT be repeated.
@@ -56,10 +74,21 @@ async function signIn(req: Request, res: Response){
   }
 }
 
-async function makeToken(username: string){
+async function makeAccessToken(username: string){
   //expires in 1 hour
   const payload = {username, exp: ( (Date.now()/1000) + (60*60) )};
   return await signToken(payload, "secret");
+}
+async function createAndRegisterRefreshToken(username:string){
+    const refreshTokenId = uuid();
+    return await Promise.all([
+      refreshTokenModel.registerNewRefreshToken(refreshTokenId, username),
+      makeRefreshToken( refreshTokenId )
+    ]).then(arr => arr[1]);
+}
+async function makeRefreshToken(uid: string){
+  const payload = {exp: ( (Date.now()/1000) + (60*60*24) ), jti: uid};
+  return await signToken(payload, "anotherSecret");
 }
 
 export default {signUp, signIn};

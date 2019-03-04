@@ -70,3 +70,10 @@ export class User {
 }
 
 export type MiddlewareFunction = (req: Request, res: Response, next: NextFunction) => void;
+
+export class RefreshTokensDocument{
+  _id:string;
+  constructor(refreshTokenId:string, public username:string){
+    this._id = refreshTokenId;
+  }
+}
