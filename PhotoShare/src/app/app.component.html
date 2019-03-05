@@ -9,7 +9,10 @@
       </li>
       </span>
       <li>
-        <a routerLink="/user/authenticate">Sign In/out <fa-icon [icon]="['fas', 'user']"></fa-icon></a>
+          <a routerLink="/user/authenticate" *ngIf="username; else loggedInBlock">{{username}} <fa-icon [icon]="['fas', 'user']"></fa-icon></a>
+        <ng-template #loggedInBlock>
+          <a routerLink="/user/authenticate">Sign In/Register <fa-icon [icon]="['fas', 'user']"></fa-icon></a>
+        </ng-template>
       </li>
   </ul>
 </nav>

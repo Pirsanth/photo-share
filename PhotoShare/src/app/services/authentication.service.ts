@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { AjaxService } from "./ajax.service";
-import { Observable } from "rxjs";
+import { Observable, Subject } from "rxjs";
 import { tap, pluck } from "rxjs/operators";
+
 
 type userData = {username: string, refreshToken: string, accessToken:string};
 
@@ -11,8 +12,16 @@ type userData = {username: string, refreshToken: string, accessToken:string};
   providedIn: 'root'
 })
 export class AuthenticationService {
+  username$ = new Subject<string>();
+  private _currentUser:string;
 
-  currentUser:string = null;
+  set currentUser(name:string){
+    this.username$.next(name);
+    this._currentUser = name;
+  }
+  get currentUser(){
+    return this._currentUser;
+  }
   set accessToken(token:string){
     localStorage.setItem("accessToken", token);
   }
@@ -27,7 +36,9 @@ export class AuthenticationService {
     return localStorage.getItem("refreshToken");
   }
 
-  constructor(private http:HttpClient, private ajax:AjaxService) { }
+  constructor(private http:HttpClient, private ajax:AjaxService) {
+
+  }
 
   signUp(formData: FormData){
     const postUrl = this.ajax.baseURL + "/auth/signUp";
