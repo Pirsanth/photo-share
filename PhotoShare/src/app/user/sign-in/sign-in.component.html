@@ -2,11 +2,17 @@
 
 <div class="main-container">
   <h3>Welcome back!</h3>
-<form class="" action="index.html" method="post">
-  <label for="username">Username:</label>
-  <input type="text" name="" value="" id="username">
+<form class="" action="index.html" method="post" [formGroup]="userCredentials" (ngSubmit)="handleSubmit()">
+  <div class="">
+    <label for="username">Username:</label>
+    <input type="text" formControlName="username" id="username" >
+  </div>
 
+<div class="">
   <label for="password">Password</label>
-  <input type="text" name="" value="" id="password">
+  <input type="text" formControlName="password"id="password">
+</div>
+  <input type="submit" name="" value="Login">
 </form>
+{{message}}
 </div>

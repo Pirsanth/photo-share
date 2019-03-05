@@ -29,6 +29,6 @@ export class SignUpComponent implements OnInit {
   }
   handleSubmit(form: HTMLFormElement){
    var formData = new FormData(form);
-   this.auth.signUp(formData).subscribe(x => console.log(x));
+   this.auth.signUp(formData).subscribe(x => console.log("Sign up was a success"));
   }
 }

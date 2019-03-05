@@ -7,13 +7,15 @@
 }
 
 form{
-  margin-top: 30px;
-  display: flex;
-  flex-direction: column;
+  margin-top: 20px;
+}
+form > div{
+  margin-bottom: 30px;
 }
 label{
-
+  display: block;
+  margin-bottom: 10px;
 }
 input{
-  width: 50%;
+  padding: 5px;
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'app-auth-shell',
@@ -6,10 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./auth-shell.component.css']
 })
 export class AuthShellComponent implements OnInit {
-
-  constructor() { }
+  message:string;
+  constructor(private route:ActivatedRoute) { }
 
   ngOnInit() {
+    this.route.data.subscribe(x => this.message = x["message"])
   }
 
 }
