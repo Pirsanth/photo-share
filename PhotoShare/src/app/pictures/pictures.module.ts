@@ -10,9 +10,11 @@ import { PictureDetailComponent } from './picture-detail/picture-detail.componen
 import { AlbumListItemComponent } from './album-list-item/album-list-item.component';
 import { PictureListItemComponent } from './picture-list-item/picture-list-item.component';
 import { ReactiveFormsModule } from "@angular/forms";
+import { addLocalhostPipe } from "../pipes/addLocalhost"
 
 @NgModule({
-  declarations: [PictureShellComponent, AlbumListComponent, PictureListComponent, PictureDetailComponent, AlbumListItemComponent, PictureListItemComponent],
+  declarations: [PictureShellComponent, AlbumListComponent, PictureListComponent,
+    PictureDetailComponent, AlbumListItemComponent, PictureListItemComponent, addLocalhostPipe],
   imports: [
     CommonModule,
     PicturesRoutingModule,

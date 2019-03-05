@@ -13,6 +13,7 @@ import { faPlusSquare, faUser, faImages, faFolder, faClock, faCamera, faArrowUp,
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {PicturesModule} from "./pictures/pictures.module"
 import { UserModule } from "./user/user.module";
+import { addLocalhostPipe } from "./pipes/addLocalhost";
 
 library.add(faPlusSquare, faUser, faImages, faFolder, faClock, faCamera, faArrowUp,
    faArrowDown, faThumbsUp, faTrashAlt, faUserPlus, faUserCircle);

@@ -1,7 +1,7 @@
 
 <div class="container">
   <a [routerLink]="title">
-  <img [src]="thumbnailSrc" alt="">
+  <img src="{{thumbnailSrc | addLocalhost}}" alt="">
   <h4 [class.show]="showUploader">Uploaded By: {{uploadedBy}}</h4>
   </a>
   <div class="">

@@ -39,10 +39,11 @@ export class CommentsService implements OnDestroy {
       const getURL = this.ajax.baseURL + `/comments/${this.albumName}/${this.pictureTitle}`;
       return  this.http.get<CommentsDocument<commentObject>>(getURL, {observe: "body", responseType: "json"})
               .pipe( pluck("data") )
-              .pipe( map((x:CommentsDocument<commentObject>) => {
-                x.originalSrc = `${this.ajax.baseURL}/${x.originalSrc}`
-                return x;
-              }))
+        /*      .pipe( map((x:CommentsDocument<commentObject>) => {
+                  x.originalSrc = `${this.ajax.baseURL}/${x.originalSrc}`
+                  return x;
+                }))
+       */
               .pipe( map( (x:CommentsDocument<commentObject>) => this.modifyCommentDocumentforView(x) ));
   }
   likeComment(commentId:string){

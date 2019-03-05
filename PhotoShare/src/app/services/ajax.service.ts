@@ -26,14 +26,14 @@ export class AjaxService {
     const getUrl = `${this.baseURL}/albums/`;
     return this.http.get<Album[]>(getUrl,{observe: "body", responseType: "json"})
             .pipe(pluck("data"))
-            .pipe(map((arr: Album[]) => arr.map((album:Album) => this.addBaseUrlToImageSrc(album) )))
+        //    .pipe(map((arr: Album[]) => arr.map((album:Album) => this.addBaseUrlToImageSrc(album) )))
   }
 
   getAnAlbum(albumName: string):Observable<Album>{
     const getUrl = `${this.baseURL}/albums/${albumName}`;
     return this.http.get<Album>(getUrl,{observe: "body", responseType: "json"})
             .pipe(pluck("data"))
-            .pipe(map((album: Album) => this.addBaseUrlToImageSrc(album)))
+        //    .pipe(map((album: Album) => this.addBaseUrlToImageSrc(album)))
   }
   getAlbumsList():Observable<Array<string>>{
     return this.http.get(`${this.baseURL}/albums/albumsList/`)
