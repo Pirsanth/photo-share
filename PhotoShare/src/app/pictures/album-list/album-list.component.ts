@@ -13,7 +13,6 @@ albumList: Album[];
 
   ngOnInit() {
     this.http.getAllAlbums().subscribe((arr) => {
-      console.log(arr);
         this.albumList = arr;
     })
   }

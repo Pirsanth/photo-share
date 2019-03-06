@@ -13,10 +13,7 @@ export class PictureListComponent implements OnInit {
   constructor(private http: AlbumsService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.route.paramMap.subscribe((param) => {
-      const albumName = param.get("albumName");
-      this.http.getAnAlbum(albumName).subscribe((album) => {this.album = album; console.log(album)});
-    })
+    this.route.data.subscribe( data => this.album = data.album );
   }
 
 }

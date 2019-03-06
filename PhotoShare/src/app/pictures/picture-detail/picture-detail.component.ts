@@ -6,6 +6,7 @@ import { AuthenticationService} from "../../services/authentication.service";
 import { Subscription } from "rxjs";
 import { FormControl, Validators } from "@angular/forms";
 
+
 @Component({
   selector: 'app-picture-detail',
   templateUrl: './picture-detail.component.html',
@@ -21,13 +22,18 @@ export class PictureDetailComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   commentInput = new FormControl("", Validators.required);
   avatarPrefix = "/avatars";
-  constructor(private ajax:CommentsService, private user:AuthenticationService) { }
+  constructor(private ajax:CommentsService, private user:AuthenticationService, private route:ActivatedRoute ) { }
 
   ngOnInit() {
     this.username = this.user.currentUser;
+    this.route.data.subscribe(x => {
+      const {commentDoc} = x
+      this.commentsArray = commentDoc.comments;
+      this.mainImageSrc = commentDoc.originalSrc;
+
+    })
     this.subscription = this.ajax.commentsSubject$
       .subscribe( (commentDoc:CommentsDocument<commentObjectWithLikedBoolean>) => {
-        console.log(commentDoc)
         this.commentsArray = commentDoc.comments;
         this.mainImageSrc = commentDoc.originalSrc;
       })
