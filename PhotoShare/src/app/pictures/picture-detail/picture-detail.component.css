@@ -80,3 +80,8 @@ p{
 .content .comment{
   margin: 0px 40px;
 }
+.onlyCount{
+  margin: 0px 40px;
+  padding: 15px;
+  display: block;
+}

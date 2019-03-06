@@ -5,7 +5,7 @@
       Comments
     </div>
 
-    <div class="comment-container" *ngFor="let comment of commentsArray">
+    <div class="comment-container" *ngFor="let comment of commentsArray; index as i">
       <div class="avatar">
         <img src="{{comment.commentAuthorUsername | addLocalhost:avatarPrefix }}.jpg" alt="">
       </div>
@@ -19,10 +19,10 @@
                 <button type="button" name="button" *ngIf="comment.commentAuthorUsername === username" (click)="handleDelete(comment.commentId)"><fa-icon [icon]="['fas', 'trash-alt']" ></fa-icon> Remove comment</button>
           </div>
           <div class="">
-          <span class="">
+          <span [class.onlyCount]="!username">
             Current Likes: <span>{{comment.likes}}</span>
           </span>
-          <button type="button" name="button" (click)="handleLikeButton(comment)" [class.isLiked]="comment.liked"><fa-icon [icon]="['fas', 'thumbs-up']" ></fa-icon> Like comment</button>
+          <button type="button" name="button" *ngIf="username" (click)="handleLikeButton(comment)" [class.isLiked]="comment.liked"><fa-icon [icon]="['fas', 'thumbs-up']" ></fa-icon> Like comment</button>
         </div>
         </div>
       </div>
@@ -35,7 +35,7 @@
       </div>
       <div class="content">
         <div class="comment">
-          <h3>You must sign in or register to comment</h3>
+          <h3>You must sign in or register to add or like comments</h3>
 
         </div>
       </div>
