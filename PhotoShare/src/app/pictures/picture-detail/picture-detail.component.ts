@@ -20,14 +20,14 @@ export class PictureDetailComponent implements OnInit, OnDestroy {
   username:string;
   subscription: Subscription;
   commentInput = new FormControl("", Validators.required);
-
+  additionalPrefix = "/avatars";
   constructor(private ajax:CommentsService, private user:AjaxService) { }
 
   ngOnInit() {
     this.username = this.user.username;
     this.subscription = this.ajax.commentsSubject$
       .subscribe( (commentDoc:CommentsDocument<commentObjectWithLikedBoolean>) => {
-        //console.log(commentDoc)
+        console.log(commentDoc)
         this.commentsArray = commentDoc.comments;
         this.mainImageSrc = commentDoc.originalSrc;
       })

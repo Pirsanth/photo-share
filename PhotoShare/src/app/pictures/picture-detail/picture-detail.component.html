@@ -7,7 +7,7 @@
 
     <div class="comment-container" *ngFor="let comment of commentsArray">
       <div class="avatar">
-        <img src="http://localhost:3000/avatars/{{comment.commentAuthorUsername}}.jpg" alt="">
+        <img src="{{comment.commentAuthorUsername | addLocalhost:additionalPrefix }}.jpg" alt="">
       </div>
       <div class="content">
         <div class="comment">

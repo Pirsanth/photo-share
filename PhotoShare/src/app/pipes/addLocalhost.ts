@@ -7,14 +7,22 @@ import { Pipe, PipeTransform } from "@angular/core";
 *    /image-url
 */
 
-const prefix = "http://localhost:3000/"
+const prefix = "http://localhost:3000/";
 const regex = /^((\.\/)|\/)?([\w-@.\/\\]+)/;
 
 @Pipe({name: "addLocalhost"})
 export class addLocalhostPipe implements PipeTransform {
-  transform(value:string){
-    console.log(value)
-    const [,,,contents] = value.match(regex)
-    return prefix + contents;
+  transform(value:string, additionalPrefix:string = ""){
+    
+    if(regex.test(additionalPrefix)){
+      [,,,additionalPrefix] = additionalPrefix.match(regex);
+
+      if(!additionalPrefix.endsWith("/")){
+        additionalPrefix += "/";
+      }
+    }
+
+    const [,,,contents] = value.match(regex);
+    return prefix + additionalPrefix + contents;
   }
 }
