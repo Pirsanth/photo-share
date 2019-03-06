@@ -11,7 +11,6 @@ type albumsResponse = {error: string, data: Album[]};
 })
 export class AjaxService {
   public baseURL: string = "http://localhost:3000";
-  public username: string = "testUser";
   constructor(private http: HttpClient) {}
 
   sendForm(formData: FormData, isMultiple: boolean){

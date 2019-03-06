@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommentsService } from "../../services/comments.service";
 import { ActivatedRoute } from "@angular/router";
 import { CommentsDocument, commentObjectWithLikedBoolean } from "../../customTypes";
-import { AjaxService } from "../../services/ajax.service";
+import { AuthenticationService} from "../../services/authentication.service";
 import { Subscription } from "rxjs";
 import { FormControl, Validators } from "@angular/forms";
 
@@ -20,11 +20,11 @@ export class PictureDetailComponent implements OnInit, OnDestroy {
   username:string;
   subscription: Subscription;
   commentInput = new FormControl("", Validators.required);
-  additionalPrefix = "/avatars";
-  constructor(private ajax:CommentsService, private user:AjaxService) { }
+  avatarPrefix = "/avatars";
+  constructor(private ajax:CommentsService, private user:AuthenticationService) { }
 
   ngOnInit() {
-    this.username = this.user.username;
+    this.username = this.user.currentUser;
     this.subscription = this.ajax.commentsSubject$
       .subscribe( (commentDoc:CommentsDocument<commentObjectWithLikedBoolean>) => {
         console.log(commentDoc)
@@ -71,6 +71,5 @@ export class PictureDetailComponent implements OnInit, OnDestroy {
   }
   print(){
     console.log(this.commentInput)
-
   }
 }

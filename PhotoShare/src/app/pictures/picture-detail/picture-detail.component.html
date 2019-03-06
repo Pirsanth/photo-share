@@ -7,7 +7,7 @@
 
     <div class="comment-container" *ngFor="let comment of commentsArray">
       <div class="avatar">
-        <img src="{{comment.commentAuthorUsername | addLocalhost:additionalPrefix }}.jpg" alt="">
+        <img src="{{comment.commentAuthorUsername | addLocalhost:avatarPrefix }}.jpg" alt="">
       </div>
       <div class="content">
         <div class="comment">
@@ -28,16 +28,28 @@
       </div>
     </div>
 
-
+  <ng-template #notSignedInBlock>
     <div class="form-container">
       <div class="avatar">
-        <img src="" alt="">
+        <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
+      </div>
+      <div class="content">
+        <div class="comment">
+          <h3>You must sign in or register to comment</h3>
+
+        </div>
+      </div>
+    </div>
+</ng-template>
+
+    <div class="form-container" *ngIf="username; else notSignedInBlock">
+      <div class="avatar">
+        <img src="{{ username | addLocalhost:avatarPrefix }}.jpg" alt="">
       </div>
       <div class="content">
         <textarea name="name" rows="2" cols="40" placeholder="Add new comment" #newComment [formControl]="commentInput"></textarea>
         <div class="button-container">
           <button type="button" name="button" (click)="handlePostComment(newComment.value)" [disabled]="postingNewComment" >Post comment</button>
-
         </div>
       </div>
     </div>

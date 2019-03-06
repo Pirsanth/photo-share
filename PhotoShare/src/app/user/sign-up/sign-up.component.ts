@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from "../../services/authentication.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-sign-up',
@@ -10,7 +11,7 @@ export class SignUpComponent implements OnInit {
 
   previewSrc: string | ArrayBuffer;
 
-  constructor(private auth:AuthenticationService) { }
+  constructor(private auth:AuthenticationService, private router:Router) { }
 
   ngOnInit() {
   }
@@ -29,6 +30,9 @@ export class SignUpComponent implements OnInit {
   }
   handleSubmit(form: HTMLFormElement){
    var formData = new FormData(form);
-   this.auth.signUp(formData).subscribe(x => console.log("Sign up was a success"));
+   this.auth.signUp(formData).subscribe(x => {
+     console.log("Sign up was a success")
+     this.router.navigate(["/pictures"])
+   });
   }
 }

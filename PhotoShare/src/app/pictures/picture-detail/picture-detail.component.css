@@ -20,6 +20,7 @@ h2{
   border: 1px solid black;
   border-radius: 2%;
   margin: 20px;
+  min-height: 240px;
 }
 .avatar{
   width: 20%;
@@ -41,17 +42,21 @@ h2{
 }
 textarea{
   height: 55%;
-  width: 95%;
+  margin: 0px 40px;
   font-size: 20px;
   border: 1px solid black;
   padding: 20px;
-  overflow: auto;
+  overflow: auto
 }
 .form-container .button-container{
   height: 20%;
 }
 .form-container .button-container button{
   margin: 0px 40px;
+  padding: 15px;
+}
+.form-container fa-icon{
+  font-size: 60px;
 }
 .comment-container button, h3{
   margin: 8px;
