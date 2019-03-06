@@ -1,9 +1,9 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import { AjaxService } from "./ajax.service";
+import { AlbumsService } from "./albums.service";
 import { CommentsDocument, commentObject, commentObjectWithLikedBoolean } from "../customTypes";
 import { Observable, Subject, timer, Subscription } from "rxjs";
-import { pluck, map, switchMap } from "rxjs/operators";
+import { pluck, map, switchMap, take } from "rxjs/operators";
 import { ActivatedRoute } from "@angular/router";
 import { AuthenticationService } from "./authentication.service";
 
@@ -16,7 +16,7 @@ export class CommentsService implements OnDestroy {
   commentsSubject$: Subject<CommentsDocument<commentObjectWithLikedBoolean>> = new Subject();
   subscription:Subscription;
 
-  constructor(private http:HttpClient, private ajax:AjaxService, private route:ActivatedRoute, private auth:AuthenticationService) {
+  constructor(private http:HttpClient, private ajax:AlbumsService, private route:ActivatedRoute, private auth:AuthenticationService) {
       this.route.paramMap.subscribe( paramMap => {
         this.albumName = paramMap.get("albumName");
         this.pictureTitle = paramMap.get("pictureTitle");
@@ -33,6 +33,7 @@ export class CommentsService implements OnDestroy {
   }
   keepFetchingComments(){
     return timer(0, 5000)
+           .pipe(take(1))
            .pipe( switchMap(() => this.getCommentDocument() ) )
   }
   getCommentDocument():Observable<CommentsDocument<commentObjectWithLikedBoolean>>{

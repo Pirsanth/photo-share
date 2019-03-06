@@ -9,7 +9,7 @@ type albumsResponse = {error: string, data: Album[]};
 @Injectable({
   providedIn: 'root'
 })
-export class AjaxService {
+export class AlbumsService {
   public baseURL: string = "http://localhost:3000";
   constructor(private http: HttpClient) {}
 

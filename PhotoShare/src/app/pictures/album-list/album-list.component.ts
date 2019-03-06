@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {AjaxService} from "../../services/ajax.service";
+import {AlbumsService} from "../../services/albums.service";
 import {Album} from "./../../customTypes";
 
 @Component({
@@ -9,7 +9,7 @@ import {Album} from "./../../customTypes";
 })
 export class AlbumListComponent implements OnInit {
 albumList: Album[];
-  constructor(private http:AjaxService) { }
+  constructor(private http:AlbumsService) { }
 
   ngOnInit() {
     this.http.getAllAlbums().subscribe((arr) => {

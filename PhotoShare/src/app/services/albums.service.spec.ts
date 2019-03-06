@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AjaxService } from './ajax.service';
+import { AlbumsService } from './albums.service';
 
-describe('AjaxService', () => {
+describe('AlbumsService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: AjaxService = TestBed.get(AjaxService);
+    const service: AlbumsService = TestBed.get(AlbumsService);
     expect(service).toBeTruthy();
   });
 });

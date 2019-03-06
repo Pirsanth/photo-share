@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http"
-import {AjaxService} from "./ajax.service";
+import {AlbumsService} from "./albums.service";
 
 import { Observable } from "rxjs";
 
@@ -14,7 +14,7 @@ export class LikesService {
   username: string;
   baseURL: string;
 
-  constructor(private http: HttpClient, private ajax: AjaxService) {
+  constructor(private http: HttpClient, private ajax: AlbumsService) {
     this.username = ajax.username;
     this.baseURL = ajax.baseURL;
   }

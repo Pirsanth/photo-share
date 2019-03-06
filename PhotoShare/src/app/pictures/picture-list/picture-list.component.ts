@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {AjaxService} from "../../services/ajax.service";
+import {AlbumsService} from "../../services/albums.service";
 import {Album} from "../../customTypes";
 import {ActivatedRoute} from "@angular/router";
 
@@ -10,7 +10,7 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class PictureListComponent implements OnInit {
   album: Album;
-  constructor(private http: AjaxService, private route: ActivatedRoute) { }
+  constructor(private http: AlbumsService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe((param) => {

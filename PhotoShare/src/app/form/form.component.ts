@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {AjaxService} from "../services/ajax.service";
+import {AlbumsService} from "../services/albums.service";
 import { ActivatedRoute } from "@angular/router";
 
 @Component({
@@ -14,7 +14,7 @@ export class FormComponent implements OnInit {
   customPictureTitle: boolean = false;
   albumList: string[];
 
-  constructor(private ajax:AjaxService, private route: ActivatedRoute) { }
+  constructor(private ajax:AlbumsService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.route.data.subscribe( data => this.albumList = data.albumList)

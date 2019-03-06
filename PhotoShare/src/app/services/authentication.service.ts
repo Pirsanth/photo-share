@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import { AjaxService } from "./ajax.service";
+import { AlbumsService } from "./albums.service";
 import { Observable, Subject, BehaviorSubject } from "rxjs";
 import { tap, pluck } from "rxjs/operators";
 
@@ -44,7 +44,7 @@ export class AuthenticationService {
     return localStorage.getItem("refreshToken");
   }
 
-  constructor(private http:HttpClient, private ajax:AjaxService) {
+  constructor(private http:HttpClient, private ajax:AlbumsService) {
     this.checkSavedState();
   }
 
