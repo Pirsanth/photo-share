@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { AjaxService } from "./ajax.service";
-import { Observable, Subject } from "rxjs";
+import { Observable, Subject, BehaviorSubject } from "rxjs";
 import { tap, pluck } from "rxjs/operators";
 
 
@@ -12,12 +12,20 @@ type userData = {username: string, refreshToken: string, accessToken:string};
   providedIn: 'root'
 })
 export class AuthenticationService {
-  username$ = new Subject<string>();
+  username$ = new BehaviorSubject<string>(null);
   private _currentUser:string;
 
   set currentUser(name:string){
     this.username$.next(name);
     this._currentUser = name;
+
+    //name can be set to null in which case we delete the localStorage entry
+    if(name){
+      localStorage.setItem("username", name);
+    }
+    else{
+      localStorage.removeItem("username");
+    }
   }
   get currentUser(){
     return this._currentUser;
@@ -37,7 +45,7 @@ export class AuthenticationService {
   }
 
   constructor(private http:HttpClient, private ajax:AjaxService) {
-
+    this.checkSavedState();
   }
 
   signUp(formData: FormData){
@@ -69,5 +77,11 @@ export class AuthenticationService {
   clearUserData(){
     localStorage.clear();
     this.currentUser = null;
+  }
+  checkSavedState(){
+    const user = localStorage.getItem("username");
+    if(user){
+      this.currentUser = user;
+    }
   }
 }
