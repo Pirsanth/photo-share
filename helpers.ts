@@ -1,5 +1,5 @@
 import { Request, request } from "express";
-const regex = /^Bearer\s{1}([\w.]+)$/;
+const regex = /^Bearer\s{1}(.+)$/;
 
 export function extractBearerSchemeToken(authorizationHeader:string):string|null{
   if(regex.test(authorizationHeader)){

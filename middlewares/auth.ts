@@ -7,13 +7,12 @@ import { extractBearerSchemeToken } from "../helpers";
 type payload = {username:string};
 
 const verifyToken = util.promisify<string,string,VerifyOptions, payload>(jwt.verify);
-const regex = /^Bearer\s{1}([\w.]+)$/;
 
 export let checkAccessToken:MiddlewareFunction = async function (req, res, next){
     var header = req.header("authorization");
 
     var accessToken = extractBearerSchemeToken(header);
-
+    
     if(accessToken){
       try{
         var payload = await verifyToken(accessToken, "secret", {});
