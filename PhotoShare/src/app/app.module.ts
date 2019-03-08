@@ -14,6 +14,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import {PicturesModule} from "./pictures/pictures.module"
 import { UserModule } from "./user/user.module";
 import { addLocalhostPipe } from "./pipes/addLocalhost";
+import { httpInterceptors } from "./interceptors/providersArray";
 
 library.add(faPlusSquare, faUser, faImages, faFolder, faClock, faCamera, faArrowUp,
    faArrowDown, faThumbsUp, faTrashAlt, faUserPlus, faUserCircle, faInfoCircle);
@@ -32,7 +33,7 @@ library.add(faPlusSquare, faUser, faImages, faFolder, faClock, faCamera, faArrow
     PicturesModule,
     UserModule
   ],
-  providers: [],
+  providers: [httpInterceptors],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

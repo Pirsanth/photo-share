@@ -21,7 +21,7 @@ export class FormComponent implements OnInit {
   }
   handleSubmit(form: HTMLFormElement){
     let formData = new FormData(form);
-    this.ajax.sendForm(formData, this.multipleUpload).subscribe((x) => console.log(x))
+    this.ajax.sendForm(formData, this.multipleUpload).subscribe()
   }
   print(){
     console.log(this.multipleUpload);

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { AlbumsService } from "./albums.service";
 import { Observable, Subject, BehaviorSubject } from "rxjs";
-import { tap, pluck } from "rxjs/operators";
+import { tap, pluck, map } from "rxjs/operators";
 
 
 type userData = {username: string, refreshToken: string, accessToken:string};
@@ -83,5 +83,15 @@ export class AuthenticationService {
     if(user){
       this.currentUser = user;
     }
+  }
+  attemptRefreshToken(){
+    const postUrl = this.ajax.baseURL + "/auth/refresh";
+
+    const refreshToken = this.refreshToken;
+    return this.http.post(postUrl, {refreshToken}, {observe: "body", responseType: "json"})
+           .pipe( map((x) =>{
+              this.accessToken = x["data"]
+              return x["data"]
+           }));
   }
 }
