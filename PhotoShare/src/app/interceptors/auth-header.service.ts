@@ -6,6 +6,7 @@ import { of,throwError, BehaviorSubject } from "rxjs";
 import { AuthenticationService } from "../services/authentication.service";
 import { AlbumsService } from "../services/albums.service";
 import { Router } from "@angular/router";
+import { CachedRequestsService } from "./cached-requests.service";
 
 /*
   This class appends the jwt token to the header of the relevant request.
@@ -19,31 +20,26 @@ export class AuthHeaderService implements HttpInterceptor {
   refreshingToken:boolean = false;
   accessToken$ = new BehaviorSubject(null);
   cachedRequest:HttpRequest<any>;
-  constructor(private auth:AuthenticationService,private ajax: AlbumsService, private router:Router) { }
+  constructor(private auth:AuthenticationService,private ajax: AlbumsService, private router:Router, private cache:CachedRequestsService) { }
 
   intercept(req:HttpRequest<any>, next:HttpHandler){
 
-    if(req.method !== "GET" && !this.isAuthenticationRoute(req.url)){
+    if(this.needsAccessToken(req.method, req.url)){
         if(this.refreshingToken){
-          this.accessToken$
-          .pipe( filter( x => x !== null) )
-          .pipe( take(1) )
-          .pipe( switchMap(x => next.handle(this.appendToken(req)) ) )
+          this.cache.addToCache(req);
         }
         else{
           return next.handle(this.appendToken(req))
           .pipe( catchError( (err:HttpErrorResponse) =>{
 
             if(err.status === 401){
-              return this.useRefreshToken(req, next);
+              return this.tryRefreshToken(req, next);
             }
             else {
               return throwError(err);
             }
           }))
         }
-
-
     }
     else{
       return next.handle(req);
@@ -58,22 +54,30 @@ export class AuthHeaderService implements HttpInterceptor {
     const arrayOfAuthRoutes:Array<string> = ["/auth/signUp", "/auth/signIn", "/auth/logout", "/auth/refresh"];
     return arrayOfAuthRoutes.some((uriToAvoid) => currentUrl === this.ajax.baseURL + uriToAvoid);
   }
-  private useRefreshToken(req:HttpRequest<any>, next:HttpHandler){
+  private tryRefreshToken(req:HttpRequest<any>, next:HttpHandler){
     this.refreshingToken = true;
-    this.accessToken$.next(null);
     return this.auth.attemptRefreshToken()
           .pipe( switchMap(( token ) => {
             this.refreshingToken = false;
-            this.accessToken$.next(token);
+            //In between the refresh attempt there could be other requests coming in
+            console.log("Refresh token works");
+            console.log(this.cache.hasCachedRequests())
+            if(this.cache.hasCachedRequests){
+              this.cache.sendAllCachedRequests();
+            }
             return next.handle(this.appendToken(req))
           }))
           .pipe( catchError( (err:HttpErrorResponse) =>{
               if(err.status === 403){
+
                 this.auth.clearUserData();
                 this.router.navigate(["/user", "authenticate"],
-                {state: {message: "The app requires a relogin every 24 hours"}});
+                {state: {message: "The app requires a relogin every 24 hours. If you do not login as the same user the pending post is lost"}});
               }
               return throwError(err);
           }))
+  }
+  private needsAccessToken(method:string, url:string):boolean{
+    return method !== "GET" && !this.isAuthenticationRoute(url);
   }
 }
