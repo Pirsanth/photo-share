@@ -6,8 +6,8 @@ async function addLikes(req: Request, res: Response){
     const albumName = req.params["albumName"];
     const pictureTitle = req.params["pictureTitle"];
 
-    const body: { username: string, commentId: string } = req.body;
-    const result = await model.addLikes(albumName, pictureTitle, body.username, body.commentId);
+    const body: {commentId: string } = req.body;
+    const result = await model.addLikes(albumName, pictureTitle, req.payload.username, body.commentId);
     if(result.n){
       res.status(204).send();
     }
@@ -26,9 +26,9 @@ async function removeLikes(req: Request, res: Response){
     const albumName = req.params["albumName"];
     const pictureTitle = req.params["pictureTitle"];
 
-    const body: { username: string, commentId: string } = req.body;
-    const result = await model.removeLikes(albumName, pictureTitle, body.username, body.commentId);
-    
+    const body: { commentId: string } = req.body;
+    const result = await model.removeLikes(albumName, pictureTitle, req.payload.username, body.commentId);
+
     if(result.n){
       res.status(204).send();
     }

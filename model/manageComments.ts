@@ -22,8 +22,9 @@ export async function getCommentsDocument(albumName:string, pictureTitle:string)
   return document;
 }
 
-export async function removeComment(albumName:string, pictureTitle:string, commentId:string){
+export async function removeComment(albumName:string, pictureTitle:string, commentId:string, commentAuthorUsername:string){
   const collection = await getCollection();
-  const {result} = await collection.updateOne({_id:{albumName, pictureTitle}, "comments.commentId": commentId}, {$pull: {comments: { commentId } }}, {upsert: false});
+  const {result} = await collection.updateOne({_id:{albumName, pictureTitle}, "comments.commentId": commentId},
+                                                {$pull: {comments: { commentId, commentAuthorUsername } }}, {upsert: false});
   return result;
 }

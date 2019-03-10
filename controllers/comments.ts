@@ -27,8 +27,8 @@ async function addComment(req: Request, res: Response){
     const albumName = req.params["albumName"];
     const pictureTitle = req.params["pictureTitle"];
 
-    const body: {text: string, username: string} = req.body;
-    const comment = new Comment(body.text, body.username);
+    const body: {text: string} = req.body;
+    const comment = new Comment(body.text, req.payload.username);
     const result = await model.addComment(albumName, pictureTitle, comment);
 
     if(result.n){
@@ -51,10 +51,17 @@ async function removeComment(req: Request, res: Response){
 
     const body: {commentId: string} = req.body;
 
-    const result = await model.removeComment(albumName, pictureTitle, body.commentId);
+    const result = await model.removeComment(albumName, pictureTitle, body.commentId, req.payload.username);
 
-    if(result.n){
-      res.status(204).send();
+    const { n, nModified } = result;
+
+    if(n){
+      if(n && nModified){
+        res.status(204).send();
+      }
+      else{
+        res.status(403).json({error: "You are unauthorized to remove a comment made by another user"});
+      }
     }
     else{
       res.status(404).json({error: "The comment to remove cannot be found"});

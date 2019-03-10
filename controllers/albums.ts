@@ -37,7 +37,6 @@ async function getListOfAvailableAlbums(req: Request, res: Response){
  catch(err){
    res.status(500).json({error:`Server error while trying to retrieve the list of albums`});
  }
-
 }
 
 function  savePictureJSONsToDatabase (req: Request, res: Response){
@@ -46,7 +45,7 @@ function  savePictureJSONsToDatabase (req: Request, res: Response){
   let fileArray =  req.files as Express.Multer.File[];
   fileArray.forEach((file, index) =>{
     var picture = new Picture( req.body[`pictureTitle${index}`] || file.filename ,
-                  req.body.username, file.filename);
+                  req.payload.username, file.filename);
     pictureArray.push(picture);
   })
 

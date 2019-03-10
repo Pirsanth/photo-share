@@ -49,19 +49,18 @@ export class CommentsService implements OnDestroy {
   }
   likeComment(commentId:string){
     const postUrl = this.ajax.baseURL + `/comments/likes/${this.albumName}/${this.pictureTitle}`;
-    const body = {username: this.auth.currentUser, commentId};
+    const body = {commentId};
     return this.http.post(postUrl, body, {observe: "body", responseType: "json"})
   }
   removeLike(commentId:string){
     const deletetUrl = this.ajax.baseURL + `/comments/likes/${this.albumName}/${this.pictureTitle}`;
-    const body = {username: this.auth.currentUser, commentId};
+    const body = {commentId};
     return this.http.request("DELETE", deletetUrl,{body, observe: "body", responseType: "json"});
   }
-  //body: {text: string, username: string}
+
   addANewComment(text: string){
     const postUrl = this.ajax.baseURL + `/comments/${this.albumName}/${this.pictureTitle}`;
-    const username = this.auth.currentUser;
-    const body = {text, username};
+    const body = {text};
     return this.http.post(postUrl, body, {observe: "body", responseType: "json"})
   }
   removeExistingComment(commentId:string ){
