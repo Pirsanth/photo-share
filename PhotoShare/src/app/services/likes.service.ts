@@ -15,7 +15,7 @@ export class LikesService {
   baseURL: string;
 
   constructor(private http: HttpClient, private ajax: AlbumsService) {
-    this.username = ajax.username;
+    //this.username = ajax.username;
     this.baseURL = ajax.baseURL;
   }
 

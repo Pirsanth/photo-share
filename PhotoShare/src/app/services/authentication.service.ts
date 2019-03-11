@@ -52,22 +52,18 @@ export class AuthenticationService {
     const postUrl = this.ajax.baseURL + "/auth/signUp";
 
     return this.http.post(postUrl, formData, {observe: "body", responseType: "json"})
-          .pipe( pluck("data") )
-          .pipe(tap( (x:userData) => {
-            this.currentUser = x.username;
-            this.accessToken = x.accessToken
-            this.refreshToken = x.refreshToken
-            }))
+          .pipe( pluck("data") );
   }
   signIn(formValues:JSON){
     const postUrl = this.ajax.baseURL + "/auth/signIn";
     return this.http.post(postUrl, formValues, {observe: "body", responseType: "json"})
           .pipe( pluck("data") )
-          .pipe(tap( (x:userData) => {
-            this.currentUser = x.username;
-            this.accessToken = x.accessToken
-            this.refreshToken = x.refreshToken
-            }));
+  }
+
+  setUserData(data:userData){
+    this.currentUser = data.username;
+    this.accessToken = data.accessToken;
+    this.refreshToken = data.refreshToken;
   }
   logout(){
     const postUrl = this.ajax.baseURL + "/auth/logout";
@@ -86,7 +82,6 @@ export class AuthenticationService {
   }
   attemptRefreshToken(){
     const postUrl = this.ajax.baseURL + "/auth/refresh";
-
     const refreshToken = this.refreshToken;
     return this.http.post(postUrl, {refreshToken}, {observe: "body", responseType: "json"})
            .pipe( map((x) =>{
