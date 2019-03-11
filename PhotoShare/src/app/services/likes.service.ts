@@ -15,22 +15,21 @@ export class LikesService {
   baseURL: string;
 
   constructor(private http: HttpClient, private ajax: AlbumsService) {
-    //this.username = ajax.username;
     this.baseURL = ajax.baseURL;
   }
 
   addLikes(value: likeOrDislike, albumName: string, pictureTitle: string){
-    const body = { username: this.username, likeOrDislike: value}
-    return this.http.post(`${this.baseURL}/albums/likes/${albumName}/${pictureTitle}`,body
-      , {observe: "body", responseType: "json"})
+    const body = { likeOrDislike: value }
+    return this.http.post(`${this.baseURL}/albums/likes/${albumName}/${pictureTitle}`,body,
+            {observe: "body", responseType: "json"})
     }
   removeLikes(value: likeOrDislike, albumName: string, pictureTitle: string){
     const transmittedValue:string = value + "";
     return this.http.delete(`${this.baseURL}/albums/likes/${albumName}/${pictureTitle}`,
-            {observe: "body", responseType: "json", params: {username: this.username, oldValue: transmittedValue}})
+            {observe: "body", responseType: "json", params: { oldValue: transmittedValue }})
   }
   editLikes(oldValue: likeOrDislike, newValue: likeOrDislike, albumName: string, pictureTitle: string){
-    const body = { username: this.username, oldValue, newValue}
+    const body = { oldValue, newValue }
     return this.http.put(`${this.baseURL}/albums/likes/${albumName}/${pictureTitle}`,body,
           {observe: "body", responseType: "json"})
     }

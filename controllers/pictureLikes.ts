@@ -7,7 +7,7 @@ async function addLikes (req: Request, res: Response) {
     const albumName = req.params["albumName"];
     const pictureTitle = req.params["pictureTitle"];
 
-    const username = req.body.username;
+    const username = req.payload.username;
     const likeOrDislike = req.body.likeOrDislike;
 
     const result = await model.addLikes(albumName, pictureTitle, likeOrDislike, username)
@@ -30,7 +30,7 @@ async function editLikes(req: Request, res: Response){
     const albumName = req.params["albumName"];
     const pictureTitle = req.params["pictureTitle"];
 
-    const username:string = req.body.username;
+    const username:string = req.payload.username;
     const oldValue:likeOrDislike = req.body.oldValue;
     const newValue:likeOrDislike = req.body.newValue;
 
@@ -59,7 +59,7 @@ async function removeLikes(req: Request, res: Response){
     const albumName = req.params["albumName"];
     const pictureTitle = req.params["pictureTitle"];
 
-    const username = req.query.username;
+    const username = req.payload.username;
     const oldValue:likeOrDislike = +req.query.oldValue as likeOrDislike;
 
     const result = await model.removeLikes(albumName, pictureTitle, username, oldValue);
