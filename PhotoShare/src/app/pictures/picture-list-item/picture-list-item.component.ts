@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { LikesService } from "../../services/likes.service";
-import {AlbumsService} from "../../services/albums.service";
+import { AuthenticationService } from "../../services/authentication.service";
 
 type voters = {name: string, value: 1 | -1};
 var a = [{name:"äsnjas", value: 1}]
@@ -21,12 +21,12 @@ export class PictureListItemComponent implements OnInit {
   showUploader: boolean = false;
   likePicture: boolean;
   voted: boolean;
-  constructor(private ajaxLikes:LikesService, private albumService:AlbumsService) { }
+  constructor(private ajaxLikes:LikesService, private albumService:AuthenticationService) { }
 
   //the voters array is such that a username does not appear more than once
   ngOnInit() {
 
-    const userVotes = this.voters.filter( (value) => value.name === this.albumService.username );
+    const userVotes = this.voters.filter( (value) => value.name === this.albumService.currentUser );
     if(userVotes.length){
       const {value} = userVotes[0];
       this.voted = true;
