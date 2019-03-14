@@ -4,12 +4,13 @@ import controller from "../controllers/auth";
 import { checkAccessToken } from "../middlewares/auth";
 import { upload } from "../middlewares/multerSetup";
 import { makeUserAvatar } from "../middlewares/photos";
-
+import { Validators } from "../middlewares/validators";
+import aValidator = Validators.Authorization
 
 // TODO: Implement signOut
-router.post("/signUp", upload.single("profilePicture"), makeUserAvatar, controller.signUp);
+router.post("/signUp", upload.single("profilePicture"), aValidator.validateSignUp, makeUserAvatar, controller.signUp);
 
-router.post("/signIn", controller.signIn);
+router.post("/signIn", aValidator.validateSignIn, controller.signIn);
 
 router.post("/refresh", controller.handleRefreshRoute);
 
