@@ -12,7 +12,7 @@ export namespace Validators {
       valid.
       It is not a problem for req.body in the current implementation as express.json() sets the req.body
       to {}. However, I still wanted to be explicit.
-      
+
       Although it would be better in a sense to return an error response with all the applicable validation errors,
       that would be computationally much more costly so I let Joi error out on the first validtion error which it does by default.
       In the case where both req.body and req.file have to be validated I returned an array of the first validation errors for each.
@@ -60,8 +60,8 @@ export namespace Validators {
     const signUpBodySchema = Joi.object().keys({
         username,
         password,
-        confirmPassword: Joi.string().valid( Joi.ref("password") ).required(),
-        location: Joi.string()
+        repeatPassword: Joi.string().valid( Joi.ref("password") ).required(),
+        location: Joi.string().allow("")
     }).required();
     async function validateBody(body:any){
         try{
