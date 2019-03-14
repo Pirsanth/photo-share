@@ -14,6 +14,8 @@ export class AlbumsService {
   constructor(private http: HttpClient) {}
 
   sendForm(formData: FormData, isMultiple: boolean){
+    formData.delete("useExistingAlbum");
+    formData.delete("customPictureTitle");
     const albumName = this.getAlbumName(formData)
     let postUrl = `${this.baseURL}/albums/${albumName}/`;
 

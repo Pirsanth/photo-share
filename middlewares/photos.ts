@@ -26,8 +26,14 @@ export let makeUserAvatar:MiddlewareFunction = async function (req, res, next){
   let singleFile =  req.file as Express.Multer.File;
   const username = req.body.username;
 
-  await  createAThumbnail(singleFile.filename, username)
-  next();
+    try{
+      await  createAThumbnail(singleFile.filename, username)
+      next();
+    }
+    catch(err){
+      console.log(err);
+      res.status(500).json({error: "There was a problem creating the user avatar"})
+    }
 
   function createAThumbnail(filename:string, username:string):Promise<jimp>{
     return  jimp.read(`public/temp/${filename}`)
