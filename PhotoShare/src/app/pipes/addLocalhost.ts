@@ -8,7 +8,7 @@ import { Pipe, PipeTransform } from "@angular/core";
 */
 
 const prefix = "http://localhost:3000/";
-const regex = /^((\.\/)|\/)?([\w-@.\/\\]+)/;
+const regex = /^((\.\/)|\/)?(.+)/;
 
 @Pipe({name: "addLocalhost"})
 export class addLocalhostPipe implements PipeTransform {

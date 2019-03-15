@@ -16,8 +16,9 @@ export class Picture{
   originalSrc: string;
   thumbnailSrc:string;
   constructor(public title:string, public uploadedBy: string, filename: string){
-    this.originalSrc = `originals/${filename}`;
-    this.thumbnailSrc = `thumbnails/${filename}`;
+    const encodedFilename = encodeURIComponent(filename);
+    this.originalSrc = `originals/${encodedFilename}`;
+    this.thumbnailSrc = `thumbnails/${encodedFilename}`;
   }
 }
 interface votes {
