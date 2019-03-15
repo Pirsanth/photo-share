@@ -60,7 +60,7 @@ async function removeLikes(req: Request, res: Response){
     const pictureTitle = req.params["pictureTitle"];
 
     const username = req.payload.username;
-    const oldValue:likeOrDislike = +req.query.oldValue as likeOrDislike;
+    const oldValue:likeOrDislike = req.query.oldValue;
 
     const result = await model.removeLikes(albumName, pictureTitle, username, oldValue);
 

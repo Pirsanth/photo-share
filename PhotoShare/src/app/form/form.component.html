@@ -25,7 +25,7 @@
 </div>
 <ng-template #newAlbumBlock>
   <div class="content">
-    <input name="albumName" value="newAlbum" placeholder="Name of new album">
+    <input name="albumName" value="newAlbum" placeholder="Name of new album" maxlength="100">
   </div>
 </ng-template>
 </div>
@@ -65,7 +65,7 @@
           Picture title:
         </div>
         <div class="content">
-          <input type="text" name="pictureTitle{{i}}" value="">
+          <input type="text" name="pictureTitle{{i}}" value="" maxlength="100">
         </div>
       </div>
     </ng-container>

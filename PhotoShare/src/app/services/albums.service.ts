@@ -16,11 +16,10 @@ export class AlbumsService {
   sendForm(formData: FormData, isMultiple: boolean){
     formData.delete("useExistingAlbum");
     formData.delete("customPictureTitle");
-    const albumName = this.getAlbumName(formData)
-    let postUrl = `${this.baseURL}/albums/${albumName}/`;
+    let postUrl = `${this.baseURL}/albums/`;
 
     return this.http.post(postUrl, formData,
-            {observe: "body", responseType: "json"})
+            {observe: "body", responseType: "json"});
   }
 
   getAllAlbums():Observable<Album[]>{
