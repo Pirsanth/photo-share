@@ -2,6 +2,8 @@
   width: 75%;
   margin: 0 auto;
   padding: 40px;
+  background: #494E6B;
+
 }
 .main-picture {
   height: 800px;
@@ -22,7 +24,7 @@ h2{
   border-radius: 2%;
   margin: 20px;
   min-height: 240px;
-  background: #494E6B;
+  background: #98878F;
 }
 .avatar{
   width: 20%;
@@ -55,6 +57,10 @@ button{
 }
 .form-container .button-container{
   height: 20%;
+}
+button{
+  background: #985E6D;
+  border: 0px;
 }
 .form-container .button-container button{
   margin: 0px 40px;

@@ -39,5 +39,8 @@ input[type="file"]{
 .choose{
   width: 180px;
   padding: 10px;
-
+}
+input[type="submit"]{
+  background: #985E6D;
+  border: 0px;
 }
