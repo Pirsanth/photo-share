@@ -9,9 +9,14 @@ import { AuthenticationService } from "./services/authentication.service";
 export class AppComponent implements OnInit {
   title:string = 'PhotoShare';
   username:string;
+  showMainMenu:boolean = false;
   constructor(private auth:AuthenticationService){}
 
   ngOnInit(){
     this.auth.username$.subscribe( (x) => this.username = x)
   }
+  toggleMainMenu(){
+    this.showMainMenu = !this.showMainMenu;
+  }
+
 }

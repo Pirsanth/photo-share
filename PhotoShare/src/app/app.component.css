@@ -1,19 +1,74 @@
+nav{
+  font-size: 25px;
+}
+button{
+  height: 80px;
+  width: 80px;
+}
 ul{
   list-style: none;
-  display: flex;
-  padding: 0px;
-  margin: 0px;
-  justify-content: space-between;
-}
-ul > * {
+  display: none;
+  flex-direction: column;
   background: #985E6D;
+  position: absolute;
+  height: 400px;
+  right: 0px;
+  left: 0px;
+}
+ul fa-icon{
+  padding-left: 20px;
+}
+span{
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.appear{
+  display: flex;
+}
+ul > *{
 }
 a{
   text-decoration: none;
-  color: black;
-  display: block;
-  padding: 15px;
+  color: white;
+  display: flex;
+  padding: 30px;
+  padding-left: 30px;
   border: 1px black solid;
+}
+@media screen and (min-width: 375px) and (max-width: 760px){
+
+}
+@media screen and (min-width: 761px){
+  nav{
+    font-size: 20px;
+  }
+  button{
+    display: none;
+  }
+  ul{
+    height: 100%;
+    position:static;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    background: none;
+  }
+  ul > * {
+    display: flex;
+    flex-direction: row;
+  }
+  a{
+    padding: 0px;
+    padding: 20px 0px;
+    border: 1px black solid;
+    background: #985E6D;
+    width: 200px;
+    justify-content: center;
+    align-items: center;
+  }
+}
+@media screen and (min-width: 1200px){
+
 }

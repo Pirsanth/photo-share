@@ -1,17 +1,18 @@
 <nav>
-  <ul>
+  <button type="button" name="button" (click)="toggleMainMenu()"><fa-icon [icon]="['fas', 'bars']"></fa-icon></button>
+  <ul [class.appear]="showMainMenu">
       <span>
       <li>
-        <a routerLink="/pictures">Pictures <fa-icon [icon]="['fas', 'images']"></fa-icon></a>
+        <a routerLink="/pictures" (click)="toggleMainMenu()">Pictures <fa-icon [icon]="['fas', 'images']"></fa-icon></a>
       </li>
       <li>
-        <a routerLink="/addNew">Add new <fa-icon [icon]="['fas', 'plus-square']"></fa-icon></a>
+        <a routerLink="/addNew" (click)="toggleMainMenu()">Add new <fa-icon [icon]="['fas', 'plus-square']"></fa-icon></a>
       </li>
       </span>
       <li>
-          <a routerLink="/user/authenticate" *ngIf="username; else loggedInBlock">{{username}} <fa-icon [icon]="['fas', 'user']"></fa-icon></a>
+          <a routerLink="/user/authenticate" *ngIf="username; else loggedInBlock" (click)="toggleMainMenu()">{{username}} <fa-icon [icon]="['fas', 'user']"></fa-icon></a>
         <ng-template #loggedInBlock>
-          <a routerLink="/user/authenticate">Sign In/Register <fa-icon [icon]="['fas', 'user']"></fa-icon></a>
+          <a routerLink="/user/authenticate" (click)="toggleMainMenu()">Sign In/Register <fa-icon [icon]="['fas', 'user']"></fa-icon></a>
         </ng-template>
       </li>
   </ul>
