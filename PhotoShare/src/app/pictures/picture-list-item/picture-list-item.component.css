@@ -3,6 +3,7 @@
   flex-direction: column;
   align-items: center;
   border: 1px solid black;
+  padding: 20px;
 }
 .icons{
   font-size: 60px;
@@ -40,4 +41,7 @@ h4{
 }
 .green{
   color: green;
+}
+.title{
+  padding: 10px;
 }

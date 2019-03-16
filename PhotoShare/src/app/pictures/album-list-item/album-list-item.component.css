@@ -10,6 +10,7 @@
 }
 a{
   height: 100%;
+  padding: 20px;
 }
 p{
   margin-top: 15px;
@@ -36,4 +37,8 @@ img,.icon{
 }
 .enlarge{
   font-size: 50px;
+}
+.title{
+  padding: 10px;
+  text-align: center;
 }
