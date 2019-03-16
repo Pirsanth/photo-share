@@ -6,7 +6,9 @@
   justify-content: center;
   border: black 1px solid;
   border-radius: 2%;
-  background-color: lightblue;
+  background: #3F3250;
+  background: #192231;
+  background: #494E6B;
 }
 a{
   height: 100%;

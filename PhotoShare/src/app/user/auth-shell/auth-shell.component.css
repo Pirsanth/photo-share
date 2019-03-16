@@ -1,17 +1,17 @@
 div{
     width: 25%;
-    border: 1px solid red;
+    border: 1px solid black;
     height: 60px;
 }
 nav{
   display: flex;
 }
 a{
-    border: 1px solid red;
     display: flex;
     height: 100%;
     justify-content: center;
     align-items: center;
+    background: #98878F;
 }
 
 span{

@@ -4,10 +4,17 @@
   box-sizing: border-box;
   padding: 0px;
   margin: 0px;
+  color: #F5F5F5;
 }
 
 body,input, select, button{
   font-size: 20px;
+}
+body{
+  background: #494E6B;
+  background: #494E6B;
+  background:#192231;
+  color: white;
 }
 h2{
   font-size: 24px;
