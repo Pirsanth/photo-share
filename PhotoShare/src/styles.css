@@ -21,3 +21,16 @@ a{
   text-decoration: none;
   color: black;
 }
+
+@media screen and (min-width: 1000px){
+  body{
+    width: 1000px;
+    margin: 0 auto;
+  }
+}
+@media screen and (min-width: 1400px){
+  body{
+    width: 1400px;
+    margin: 0 auto;
+  }
+}

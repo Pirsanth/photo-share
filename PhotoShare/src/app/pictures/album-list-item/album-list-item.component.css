@@ -6,8 +6,6 @@
   justify-content: center;
   border: black 1px solid;
   border-radius: 2%;
-  background: #3F3250;
-  background: #192231;
   background: #494E6B;
 }
 a{
@@ -15,7 +13,6 @@ a{
   padding: 20px;
 }
 p{
-  margin-top: 15px;
   margin-bottom: 0px;
 }
 .preview{

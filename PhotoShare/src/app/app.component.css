@@ -2,7 +2,7 @@ nav{
   font-size: 25px;
 }
 button{
-  height: 80px;
+  height: 60px;
   width: 80px;
 }
 ul{
@@ -69,6 +69,6 @@ a{
     align-items: center;
   }
 }
-@media screen and (min-width: 1200px){
-
+@media screen and (min-width: 1000px){
+  
 }

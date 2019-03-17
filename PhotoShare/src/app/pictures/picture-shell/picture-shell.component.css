@@ -1,13 +1,44 @@
+nav{
+  width: 100%;
+}
+
 ul{
   list-style: none;
   display: flex;
-  padding: 0px;
-  margin: 0px;
+}
+li{
+  width: 50%;
 }
 a{
   text-decoration: none;
-  padding: 15px;
   display: block;
   border: 1px black solid;
   background: #ac7e8a;
+  font-size: 17px;
+  padding: 15px 0px;
+  text-align: center;
+}
+@media screen and (min-width: 375px) and (max-width: 760px){
+  a{
+    font-size: 20px;
+  }
+
+}
+@media screen and (min-width: 761px){
+  ul{
+    list-style: none;
+    display: flex;
+  }
+  a{
+    font-size: 20px;
+    text-decoration: none;
+    padding: 0px;
+    padding: 15px 0px;
+    display: block;
+    border: 1px black solid;
+    background: #ac7e8a;
+  }
+}
+@media screen and (min-width: 1200px){
+
 }
