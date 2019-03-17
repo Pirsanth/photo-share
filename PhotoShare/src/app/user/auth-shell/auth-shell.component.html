@@ -1,11 +1,12 @@
 <nav>
-  <div class="">
-    <a routerLink="signIn"><span>Existing user</span> <fa-icon [icon]="['fas', 'user-circle']"></fa-icon></a>
-  </div>
-  <div class="">
-    <a routerLink="signUp"><span>Create new user</span> <fa-icon [icon]="['fas', 'user-plus']"></fa-icon></a>
-  </div>
+  <ul>
+    <li>
+      <a routerLink="signIn"><span>Existing user</span> <fa-icon [icon]="['fas', 'user-circle']"></fa-icon></a>
+    </li>
+    <li>
+      <a routerLink="signUp"><span>Create new user</span> <fa-icon [icon]="['fas', 'user-plus']"></fa-icon></a>
+    </li>
+  </ul>
 </nav>
 <router-outlet>
 </router-outlet>
-<!--         <a routerLink="/currentUser">Sign In/out <fa-icon [icon]="['fas', 'user']"></fa-icon></a> -->
