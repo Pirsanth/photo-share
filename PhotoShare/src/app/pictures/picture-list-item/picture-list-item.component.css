@@ -2,25 +2,46 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   border: 1px solid black;
-  padding: 20px;
   background: #494e6b;
+  color: #e5e5e5;
+  height: 100%;
+  padding: 10px;
+}
+fa-icon{
+  color: black;
+}
+.container > div:first-of-type {
+  width: 100%;
+}
+/* serves to act like div:not(:first-of-type) */
+.container > div + div {
+  padding: 10px;
+  padding-bottom: 0px;
+}
+.container > div.controls-container {
+  padding-top: 10px;
+}
+.controls-container{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 5px;
+  padding: 0px 20px;
 }
 .icons{
   font-size: 60px;
   background: #708090;
 }
 img{
-  width: 100%;
-  height: 250px;
-  vertical-align: bottom;
+  width: auto;
+  height: 150px;
+  max-width: 100%;
 }
 div{
-  margin: 5px;
   text-align: center;
-}
-span{
-  padding: 20px;
 }
 a{
   position: relative;
@@ -34,6 +55,8 @@ h4{
   color: white;
   opacity: 0;
 }
+.title{
+}
 .show{
   opacity: 1;
 }
@@ -43,6 +66,20 @@ h4{
 .green{
   color: green;
 }
-.title{
-  padding: 10px;
+@media screen and (min-width: 375px){
+
+}
+@media screen and (min-width: 760px){
+  img{
+    height: 250px;
+  }
+  .container{
+    padding: 20px;
+  }
+}
+@media screen and (min-width: 1024px){
+
+}
+@media screen and (min-width: 1400px){
+
 }
