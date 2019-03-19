@@ -1,13 +1,14 @@
 <a class="container" routerLink="{{album._id}}">
     <div class="preview">
 
-    <img *ngFor="let picture of album.picsSrc" src={{picture.thumbnailSrc|addLocalhost}} alt="">
+      <img *ngFor="let picture of album.picsSrc" src={{picture.thumbnailSrc|addLocalhost}} alt="">
 
-    <div class="icon center-and-color" *ngFor="let placeholder of placeholders">
-      <fa-icon [icon]="['fas', 'camera']" class="enlarge"></fa-icon>
+      <div class="icon center-and-color" *ngFor="let placeholder of placeholders">
+        <fa-icon [icon]="['fas', 'camera']" class="enlarge"></fa-icon>
+      </div>
+      
     </div>
 
-    </div>
-      <p class="title">{{ album._id}}</p>
-      <p>{{album.numberOfPics}} {{pictureOrPictures()}}</p>
+        <p class="title">{{ album._id}}</p>
+        <p>{{album.numberOfPics}} {{pictureOrPictures()}}</p>
 </a>
