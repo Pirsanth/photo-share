@@ -1,57 +1,68 @@
-  <h2>Picture title</h2>
   <div class="main-container">
           <img class="main-picture" src="{{mainImageSrc | addLocalhost}}" alt="">
-    <div class="title">
-      Comments
-    </div>
 
-    <div class="comment-container" *ngFor="let comment of commentsArray; index as i">
-      <div class="avatar">
-        <img src="{{comment.commentAuthorUsername | addLocalhost:avatarPrefix }}.jpg" alt="">
-      </div>
-      <div class="content">
-        <div class="comment">
-          <h3>{{comment.commentAuthorUsername}}</h3>
+<div class="wrapper">
+    <h3 class="title">
+      Comments
+    </h3>
+  <ng-container *ngFor="let comment of commentsArray; index as i">
+      <div class="child-container">
+
+        <div class="avatar">
+          <img src="{{comment.commentAuthorUsername | addLocalhost:avatarPrefix }}.jpg" alt="">
+        </div>
+
+        <h3 class="name">{{comment.commentAuthorUsername}}</h3>
+
+        <div class="content">
           <p>{{comment.text}}</p>
-        </div>
-        <div class="button-container">
-          <div class="" >
-                <button type="button" name="button" *ngIf="comment.commentAuthorUsername === username" (click)="handleDelete(comment.commentId)"><fa-icon [icon]="['fas', 'trash-alt']" ></fa-icon> Remove comment</button>
+
+          <div class="button-container">
+            <div class="" >
+              <button type="button" name="button" *ngIf="comment.commentAuthorUsername === username" (click)="handleDelete(comment.commentId)"><fa-icon [icon]="['fas', 'trash-alt']" ></fa-icon> Remove comment</button>
+            </div>
+
+            <div class="">
+              <span [class.onlyCount]="!username">
+                Current Likes: <span>{{comment.likes}}</span>
+              </span>
+              <button type="button" name="button" *ngIf="username" (click)="handleLikeButton(comment)" [class.isLiked]="comment.liked"><fa-icon [icon]="['fas', 'thumbs-up']" ></fa-icon> Like comment</button>
+            </div>
+
           </div>
-          <div class="">
-          <span [class.onlyCount]="!username">
-            Current Likes: <span>{{comment.likes}}</span>
-          </span>
-          <button type="button" name="button" *ngIf="username" (click)="handleLikeButton(comment)" [class.isLiked]="comment.liked"><fa-icon [icon]="['fas', 'thumbs-up']" ></fa-icon> Like comment</button>
+
         </div>
-        </div>
+
       </div>
-    </div>
+
+    </ng-container>
 
   <ng-template #notSignedInBlock>
-    <div class="form-container">
-      <div class="avatar">
-        <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
-      </div>
-      <div class="content">
-        <div class="comment">
-          <h3>You must sign in or register to add or like comments</h3>
 
-        </div>
-      </div>
+    <div class="flex-container">
+          <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
+          <h4>You must sign in or register to add or like comments</h4>
     </div>
-</ng-template>
 
-    <div class="form-container" *ngIf="username; else notSignedInBlock">
-      <div class="avatar">
-        <img src="{{ username | addLocalhost:avatarPrefix }}.jpg" alt="">
-      </div>
-      <div class="content">
-        <textarea name="name" rows="2" cols="40" placeholder="Add new comment" #newComment [formControl]="commentInput"></textarea>
-        <div class="button-container">
-          <button type="button" name="button" (click)="handlePostComment(newComment.value)" [disabled]="postingNewComment" >Post comment</button>
+  </ng-template>
+
+      <ng-container *ngIf="username; else notSignedInBlock">
+
+        <div class="child-container">
+              <div class="avatar">
+                <img src="{{ username | addLocalhost:avatarPrefix }}.jpg" alt="">
+              </div>
+
+              <div class="content form">
+                <textarea name="name" rows="2" cols="40" placeholder="Add new comment" #newComment [formControl]="commentInput"></textarea>
+                <div class="button-container">
+                  <button type="button" name="button" (click)="handlePostComment(newComment.value)" [disabled]="postingNewComment" >Post comment</button>
+                </div>
+              </div>
         </div>
-      </div>
-    </div>
+
+      </ng-container>
 
   </div>
+
+</div>
