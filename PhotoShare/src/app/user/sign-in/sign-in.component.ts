@@ -14,6 +14,7 @@ export class SignInComponent implements OnInit {
     username: [""],
     password: [""]
   })
+  isValid: boolean = true;
   message:string;
   constructor(private auth:AuthenticationService, private fb:FormBuilder
   ,private router:Router) {
