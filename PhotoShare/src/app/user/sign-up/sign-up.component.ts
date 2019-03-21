@@ -10,7 +10,7 @@ import { Router } from "@angular/router";
 export class SignUpComponent implements OnInit {
 
   previewSrc: string | ArrayBuffer;
-
+  isValid:boolean = true;
   constructor(private auth:AuthenticationService, private router:Router) { }
 
   ngOnInit() {

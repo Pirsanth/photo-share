@@ -1,36 +1,68 @@
 
 
 <div class="main-container">
-  <h3>Welcome back!</h3>
+  <h3>Create new user</h3>
 
   <div class="picture-container">
     <div class="picture">
       <img [src]="previewSrc" alt="">
     </div>
-    <button class="choose" (click)="file.click()">
+    <button class="" (click)="file.click()">
       Choose Picture
     </button>
   </div>
+  
+<!--
+  <div class="picture-container additional">
+    <div class="picture">
+      <img [src]="previewSrc" alt="">
+    </div>
+    <button class="" (click)="file.click()">
+      Choose Picture
+    </button>
+  </div>
+
+  <div class="picture-container additional2">
+    <div class="picture">
+      <img [src]="previewSrc" alt="">
+    </div>
+    <button class="" (click)="file.click()">
+      Choose Picture
+    </button>
+  </div>
+-->
 
   <form (ngSubmit)="handleSubmit(form)" #form>
     <div class="">
       <label for="username">Username:</label>
       <input type="text" name="username" value="" id="username">
+      <div class="validation" [class.visible]="isValid">
+        Username is required
+      </div>
     </div>
 
   <div class="">
     <label for="location">Location</label>
     <input type="text" name="location" value="" id="location">
+    <div class="validation" [class.visible]="isValid">
+      Location is optional
+    </div>
   </div>
 
   <div class="">
     <label for="password">Password</label>
     <input type="text" name="password" value="" id="password">
+    <div class="validation" [class.visible]="isValid">
+      Password is required
+    </div>
   </div>
 
   <div class="">
     <label for="repeatPassword">Repeat Password</label>
     <input type="text" name="repeatPassword" value="" id="repeatPassword">
+    <div class="validation" [class.visible]="isValid">
+      Passwords do not match
+    </div>
   </div>
 
   <input type="file" #file name="profilePicture" value="" accept="image/*" (change)="readFileIntoAURL(file.files[0])">
