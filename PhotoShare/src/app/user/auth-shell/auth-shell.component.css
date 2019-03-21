@@ -1,15 +1,31 @@
-li{
-    width: 50%;
-    border: 1px solid black;
+nav{
+  width: 100%;
 }
 ul{
   list-style: none;
   display: flex;
 }
+li{
+  width: 50%;
+}
 a{
-    padding: 15px 0px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #ac7e8a;
+  text-decoration: none;
+  display: block;
+  border: 1px black solid;
+  background: #ac7e8a;
+  font-size: 17px;
+  padding: 15px 0px;
+  text-align: center;
+}
+
+@media screen and (min-width: 375px){
+  a{
+    font-size: 20px;
+  }
+}
+@media screen and (min-width: 760px){
+}
+@media screen and (min-width: 1024px){
+}
+@media screen and (min-width: 1400px){
 }
