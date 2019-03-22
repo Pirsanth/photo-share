@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from "../../services/authentication.service";
-import { FormBuilder } from "@angular/forms";
+import { FormBuilder, Validators, ValidationErrors } from "@angular/forms";
 import { Router } from "@angular/router";
+
 
 @Component({
   selector: 'app-sign-in',
@@ -11,24 +12,45 @@ import { Router } from "@angular/router";
 export class SignInComponent implements OnInit {
 
   userCredentials = this.fb.group({
-    username: [""],
-    password: [""]
+    username: ["", Validators.required ],
+    password: ["", [Validators.required, Validators.minLength(4)] ]
   })
-  isValid: boolean = true;
-  message:string;
+  message:string = "You must be logged in to post a picture";
+
   constructor(private auth:AuthenticationService, private fb:FormBuilder
-  ,private router:Router) {
-//  console.log(this.router.getCurrentNavigation());
-}
+  ,private router:Router) {}
+
+  get username() {
+    return this.userCredentials.get("username");
+  }
+  get password(){
+    return this.userCredentials.get("password");
+  }
   ngOnInit() {
     this.message = window.history.state.message;
   }
   handleSubmit(){
-    this.auth.signIn(this.userCredentials.value)
-    .subscribe( x => {
-      console.log("The sign in was successful")
-      this.router.navigate(["/pictures"])
-    })
+    if(this.userCredentials.valid){
+      this.auth.signIn(this.userCredentials.value)
+      .subscribe( x => {
+        console.log("The sign in was successful")
+        this.router.navigate(["/pictures"])
+      })
+    }
+    else {
+      this.showValidationMessages();
+    }
   }
-
+  makeErrorMessage(error: ValidationErrors){
+    if(error.hasOwnProperty("required")){
+      return `Password can't be left blank`
+    }
+    else if(error.hasOwnProperty("minlength")){
+      return `Password must be at least ${error.minlength.requiredLength} characters long`
+    }
+  }
+  showValidationMessages():void{
+    this.username.markAsTouched();
+    this.password.markAsDirty();
+  }
 }

@@ -1,25 +1,29 @@
 
 
 <div class="main-container">
-  <h3>Welcome back!</h3>
+
+  <h3>Sign in</h3>
+
 <form class="" action="index.html" method="post" [formGroup]="userCredentials" (ngSubmit)="handleSubmit()">
 
-  <div class="">
     <label for="username">Username:</label>
-    <input type="text" formControlName="username" id="username" >
-    <div class="validationMsg" [class.visible]="isValid">
-      The username is required
-    </div>
+    <input type="text" formControlName="username" id="username" maxlength="20">
+
+  <div class="validationMsg">
+    <span *ngIf="(username.dirty || username.touched) && username.invalid">The username is required</span>
+    <span *ngIf="message && (userCredentials.untouched && userCredentials.pristine)">{{message}}</span>
   </div>
 
-<div class="">
-  <label for="password">Password</label>
-  <input type="text" formControlName="password"id="password">
-  <div class="validationMsg" [class.visible]="isValid">
-    The password is required
+
+
+    <label for="password">Password</label>
+    <input type="password" formControlName="password"id="password">
+  <div class="validationMsg">
+    <span *ngIf="(password.dirty || password.touched) && password.errors?.required">Password can't be left blank</span>
+    <span *ngIf="password.dirty && password.errors?.minlength">Password must be at least 4 characters long</span>
   </div>
-</div>
-  <input type="submit" name="" value="Login">
+
+  <button type="submit" name="button">Login</button>
 </form>
-{{message}}
+  
 </div>

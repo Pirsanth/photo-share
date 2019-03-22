@@ -4,16 +4,27 @@
   margin-top: 30px;
   margin-bottom: 30px;
   width: 90%;
-  padding: 80px 10px 80px 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  padding: 30px 10px;
 }
 form{
-  margin-top: 20px;
+  width: 260px;
+  margin: 0 auto;
 }
-form > div{
+h3{
+  text-align: center;
   margin-bottom: 30px;
+}
+div.validationMsg + * {
+  margin-top: 90px;
+}
+.validationMsg {
+  position: relative;
+  margin-top: 10px;
+}
+span{
+  color: red;
+  position: absolute;
+  text-align: center;
 }
 label{
   display: block;
@@ -21,31 +32,63 @@ label{
 }
 input{
   padding: 5px;
+  border: 2px solid black;
 }
-input[type="submit"]{
+button{
   background: #985E6D;
   border: 1px solid black;
   padding: 15px;
+  margin-top: 20px;
 }
-.validationMsg {
-  color: red;
-  margin-top: 10px;
-  opacity: 0;
+input.ng-valid{
+  border: 2px solid green;
 }
-.visible {
-  opacity: 1;
+input.ng-invalid.ng-dirty, input.ng-invalid.ng-touched{
+  border: 2px solid red;
 }
 
 @media screen and (min-width: 375px){
 }
 @media screen and (min-width: 760px){
+  .main-container{
+    width: 700px;
+  }
+  form {
+    width: 400px;
+    margin: 0 auto;
+  }
+  input{
+    display: block;
+    width: 70%;
+    margin: 0 auto;
+  }
+  label,button {
+    margin-left: 15%;
+  }
+  div.validationMsg + * {
+    margin-top: 75px;
+  }
+  span{
+    width: 100%;
+  }
 }
 @media screen and (min-width: 1024px){
   .main-container{
+    width: 900px;
+  }
+  form {
+    width: 500px;
+  }
+  input{
     width: 60%;
-    align-items: flex-start;
-    padding: 80px 10px 80px 120px;
+    padding: 7px;
+  }
+  label,button {
+    margin-left: 20%;
   }
 }
 @media screen and (min-width: 1400px){
+  .main-container{
+    width: 1200px;
+  }
 }
