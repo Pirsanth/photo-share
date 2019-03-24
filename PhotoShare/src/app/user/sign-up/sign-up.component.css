@@ -15,18 +15,20 @@
 
 h3{
 }
-.validation{
+div.validation{
   color: red;
   margin-top: 5px;
-  opacity: 0;
+  position: relative;
 }
-.visible{
-  opacity: 1;
+div.validation + *, button[type="submit"]{
+  margin-top: 70px;
+}
+span{
+  position: absolute;
+  width: 100%;
+  text-align: center;
 }
 
-form > div{
-  margin-bottom: 30px;
-}
 label{
   display: block;
   margin-bottom: 5px;
@@ -57,21 +59,28 @@ button{
   padding: 10px;
   width: 100%;
 }
-input[type="submit"]{
+button[type="submit"]{
   background: #985E6D;
-  border: 0px;
+  border: 1px solid black;
   padding: 10px;
 }
-input[type="text"]{
+input[type="text"],input[type="password"]{
   width: 100%;
+  border: 2px solid black;
 }
-.additional{
-  margin: 0px;
-  padding: 0px 30px;
+input.ng-valid{
+  border: 2px solid green;
 }
-.additional2{
-  margin: 0px;
-  padding: 0px;
+input.ng-invalid.ng-dirty, input.ng-invalid.ng-touched {
+  border: 2px solid red;
+}
+/*
+  When repeatPassword is touched or dirtied and the password field is still invalid (even if the user did not
+  interact with it), the below ensures that password will have a red border around it to match the error message
+  displayed via javascript
+*/
+div.formGroup.ng-touched > input:first-of-type.ng-invalid, div.formGroup.ng-dirty > input:first-of-type.ng-invalid{
+  border: 2px solid red;
 }
 @media screen and (min-width: 375px){
   .main-container{
