@@ -27,6 +27,8 @@ span{
   position: absolute;
   width: 100%;
   text-align: center;
+  margin-top: 2px;
+  font-size: 19px;
 }
 
 label{
@@ -73,7 +75,7 @@ button{
 form > button{
   border: 1px solid black;
 }
-input[type="text"],input[type="password"]{
+input{
   width: 100%;
   border: 2px solid black;
 }
@@ -110,6 +112,17 @@ div.formGroup.ng-touched > input:first-of-type.ng-invalid, div.formGroup.ng-dirt
   }
   .picture-container{
     margin: 0px;
+    align-self: start;
+  }
+  input{
+    width: auto;
+  }
+  span{
+    text-align: left;
+  }
+  form button {
+    width: auto;
+    padding: 15px 50px;
   }
 }
 @media screen and (min-width: 1024px){

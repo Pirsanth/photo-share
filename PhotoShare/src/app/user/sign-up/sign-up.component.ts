@@ -119,7 +119,4 @@ export class SignUpComponent implements OnInit {
   touchedOrDirty(control: FormControl):boolean{
     return control.dirty || control.touched
   }
-  print(){
-    console.log(this.registrationForm.get("location").valid)
-  }
 }
