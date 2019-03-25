@@ -9,6 +9,7 @@ form{
   background: #494E6B;
   color: white;
   font-size: 15px;
+  border-radius: 1%;
 }
 .radio-containers  span{
   display: flex;
@@ -16,13 +17,29 @@ form{
   justify-content: flex-start;
   margin-top: 10px;
 }
-form > div {
-  margin-bottom: 30px;
+fa-icon{
+  font-size: 80px;
+}
+input[type="radio"], input[type="radio"]+label{
+  cursor: pointer;
+}
+form > div,
+.picture-container + .title-container {
+  margin-bottom: 50px;
+}
+
+/*
+.title-container + .picture-container{
+  margin-top: 30px;
+}
+*/
+form .title-container:last-child{
+  margin-bottom: 0px;
 }
 form > div.remove-margin{
   margin-bottom: 0px;
 }
-form > div.smaller-margin{
+form  div.smaller-margin{
   margin-bottom: 15px;
 }
 input[type="radio"]{
@@ -43,7 +60,6 @@ button{
   color: white;
 }
 button[type="submit"]{
-  margin-top: 40px;
 }
 button[type="button"], p{
   margin-top: 10px;
@@ -64,11 +80,22 @@ img{
 .picture-container + .title-container{
   margin-top: 10px;
 }
-.title-container + .picture-container{
-  margin-top: 30px;
-}
 .picture-container + .picture-container{
   margin-top: 30px;
+}
+.loading-img {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+}
+
+.validationMsg {
+  margin-top: 7px;
+  color: red;
+  position: relative;
+}
+.validationMsg span{
+  position: absolute;
 }
 @media screen and (min-width: 375px){
 
@@ -77,6 +104,9 @@ img{
   form{
     font-size: 20px;
     padding: 50px;
+  }
+  form > div, .picture-container + .title-container {
+    margin-bottom: 65px;
   }
   .radio-containers > div{
     display: flex;
@@ -88,8 +118,11 @@ img{
   input, select{
     font-size: 20px;
   }
-  .radio-containers  span+span{
+  .radio-containers  span{
     margin-top: 0px;
+  }
+  .picture-container + .picture-container{
+    margin-top: 45px;
   }
 }
 @media screen and (min-width: 1024px){
@@ -99,6 +132,9 @@ img{
   form{
     padding: 50px;
     font-size: 20px;
+  }
+  form > div, .picture-container + .title-container {
+    margin-bottom: 75px;
   }
   input[type="radio"]{
     width: 30px;
@@ -121,10 +157,8 @@ img{
     width: 25%;
   }
   .content{
-    display: inline;
-  }
-  form > div {
-    margin-bottom: 40px;
+    display: inline-block;
+    width: 75%;
   }
   .preview-container > div.picture-container{
       width: 75%;
@@ -142,6 +176,16 @@ img{
   input, select{
     padding: 10px;
     width: 50%;
+  }
+  .loading-img {
+    display: block;
+  }
+  .validationMsg span{
+    left: 25%;
+    right: 0px;
+  }
+  .picture-container + .picture-container{
+    margin-top: 60px;
   }
 }
 @media screen and (min-width: 1400px){

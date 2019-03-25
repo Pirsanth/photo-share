@@ -1,0 +1,14 @@
+<div class="overlay" (click)="sendConfirmation(false)">
+
+    <div class="modal" (click)=$event.stopPropagation();>
+      <h4>Confirmation dialog</h4>
+      <div class="content">
+        <ng-content></ng-content>
+      </div>
+      <div class="buttons-container">
+        <button type="button" name="button" (click)="sendConfirmation(true)">Yes</button>
+        <button type="button" name="button" (click)="sendConfirmation(false)">No</button>
+      </div>
+    </div>
+
+</div>

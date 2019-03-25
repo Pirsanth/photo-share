@@ -1,45 +1,56 @@
 
 <div class="form-container">
-  <form (ngSubmit)="handleSubmit(form)" #form>
+  <form (ngSubmit)="handleSubmit(form)" #form [formGroup]="picturesForm">
 
   <div class="radio-containers">
     <div class="">
       <span>
-        <input type="radio" id="exisitng album" name="useExistingAlbum" [value]="true" [checked]="useExisting" [(ngModel)]="useExisting">
-        <label for="exisitng album">Use existing album</label>
+        <input type="radio" id="exisitng album" name="useExistingAlbum" [value]="true" [checked]="useExisting" [(ngModel)]="useExisting" [ngModelOptions]="{standalone: true}" (ngModelChange)="albumName.updateValueAndValidity()">
+        <label for="exisitng album">Use an existing album</label>
       </span>
       <span>
-        <input type="radio" id="new album" name="useExistingAlbum" [value]="false" [checked]="!useExisting" [(ngModel)]="useExisting">
-        <label for="new album">Make new album</label>
+        <input type="radio" id="new album" name="useExistingAlbum" [value]="false" [checked]="!useExisting" [(ngModel)]="useExisting" [ngModelOptions]="{standalone: true}" (ngModelChange)="albumName.updateValueAndValidity()">
+        <label for="new album">Make a new album</label>
       </span>
     </div>
   </div>
 
   <div class="">
-  <div class="title">
-    Album Name:
-  </div>
-  <div *ngIf="useExisting; else newAlbumBlock" class="content">
-    <select class="" name="albumName">
-      <option value={{albumName}} *ngFor="let albumName of albumList">{{albumName}}</option>
-    </select>
-  </div>
-  <ng-template #newAlbumBlock>
-    <div class="content">
-      <input name="albumName" value="newAlbum" placeholder="Name of new album" maxlength="100">
-    </div>
-  </ng-template>
+
+      <div class="title">
+        Album Name:
+      </div>
+
+      <div *ngIf="useExisting; else newAlbumBlock" class="content">
+        <select class="" name="albumName">
+          <option value={{albumName}} *ngFor="let albumName of albumList">{{albumName}}</option>
+        </select>
+      </div>
+
+      <div class="validationMsg">
+        <span *ngIf="(albumName.touched || albumName.dirty) && albumName.invalid">
+          The album name can't be left blank
+        </span>
+      </div>
+
+
+
+    <ng-template #newAlbumBlock>
+      <div class="content">
+        <input name="albumName" value="newAlbum" placeholder="Name of new album" maxlength="100" formControlName="albumName">
+      </div>
+    </ng-template>
   </div>
 
   <div class="radio-containers">
     <div class="">
       <span>
-        <input type="radio" id="Automatic picture title" name="customPictureTitle" [value]="false" [checked]="!customPictureTitle" [(ngModel)]="customPictureTitle">
-        <label for="Automatic picture title">Automatic picture title</label>
+        <input type="radio" id="Automatic picture title" name="customPictureTitle" [value]="false" [checked]="!customPictureTitle" [(ngModel)]="customPictureTitle" [ngModelOptions]="{standalone: true}" (ngModelChange)="updateValidityOfPictureTitles()">
+        <label for="Automatic picture title">Name the pictures automatically</label>
       </span>
       <span>
-        <input type="radio" id="Custom picture title" name="customPictureTitle" [value]="true" [checked]="customPictureTitle" [(ngModel)]="customPictureTitle">
-        <label for="Custom picture title">Custom picture title</label>
+        <input type="radio" id="Custom picture title" name="customPictureTitle" [value]="true" [checked]="customPictureTitle" [(ngModel)]="customPictureTitle" [ngModelOptions]="{standalone: true}" (ngModelChange)="updateValidityOfPictureTitles()">
+        <label for="Custom picture title">I want to name the pictures</label>
       </span>
     </div>
   </div>
@@ -48,19 +59,34 @@
       <div class="title">
         Upload image:
       </div>
+      <!-- fileInput refers to the file input form element whereas fileControl refers to the form control that is attached to the file input form elemnt via formControlName -->
       <button type="button" name="button" (click)="fileInput.click();">Choose Picture/Pictures</button>
-      <input type="file" hidden name="picture" value="" accept="image/*" #fileInput multiple (change)="readFile(fileInput.files)">
+
+      <input type="file" formControlName="fileControl" hidden name="picture" value="" accept="image/*"
+      #fileInput multiple (change)="(fileControl.errors?.maxFilesExceeded)? clearPreview() : makePicturePreview(fileInput.files)">
+
+      <div class="validationMsg">
+        <span *ngIf="(fileControl.dirty) && fileControl.errors?.required">
+          No pictures were selected
+        </span>
+        <span *ngIf="(fileControl.dirty) && fileControl.errors?.maxFilesExceeded">
+          More than 5 pictures are not allowed
+        </span>
+      </div>
+
     </div>
+
+    <div class="">
 
     <div class="title smaller-margin">
       Preview image:
     </div>
 
-    <div class="preview-container remove-margin" *ngIf="previewSrc.length; else noPictureSelectedBlock">
+    <div class="preview-container remove-margin" *ngIf="previewSrc.length; else noPictureSelectedBlock" formArrayName="pictureTitles">
       <ng-container *ngFor="let src of previewSrc;index as i">
-        <div class="picture-container">
-          <!-- *ngIf="previewSrc; else noPictureSelectedBlock" This goes on the img eleemnt-->
-          <img [src]="src" class="" alt="Preview of image to upload" >
+        <div class="picture-container" [class.loading-img]="!src">
+          <img *ngIf="src;else loadingPicture" [src]="src" class="" alt="Preview of image to upload" >
+          <ng-template #loadingPicture><fa-icon [icon]="['fas', 'image']"></fa-icon><div>Loading image preview...</div></ng-template>
         </div>
 
         <div class="title-container" *ngIf="customPictureTitle">
@@ -68,18 +94,27 @@
             Picture title:
           </div>
           <div class="content">
-            <input type="text" name="pictureTitle{{i}}" value="" maxlength="100">
+            <input type="text" name="pictureTitle{{i}}" value="" maxlength="100" [formControlName]="i">
+          </div>
+          <div class="validationMsg">
+            <span *ngIf="(pictureTitles.at(i).touched || pictureTitles.at(i).dirty) && pictureTitles.at(i).invalid">
+              This field is empty
+            </span>
           </div>
         </div>
       </ng-container>
     </div>
 
     <ng-template #noPictureSelectedBlock>
-      <p class="content">Please select one or multiple images to preview</p>
+      <p class="content">Please select up to five images to preview</p>
     </ng-template>
-
-    <div class="">
-      <button type="submit" name="button">Send</button>
     </div>
+
+
+    <button type="submit" name="button">Send</button>
+
   </form>
 </div>
+
+<app-modal *ngIf="showModal" (confirmation)="toggleModal(); response$.next($event);">Some of the picture titles are empty. The server will add titles automatically for these pictures. Would you like to proceed?</app-modal>
+<button type="button" name="button" (click)="print()">Print</button>

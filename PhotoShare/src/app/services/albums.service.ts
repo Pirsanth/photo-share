@@ -13,7 +13,7 @@ export class AlbumsService {
   public baseURL: string = "http://localhost:3000";
   constructor(private http: HttpClient) {}
 
-  sendForm(formData: FormData, isMultiple: boolean){
+  sendForm(formData: FormData){
     formData.delete("useExistingAlbum");
     formData.delete("customPictureTitle");
     let postUrl = `${this.baseURL}/albums/`;

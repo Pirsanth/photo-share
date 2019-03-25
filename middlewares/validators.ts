@@ -86,7 +86,7 @@ export namespace Validators {
   export namespace Albums {
     const bodySchema = Joi.object().keys({
       albumName: Joi.string().required().max(100)
-    }).pattern(/^pictureTitle[0-4]$/, Joi.string().max(100)).required();
+    }).pattern(/^pictureTitle[0-4]$/, Joi.string().allow("").max(100));
 
     const MulterFileSchema = Joi.object().keys({
       filename: Joi.string().required()
@@ -111,6 +111,7 @@ export namespace Validators {
 
     async function validateBody(body:any){
       try{
+        console.log(body)
         return await Joi.validate(body, bodySchema)
       }
       catch(err){
