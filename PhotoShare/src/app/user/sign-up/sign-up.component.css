@@ -40,8 +40,11 @@ input[type="file"]{
   display: none;
 }
 .picture-container{
-  border: 1px red solid;
+  border: 3px black solid;
   margin: 0px 30px;
+}
+.picture-container button{
+  border-top: 1px solid black;
 }
 .picture {
   height: 180px;
@@ -52,17 +55,23 @@ input[type="file"]{
 .picture img{
   height: 180px;
   max-width: 100%;
+  /*
   border: 1px red solid;
+  */
   vertical-align: bottom;
 }
+.picture fa-icon{
+  font-size: 120px;
+}
+
 button{
   padding: 10px;
   width: 100%;
-}
-button[type="submit"]{
   background: #985E6D;
+  border: 0px;
+}
+form > button{
   border: 1px solid black;
-  padding: 10px;
 }
 input[type="text"],input[type="password"]{
   width: 100%;

@@ -4,12 +4,15 @@
 
   <div class="picture-container">
     <div class="picture">
-      <img [src]="previewSrc" alt="">
+      <img *ngIf="previewSrc; else noPictureSelected" [src]="previewSrc" alt="selected user avatar">
     </div>
     <button class="" (click)="profilePicture.markAsTouched(); file.click()">
       Choose Picture
     </button>
   </div>
+  <ng-template #noPictureSelected>
+    <fa-icon [icon]="['fas', 'portrait']"></fa-icon>
+  </ng-template>
 
   <form (ngSubmit)="handleSubmit(form)" #form [formGroup]="registrationForm">
 
@@ -40,7 +43,7 @@
       </div>
 </div>
 
-      <input type="file" #file name="profilePicture" value="" accept="image/*" (change)="readFileIntoAURL(file.files[0])" formControlName="profilePicture">
+      <input type="file" #file name="profilePicture" value="" accept="image/*" (change)="(file.files.length)?readFileIntoAURL(file.files[0]):previewSrc=null;" formControlName="profilePicture">
       <button type="submit" name="button">Create user</button>
   </form>
 </div>
