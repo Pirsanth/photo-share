@@ -48,6 +48,7 @@ textarea{
   font-size: 20px;
   width: 100%;
   padding: 10px;
+  border: 2px solid black;
 }
 p {
   padding: 10px;
@@ -83,8 +84,13 @@ button{
   background: #985E6D;
   border: 1px solid black;
 }
-h3 {
+h3, h2.title {
   padding: 10px;
+}
+h2.title {
+  text-align: center;
+  padding-top: 0px;;
+
 }
 .isLiked{
   color: #3b5998;
@@ -94,6 +100,27 @@ h3 {
 }
 .form .button-container{
   margin: 0px;
+}
+.validation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: red;
+}
+.validation p {
+  padding-bottom: 0px;
+  padding:
+}
+.form-container button {
+  margin: 0px 5px 5px 5px;
+}
+/*
+.form-container {
+  grid-template-columns: 1fr 100px 4fr;
+}
+*/
+textarea.ng-invalid.ng-touched, textarea.ng-invalid.ng-dirty {
+  border: 2px solid red;
 }
 @media screen and (min-width: 375px){
 
@@ -117,20 +144,47 @@ h3 {
   p {
     padding: 20px;
   }
+  .validation p {
+    padding: 10px;
+    padding-bottom: 0px;
+  }
   .button-container{
-    margin: 0px 10px 10px 10px;
+    margin: 0px 15px 10px 15px;
   }
   .main-picture {
     height: 450px;
   }
   textarea {
-    height: 80px;
+    height: 100px;
   }
   span{
     font-size: 18px;
   }
+
+  h2.title {
+    padding-bottom: 30px;
+    font-size: 28px;
+  }
+  .form-container button {
+    grid-column: 2/3;
+  }
+  .form-container .avatar {
+    grid-row: 1/4;
+  }
+  .form-container .validation {
+    order: 1;
+    position: relative;
+    height: 40px;
+  }
   .form{
-    margin-top: 40px;
+    padding: 40px 15px 0px 15px;
+  }
+  .form-container button {
+    margin: 0px 15px 0px 15px;
+  }
+  .form-container .validation p {
+    position: absolute;
+    padding: 0px;
   }
 }
 @media screen and (min-width: 1024px){
@@ -153,6 +207,28 @@ h3 {
   }
   .form{
     padding: 15px;
+  }
+  h2.title {
+    font-size: 32px;
+  }
+  .validation{
+    order: 1;
+    margin: 0px 15px 10px 15px;
+    justify-content: flex-end;
+    font-size: 22px;
+  }
+  .validation p {
+    padding: 13px;
+    padding-bottom: 0px;
+  }
+  .form-container {
+    grid-template-columns: 20% 200px 1fr;
+  }
+  .form-container button {
+    margin: 0px 15px 10px 15px;
+  }
+  .form-container .form {
+    grid-column: 2/4;
   }
 }
 @media screen and (min-width: 1400px){

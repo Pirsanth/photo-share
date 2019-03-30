@@ -20,17 +20,19 @@ export class PictureDetailComponent implements OnInit, OnDestroy {
   postingNewComment:boolean = false;
   username:string;
   subscription: Subscription;
-  commentInput = new FormControl("", Validators.required);
+  commentControl = new FormControl("", Validators.required);
   avatarPrefix = "/avatars";
+  pictureTitle: string;
+
   constructor(private ajax:CommentsService, private user:AuthenticationService, private route:ActivatedRoute ) { }
 
   ngOnInit() {
     this.username = this.user.currentUser;
     this.route.data.subscribe(x => {
-      const {commentDoc} = x
+      const {commentDoc} = x;
+      this.pictureTitle = commentDoc._id.pictureTitle;
       this.commentsArray = commentDoc.comments;
       this.mainImageSrc = commentDoc.originalSrc;
-
     })
     this.subscription = this.ajax.commentsSubject$
       .subscribe( (commentDoc:CommentsDocument<commentObjectWithLikedBoolean>) => {
@@ -61,12 +63,19 @@ export class PictureDetailComponent implements OnInit, OnDestroy {
       }
   }
   handlePostComment(text:string){
-    this.postingNewComment = true;
-    this.ajax.addANewComment(text)
-    .subscribe(x => {
-      this.postingNewComment = false
-      this.ajax.resetTimer();
-    });
+
+    if(this.commentControl.valid){
+      this.postingNewComment = true;
+      this.ajax.addANewComment(text)
+      .subscribe(x => {
+        this.postingNewComment = false
+        this.ajax.resetTimer();
+      });
+    }
+    else{
+      this.commentControl.markAsTouched();
+    }
+
   }
   handleDelete(commentId:string){
     this.ajax.removeExistingComment(commentId)
@@ -74,8 +83,5 @@ export class PictureDetailComponent implements OnInit, OnDestroy {
       console.log("Comment was successful removed on the server")
       this.ajax.resetTimer();
     })
-  }
-  print(){
-    console.log(this.commentInput)
   }
 }
