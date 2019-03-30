@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from "../../services/authentication.service";
 import { Router } from "@angular/router";
-import { FormBuilder, Validators, FormGroup, ValidationErrors, FormControl } from "@angular/forms";
+import { FormBuilder, Validators, FormGroup, ValidationErrors, FormControl, AbstractControl } from "@angular/forms";
 
 @Component({
   selector: 'app-sign-up',
@@ -110,13 +110,34 @@ export class SignUpComponent implements OnInit {
       }
   }
   handleSubmit(form: HTMLFormElement){
-   var formData = new FormData(form);
-   this.auth.signUp(formData).subscribe(x => {
-     console.log("Sign up was a success")
-     this.router.navigate(["/pictures"])
-   });
+    if(this.registrationForm.valid){
+      var formData = new FormData(form);
+      this.auth.signUp(formData).subscribe(x => {
+        console.log("Sign up was a success")
+        this.router.navigate(["/pictures"])
+      });
+    }
+    else{
+        this.showValidationMessages();
+    }
   }
   touchedOrDirty(control: FormControl):boolean{
     return control.dirty || control.touched
+  }
+
+  showValidationMessages(controls:{[key:string]: AbstractControl} = this.registrationForm.controls ){
+
+      Object.values(controls).forEach( control => {
+          if("controls" in control){
+            //then it is the password sub-form group
+            let group = control as FormGroup;
+            return this.showValidationMessages(group.controls)
+          }
+          control.markAsDirty();
+      })
+
+  }
+  print(){
+    console.log(this.registrationForm.controls.passwordGroup.dirty);
   }
 }

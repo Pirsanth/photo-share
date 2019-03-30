@@ -43,7 +43,11 @@ input[type="file"]{
 }
 .picture-container{
   border: 3px black solid;
+  width: 180px;
+  margin: 0 auto;
+/*
   margin: 0px 30px;
+*/
 }
 .picture-container button{
   border-top: 1px solid black;
@@ -55,7 +59,7 @@ input[type="file"]{
   align-items: center;
 }
 .picture img{
-  height: 180px;
+  height: 100%;
   max-width: 100%;
   /*
   border: 1px red solid;
@@ -93,6 +97,11 @@ input.ng-invalid.ng-dirty, input.ng-invalid.ng-touched {
 div.formGroup.ng-touched > input:first-of-type.ng-invalid, div.formGroup.ng-dirty > input:first-of-type.ng-invalid{
   border: 2px solid red;
 }
+.picture-div{
+  width: 100%;
+  margin-bottom: 20px;
+  /* need the margin because the grid gap is not enough for the validation message */
+}
 @media screen and (min-width: 375px){
   .main-container{
     padding: 40px;
@@ -112,7 +121,7 @@ div.formGroup.ng-touched > input:first-of-type.ng-invalid, div.formGroup.ng-dirt
   }
   .picture-container{
     margin: 0px;
-    align-self: start;
+
   }
   input{
     width: auto;
@@ -123,6 +132,14 @@ div.formGroup.ng-touched > input:first-of-type.ng-invalid, div.formGroup.ng-dirt
   form button {
     width: auto;
     padding: 15px 50px;
+  }
+  .picture-div{
+    width: auto;
+    align-self: start;
+    justify-self: center;
+  }
+  .picture-div span{
+    text-align: center;
   }
 }
 @media screen and (min-width: 1024px){

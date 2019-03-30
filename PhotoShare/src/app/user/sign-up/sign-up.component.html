@@ -1,18 +1,28 @@
 <div class="main-container">
 
-  <h3>Create new user</h3>
+      <h3>Create new user</h3>
 
-  <div class="picture-container">
-    <div class="picture">
-      <img *ngIf="previewSrc; else noPictureSelected" [src]="previewSrc" alt="selected user avatar">
+      <div class="picture-div">
+
+      <div class="picture-container">
+          <div class="picture">
+            <img *ngIf="previewSrc; else noPictureSelected" [src]="previewSrc" alt="selected user avatar">
+          </div>
+          <button class="" (click)="profilePicture.markAsTouched(); file.click()">
+            Choose Picture
+          </button>
+      </div>
+
+        <ng-template #noPictureSelected>
+          <fa-icon [icon]="['fas', 'portrait']"></fa-icon>
+        </ng-template>
+
+        <div class="validation">
+          <span *ngIf="profilePicture.dirty && profilePicture.errors?.required">Please choose a profile picture</span>
+        </div>
+
     </div>
-    <button class="" (click)="profilePicture.markAsTouched(); file.click()">
-      Choose Picture
-    </button>
-  </div>
-  <ng-template #noPictureSelected>
-    <fa-icon [icon]="['fas', 'portrait']"></fa-icon>
-  </ng-template>
+
 
   <form (ngSubmit)="handleSubmit(form)" #form [formGroup]="registrationForm">
 
@@ -22,6 +32,7 @@
         <span *ngIf="touchedOrDirty(username) && username.invalid">Username is required</span>
       </div>
 
+      <!-- location is not implemented at the moment -->
       <label for="location">Location</label>
       <input type="text" name="location" value="" id="location">
       <div class="validation">
@@ -46,4 +57,7 @@
       <input type="file" #file name="profilePicture" value="" accept="image/*" (change)="(file.files.length)?readFileIntoAURL(file.files[0]):previewSrc=null;" formControlName="profilePicture">
       <button type="submit" name="button">Create user</button>
   </form>
+
 </div>
+
+<button type="button" name="button" (click)="print()">Print</button>
