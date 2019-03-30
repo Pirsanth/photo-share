@@ -30,7 +30,7 @@ export namespace Validators {
   }
 
   export namespace Authorization {
-    const username = Joi.string().required()
+    const username = Joi.string().required().max(20)
     const password = Joi.string().min(4).required()
 
     const signInSchema = Joi.object().keys({
