@@ -97,6 +97,15 @@ img{
 .validationMsg span{
   position: absolute;
 }
+input[type="text"] {
+  border: 2px solid black;
+}
+input[type="text"].ng-valid {
+  border-color: green;
+}
+input[type="text"].ng-invalid.ng-touched, input[type="text"].ng-invalid.ng-dirty {
+  border-color: red;
+}
 @media screen and (min-width: 375px){
 
 }
