@@ -7,7 +7,6 @@ import { makeUserAvatar } from "../middlewares/photos";
 import { Validators } from "../middlewares/validators";
 import aValidator = Validators.Authorization
 
-// TODO: Implement signOut
 router.post("/signUp", upload.single("profilePicture"), aValidator.validateSignUp, makeUserAvatar, controller.signUp);
 
 router.post("/signIn", aValidator.validateSignIn, controller.signIn);

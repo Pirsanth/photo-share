@@ -76,9 +76,9 @@ async function signIn(req: Request, res: Response){
   }
 }
 async function handleRefreshRoute(req: Request, res: Response){
-    const refreshToken = req.body.refreshToken;
 
     try{
+      const refreshToken = req.body.refreshToken;
       var payload: refreshTokenPayload = await verifyRefreshToken(refreshToken, "anotherSecret", {});
     }
     catch(err){
@@ -110,7 +110,7 @@ async function handleLogout(req: Request, res: Response){
     var payload: refreshTokenPayload = await verifyRefreshToken(refreshToken, "anotherSecret", {});
   }
   catch(err){
-    res.status(403).json({error:err.message});
+    res.status(401).json({error:err.message});
     return;
   }
   const result = await refreshTokenModel.invalidateRefreshToken(payload.jti)
