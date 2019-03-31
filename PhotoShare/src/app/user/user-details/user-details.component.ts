@@ -16,10 +16,12 @@ export class UserDetailsComponent implements OnInit {
     this.username = this.auth.currentUser;
   }
   handleLogout(){
-    this.auth.logout().subscribe(x => {
-      console.log("User successfully logged out")
+    this.auth.logout().subscribe(
+      success => {
+      console.log("User successfully logged out");
       this.router.navigate(["/user", "authenticate"], {state: {message: "User successfully logged out"}});
-    })
+      }
+    )
   }
 
 }

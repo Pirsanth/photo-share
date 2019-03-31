@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { AlbumsService } from "./albums.service";
-import { Observable, Subject, BehaviorSubject } from "rxjs";
-import { tap, pluck, map } from "rxjs/operators";
+import { BehaviorSubject, of, throwError } from "rxjs";
+import { tap, pluck, map, catchError } from "rxjs/operators";
 
 
 type userData = {username: string, refreshToken: string, accessToken:string};
@@ -68,7 +68,19 @@ export class AuthenticationService {
   logout(){
     const postUrl = this.ajax.baseURL + "/auth/logout";
     return this.http.post(postUrl, {refreshToken: this.refreshToken},{responseType:"json", observe: "body"})
-           .pipe( tap(x => this.clearUserData() ) );
+           .pipe(
+               catchError((err:HttpErrorResponse) => {
+                  if(err.status === 401 && err.error && err.error.error === "jwt expired"){
+                    return of(true);
+                  }
+                  else{
+                    return throwError(err);
+                  }
+              }),
+              tap(x => {
+                this.clearUserData()
+              }),
+          );
   }
   clearUserData(){
     localStorage.clear();
