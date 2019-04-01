@@ -123,6 +123,27 @@ async function handleLogout(req: Request, res: Response){
   }
 }
 
+async function isUsernameAvailable(req: Request, res: Response){
+
+  try{
+    const requestedUsername = req.body["requestedUsername"];
+    const user: User|null = await userModel.findUser(requestedUsername);
+
+    if(user){
+      res.status(200).json({error: null, data: { isAvailable: false }});
+    }
+    else{
+      res.status(200).json({error: null, data: { isAvailable: true }});
+    }
+  }
+  catch(err){
+    console.log(err);
+    res.status(500).json({error: "Server error while checking the availability of a username"});
+  }
+
+}
+
+
 async function makeAccessToken(username: string){
   //expires in 1 hour
   const payload = {username, exp: ( (Date.now()/1000) + (60*60) )};
@@ -140,4 +161,6 @@ async function makeRefreshToken(uid: string){
   return await signToken(payload, "anotherSecret");
 }
 
-export default {signUp, signIn, handleRefreshRoute, handleLogout};
+
+
+export default {signUp, signIn, handleRefreshRoute, handleLogout, isUsernameAvailable};

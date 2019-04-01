@@ -30,15 +30,21 @@ export namespace Validators {
   }
 
   export namespace Authorization {
-    const username = Joi.string().required().max(20)
-    const password = Joi.string().min(4).required()
+    const username = Joi.string().required().max(20);
+    const password = Joi.string().min(4).required();
 
     const signInSchema = Joi.object().keys({
                 username,
                 password
     }).required();
 
+    const isUsernameAvailableSchema = Joi.object().keys({
+        requestedUsername:username
+    }).required();
+
     export const validateSignIn = makeValidationMiddleware(signInSchema);
+
+    export const validateIsUsernameAvailable = makeValidationMiddleware(isUsernameAvailableSchema);
 
     export const validateSignUp:MiddlewareFunction = async function (req, res, next){
       const results = await Promise.all([

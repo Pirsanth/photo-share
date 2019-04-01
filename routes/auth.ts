@@ -15,8 +15,10 @@ router.post("/refresh", controller.handleRefreshRoute);
 
 router.post("/logout", controller.handleLogout);
 
+router.post("/isUsernameAvailable", aValidator.validateIsUsernameAvailable, controller.isUsernameAvailable);
+
 router.get("/test", checkAccessToken, (req, res) =>{
     res.send("You have reached the secret page");
-})
+});
 
 export default router;
