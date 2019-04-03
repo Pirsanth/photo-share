@@ -101,4 +101,12 @@ export class AuthenticationService {
               return x["data"]
            }));
   }
+  isUsernameAvailable(requestedUsername: string){
+    const postUrl = this.ajax.baseURL + "/auth/isUsernameAvailable";
+    const requestBody = {requestedUsername};
+    return this.http.post(postUrl, requestBody, {responseType: "json", observe: "body"})
+           .pipe(
+              pluck("data")
+           )
+  }
 }

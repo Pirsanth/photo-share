@@ -30,6 +30,12 @@ span{
   margin-top: 2px;
   font-size: 19px;
 }
+span.valid {
+  color: green;
+}
+span.pending {
+  color: orange;
+}
 
 label{
   display: block;
@@ -88,6 +94,9 @@ input.ng-valid{
 }
 input.ng-invalid.ng-dirty, input.ng-invalid.ng-touched {
   border: 2px solid red;
+}
+input.ng-pending.ng-dirty, input.ng-pending.ng-touched {
+  border: 2px solid orange;
 }
 /*
   When repeatPassword is touched or dirtied and the password field is still invalid (even if the user did not

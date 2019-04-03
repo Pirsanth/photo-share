@@ -1,5 +1,5 @@
 <div class="main-container">
-
+  
       <h3>Create new user</h3>
 
       <div class="picture-div">
@@ -29,7 +29,11 @@
       <label for="username">Username</label>
       <input type="text" name="username" value="" id="username" formControlName="username" maxlength="20">
       <div class="validation">
-        <span *ngIf="touchedOrDirty(username) && username.invalid">Username is required</span>
+        <span *ngIf="touchedOrDirty(username) && username.invalid && username.errors?.required">Username is required</span>
+        <span *ngIf="touchedOrDirty(username) && username.invalid && username.errors?.available">This username is already taken</span>
+        <span *ngIf="touchedOrDirty(username) && username.pending" class="pending">Checking if username is already taken...</span>
+        <span *ngIf="touchedOrDirty(username) && username.invalid && username.errors?.httpError">Error validating username please try registering again later</span>
+        <span *ngIf="touchedOrDirty(username) && username.valid" class="valid">The username is available</span>
       </div>
 
       <!-- location is not implemented at the moment -->

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from "../../services/authentication.service";
 import { Router } from "@angular/router";
-import { FormBuilder, Validators, FormGroup, ValidationErrors, FormControl, AbstractControl } from "@angular/forms";
+import { FormBuilder, Validators, FormGroup, ValidationErrors, FormControl, AbstractControl, AsyncValidator } from "@angular/forms";
+import { isUsernameAvailable } from "./isUsernameAvailable";
 
 @Component({
   selector: 'app-sign-up',
@@ -13,7 +14,7 @@ export class SignUpComponent implements OnInit {
   previewSrc: string | ArrayBuffer;
   isValid:boolean = true;
   registrationForm = this.fb.group({
-      username: ["", Validators.required],
+      username: ["", Validators.required, this.asyncUsernameValidator.validate.bind(this.asyncUsernameValidator)],
       passwordGroup: this.fb.group({
         password: ["", [Validators.required, Validators.minLength(4)] ],
         repeatPassword: ["", [Validators.required, Validators.minLength(4)] ],
@@ -21,7 +22,7 @@ export class SignUpComponent implements OnInit {
       profilePicture: ["", [Validators.required] ]
   })
 
-  constructor(private auth:AuthenticationService, private router:Router, private fb:FormBuilder) {}
+  constructor(private auth:AuthenticationService, private router:Router, private fb:FormBuilder, private asyncUsernameValidator:isUsernameAvailable) {}
 
   ngOnInit() {
   }
@@ -136,8 +137,5 @@ export class SignUpComponent implements OnInit {
           control.markAsDirty();
       })
 
-  }
-  print(){
-    console.log(this.registrationForm.controls.passwordGroup.dirty);
   }
 }
