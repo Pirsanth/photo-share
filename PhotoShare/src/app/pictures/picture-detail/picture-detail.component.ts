@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommentsService } from "../../services/comments.service";
 import { ActivatedRoute } from "@angular/router";
-import { CommentsDocument, commentObjectWithLikedBoolean } from "../../customTypes";
+import { PictureDetailModel, commentObjectWithLikedBoolean } from "../../customTypes";
 import { AuthenticationService} from "../../services/authentication.service";
 import { Subscription } from "rxjs";
 import { FormControl, Validators } from "@angular/forms";
@@ -23,26 +23,35 @@ export class PictureDetailComponent implements OnInit, OnDestroy {
   commentControl = new FormControl("", Validators.required);
   avatarPrefix = "/avatars";
   pictureTitle: string;
+  previousPicture:string;
+  nextPicture:string;
 
-  constructor(private ajax:CommentsService, private user:AuthenticationService, private route:ActivatedRoute ) { }
+  constructor(private ajax:CommentsService, private user:AuthenticationService, private route:ActivatedRoute ) {
+   }
 
   ngOnInit() {
     this.username = this.user.currentUser;
-    this.route.data.subscribe(x => {
-      const {commentDoc} = x;
+
+    this.route.data.subscribe((data) => {
+      this.commentControl.reset();
+      const commentDoc = data.commentDoc as PictureDetailModel;
+
+      this.nextPicture = commentDoc.nextPicture;
+      this.previousPicture = commentDoc.previousPicture;
       this.pictureTitle = commentDoc._id.pictureTitle;
       this.commentsArray = commentDoc.comments;
       this.mainImageSrc = commentDoc.originalSrc;
     })
+
+/*
     this.subscription = this.ajax.commentsSubject$
       .subscribe( (commentDoc:CommentsDocument<commentObjectWithLikedBoolean>) => {
         this.commentsArray = commentDoc.comments;
         this.mainImageSrc = commentDoc.originalSrc;
       })
-
+*/
   }
   ngOnDestroy(){
-    this.subscription.unsubscribe();
   }
   likeComment(commentId:string){
     this.ajax.likeComment(commentId).subscribe(x => console.log("Comment like was successful added"))
@@ -84,4 +93,5 @@ export class PictureDetailComponent implements OnInit, OnDestroy {
       this.ajax.resetTimer();
     })
   }
+
 }

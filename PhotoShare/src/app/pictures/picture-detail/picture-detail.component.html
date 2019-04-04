@@ -1,6 +1,17 @@
   <div class="main-container">
           <h2 class="title">{{pictureTitle}}</h2>
-          <img class="main-picture" src="{{mainImageSrc | addLocalhost}}" alt="">
+          <div class="main-picture">
+
+            <a [routerLink]="(previousPicture)?['../', previousPicture]:['./']" [class.disable]="!previousPicture">
+              <fa-icon [icon]="['fas', 'arrow-circle-left']" ></fa-icon>
+            </a>
+
+            <img class="" src="{{mainImageSrc | addLocalhost}}" alt="">
+
+            <a [routerLink]="(nextPicture)?['../', nextPicture]:['./']" [class.disable]="!nextPicture">
+              <fa-icon [icon]="['fas', 'arrow-circle-right']" ></fa-icon>
+            </a>
+          </div>
 
 <div class="wrapper">
     <h3>

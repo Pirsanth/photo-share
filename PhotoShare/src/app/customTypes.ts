@@ -11,7 +11,7 @@ export class Picture{
   numberOfComments: number = 0;
   originalSrc: string;
   thumbnailSrc:string;
-  constructor(private title:string, private uploadedBy: string, filename: string){
+  constructor(public title:string, private uploadedBy: string, filename: string){
     this.originalSrc = `originals/${filename}`;
     this.thumbnailSrc = `thumbnails/${filename}`;
   }
@@ -38,4 +38,8 @@ export class CommentsDocument<T>{
   constructor( albumName:string, pictureTitle: string, public pictureUploadedBy: string, public originalSrc: string ){
     this._id = { albumName, pictureTitle };
   }
+}
+export class PictureDetailModel extends CommentsDocument<commentObjectWithLikedBoolean>{
+  previousPicture: string;
+  nextPicture:string;
 }
