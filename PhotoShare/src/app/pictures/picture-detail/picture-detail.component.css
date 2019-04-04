@@ -15,7 +15,8 @@
 }
 .main-picture img {
   height: 100%;
-  max-width: 80%;
+  width: 75%;
+  object-fit: contain;
 }
 .main-picture fa-icon {
   font-size: 20px;
