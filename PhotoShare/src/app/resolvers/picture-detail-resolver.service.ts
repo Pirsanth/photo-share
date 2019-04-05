@@ -6,13 +6,13 @@ import { forkJoin } from "rxjs";
 import { map } from "rxjs/operators";
 import { AlbumsService } from "../services/albums.service";
 
+
 @Injectable({
   providedIn: 'root'
 })
-//CommentsDocument<commentObjectWithLikedBoolean>
-//export class PictureDetailResolverService implements Resolve<CommentsDocument<commentObjectWithLikedBoolean>> {
 export class PictureDetailResolverService implements Resolve<PictureDetailModel> {
-  constructor(private comments:CommentsService, private albums:AlbumsService) { }
+  constructor(private comments:CommentsService, private albums:AlbumsService) {}
+  
   resolve(route:ActivatedRouteSnapshot, state:RouterStateSnapshot){
 
     this.comments.pictureTitle = route.paramMap.get("pictureTitle");
@@ -28,7 +28,7 @@ export class PictureDetailResolverService implements Resolve<PictureDetailModel>
       var previousPicture = (pictureIndex > 0)? albumDoc.picsSrc[pictureIndex-1].title : "";
       var nextPicture = (pictureIndex+1 !== albumDoc.picsSrc.length)? albumDoc.picsSrc[pictureIndex+1].title : "";
 
-      return {...commentDoc, previousPicture, nextPicture}
+      return {...commentDoc, previousPicture, nextPicture};
     }))
 
   }

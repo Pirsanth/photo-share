@@ -2,9 +2,8 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { AlbumsService } from "./albums.service";
 import { CommentsDocument, commentObject, commentObjectWithLikedBoolean } from "../customTypes";
-import { Observable, Subject, timer, Subscription } from "rxjs";
-import { pluck, map, switchMap, take } from "rxjs/operators";
-import { ActivatedRoute } from "@angular/router";
+import { Observable, Subject, timer, merge } from "rxjs";
+import { pluck, map, switchMap, repeatWhen, delay } from "rxjs/operators";
 import { AuthenticationService } from "./authentication.service";
 
 @Injectable({
@@ -13,28 +12,32 @@ import { AuthenticationService } from "./authentication.service";
 export class CommentsService implements OnDestroy {
   albumName:string;
   pictureTitle:string;
-  commentsSubject$: Subject<CommentsDocument<commentObjectWithLikedBoolean>> = new Subject();
-  subscription:Subscription;
+  private refreshComments$: Subject<boolean> = new Subject();
 
-  constructor(private http:HttpClient, private ajax:AlbumsService, private route:ActivatedRoute, private auth:AuthenticationService) {
-      this.route.paramMap.subscribe( paramMap => {
-        this.albumName = paramMap.get("albumName");
-        this.pictureTitle = paramMap.get("pictureTitle");
-      })
-      this.subscription = this.keepFetchingComments().subscribe(this.commentsSubject$);
-  }
+  constructor(private http:HttpClient, private ajax:AlbumsService, private auth:AuthenticationService) {}
+
   ngOnDestroy(){
-    this.subscription.unsubscribe();
+   this.refreshComments$.complete();
+  }
+  resetTimer(){
+    this.refreshComments$.next(true);
   }
 
-  resetTimer(){
-    this.subscription.unsubscribe();
-    this.subscription = this.keepFetchingComments().subscribe(this.commentsSubject$);
+  get commentsArrayStream$(){
+    return this.commentsDocumentStream(5000)
+           .pipe( pluck("comments") ) as Observable<Array<commentObjectWithLikedBoolean>>;
   }
-  keepFetchingComments(){
-    return timer(0, 5000)
-           .pipe(take(1))
-           .pipe( switchMap(() => this.getCommentDocument() ) )
+
+  private commentsDocumentStream(interval:number): Observable<CommentsDocument<commentObjectWithLikedBoolean>> {
+    //using switch map because we do not necessarily need all observables to complete, we simply need
+    //the LATEST comment document
+    return merge( this.refreshComments$, timer(interval) )
+    .pipe( switchMap( () =>  this.keepFetchingCommentsEvery(interval) ))
+  }
+  keepFetchingCommentsEvery(interval:number){
+    return this.getCommentDocument().pipe(
+      repeatWhen( (completedObs) => completedObs.pipe( delay(interval) ) )
+    )
   }
   getCommentDocument():Observable<CommentsDocument<commentObjectWithLikedBoolean>>{
       const getURL = this.ajax.baseURL + `/comments/${this.albumName}/${this.pictureTitle}`;
