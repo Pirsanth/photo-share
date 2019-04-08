@@ -1,0 +1,44 @@
+.main-container{
+  background: #494E6B;
+  padding: 40px;
+  margin: 0 auto;
+  margin-top: 60px;
+  margin-bottom: 30px;
+  font-size: 20px;
+  width: 90%;
+  color: white;
+  border-radius: 3%;
+}
+h2{
+  margin-bottom: 30px;
+  font-size: 22px;
+  text-align: center;
+}
+button{
+  padding: 15px 30px;
+  display: block;
+  margin: 0 auto;
+  background: #985E6D;
+  border: 2px solid black;
+  color: white;
+  cursor: pointer;
+}
+
+@media screen and (min-width: 375px){
+  .main-container{
+  }
+}
+@media screen and (min-width: 760px){
+  .main-container{
+    width: 550px;
+  }
+}
+@media screen and (min-width: 1024px){
+  .main-container{
+  }
+}
+@media screen and (min-width: 1400px){
+  .main-container{
+
+  }
+}
