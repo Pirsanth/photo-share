@@ -1,0 +1,19 @@
+
+<div class="main-container">
+  <h4>Unread Notifications: {{messageCount}}</h4>
+
+  <div class="popup-container" #container>
+
+      <div class="popup base">
+        No unread notifications
+      </div>
+
+      <ng-container *ngFor="let messageObj of messageStack; index as i">
+        <div class="popup" [class.animate]="messageObj.animate" (click)="decrementCount(i); messageObj.animate='true';">
+          {{messageObj.message}}
+        </div>
+      </ng-container>
+
+  </div>
+
+</div>

@@ -1,0 +1,90 @@
+.main-container {
+  font-size: 22px;
+  margin-top: 25px;
+}
+.popup-container{
+  position: relative;
+  height: 130px;
+  overflow: hidden;
+}
+h4{
+  color: white;
+  text-align: center;
+}
+.popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 4%;
+  text-align: center;
+  border: 3px solid black;
+  background: #985E6D;
+  width: 90%;
+  transform: translate(-50%, -50%);
+  padding: 10px;
+  transition: left 300ms ease-in-out;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80%;
+}
+.popup.base{
+  background: #98878F;
+}
+.animate {
+  animation-name: exitRight;
+  animation-duration: 3.5s;
+  left: 200%;
+}
+.above{
+  z-index: 1;
+}
+div.cancel {
+  opacity: 1;
+}
+/*
+transform: scale(1);
+transform: translate(2000px);
+*/
+@keyframes exitRight {
+  0%{
+    opacity: 1;
+    left: 50%;
+  }
+  20%{
+    background: #98878F;
+    left:40%;
+  }
+  40%{
+
+  }
+  100%{
+    background: #98878F;
+    left: 200%;
+    opacity: 1;
+  }
+}
+
+@media screen and (min-width: 375px){
+  .main-container{
+  }
+}
+@media screen and (min-width: 760px){
+  .main-container{
+    margin-top: 50px;
+  }
+  .popup {
+    width: 50%;
+    height: 90%;
+  }
+}
+@media screen and (min-width: 1024px){
+  .main-container{
+
+  }
+}
+@media screen and (min-width: 1400px){
+  .main-container{
+  }
+}
