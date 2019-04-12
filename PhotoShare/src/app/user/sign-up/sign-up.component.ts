@@ -3,6 +3,7 @@ import { AuthenticationService } from "../../services/authentication.service";
 import { Router } from "@angular/router";
 import { FormBuilder, Validators, FormGroup, ValidationErrors, FormControl, AbstractControl, AsyncValidator } from "@angular/forms";
 import { isUsernameAvailable } from "./isUsernameAvailable";
+import { MessageService } from "../../services/message.service";
 
 @Component({
   selector: 'app-sign-up',
@@ -22,7 +23,8 @@ export class SignUpComponent implements OnInit {
       profilePicture: ["", [Validators.required] ]
   })
 
-  constructor(private auth:AuthenticationService, private router:Router, private fb:FormBuilder, private asyncUsernameValidator:isUsernameAvailable) {}
+  constructor(private auth:AuthenticationService, private router:Router,
+    private fb:FormBuilder, private asyncUsernameValidator:isUsernameAvailable, private message:MessageService) {}
 
   ngOnInit() {
   }
@@ -113,10 +115,15 @@ export class SignUpComponent implements OnInit {
   handleSubmit(form: HTMLFormElement){
     if(this.registrationForm.valid){
       var formData = new FormData(form);
-      this.auth.signUp(formData).subscribe(x => {
-        console.log("Sign up was a success")
-        this.router.navigate(["/pictures"])
-      });
+      this.auth.signUp(formData).subscribe(
+        x => {
+          console.log("Sign up was a success")
+          this.router.navigate(["/pictures"])
+        },
+        err => {
+          this.message.addMessage("An error occured while attempting to create a new user");
+        }
+      );
     }
     else{
         this.showValidationMessages();

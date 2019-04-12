@@ -1,8 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subject, from, merge, Observable } from "rxjs";
-import {  concat } from "rxjs/operators";
-/*
-*/
+
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +10,23 @@ export class MessageService implements OnDestroy{
   private messageSubject: Subject<string> = new Subject();
   messages$: Observable<string> = this.messageSubject.asObservable();
 
- constructor() {}
+ constructor() {
+   console.log("Message constructor is made")
+ }
 
+ get hasSubscribers():boolean{
+   return this.messageSubject.observers.length > 0;
+ }
  ngOnDestroy(){
    this.messageSubject.complete();
  }
- addToCache(message: string){
-   this.cachedMessages.push(message);
+ addMessage(message: string){
+   if(this.hasSubscribers){
+    this.messageSubject.next(message);
+   }
+   else {
+     this.cachedMessages.push(message);
+   }
  }
  private clearCache():void{
    this.cachedMessages = [];
@@ -27,9 +35,6 @@ export class MessageService implements OnDestroy{
    const messages = this.cachedMessages;
    this.clearCache();
    return messages;
- }
- displayMessageImmediately(msg:string) {
-   this.messageSubject.next(msg);
  }
  isCacheFull():boolean{
    return this.cachedMessages.length > 0;

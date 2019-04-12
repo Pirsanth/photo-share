@@ -4,6 +4,7 @@ import { ActivatedRoute } from "@angular/router";
 import { Validators, FormBuilder, FormArray, FormControl} from "@angular/forms";
 import { Subject } from "rxjs";
 import { take } from "rxjs/operators";
+import { MessageService } from "../../services/message.service";
 
 @Component({
   selector: 'app-form',
@@ -21,7 +22,14 @@ export class FormComponent implements OnInit {
     fileControl: ["", Validators.required]
   });
   showModal:boolean = false;
-  response$:Subject<boolean> = new Subject<boolean>()
+  response$:Subject<boolean> = new Subject<boolean>();
+  private submitObserver = {
+    next: ()=> {
+                this.message.addMessage("The picture was added successfully")
+                this.clearForm();
+               },
+    error: ()=> this.message.addMessage("An error occured while adding the picture"),
+   }
   @ViewChild('fileInput')fileInput:ElementRef;
 
 
@@ -37,7 +45,7 @@ export class FormComponent implements OnInit {
   get fileControl(){
     return this.picturesForm.get("fileControl");
   }
-  constructor(private ajax:AlbumsService, private route: ActivatedRoute, private fb:FormBuilder) { }
+  constructor(private ajax:AlbumsService, private route: ActivatedRoute, private fb:FormBuilder, private message:MessageService) { }
 
   ngOnInit(){
     this.route.data.subscribe( data => this.albumList = data.albumList)
@@ -68,7 +76,7 @@ export class FormComponent implements OnInit {
   handleSubmit(form: HTMLFormElement){
     if(this.picturesForm.valid){
       let formData = new FormData(form);
-      this.ajax.sendForm(formData).subscribe();
+      this.ajax.sendForm(formData).subscribe(this.submitObserver);
     }
     else{
 
@@ -82,7 +90,7 @@ export class FormComponent implements OnInit {
         ).subscribe( (response:boolean) => {
           if(response){
             let formData = new FormData(form);
-            this.ajax.sendForm(formData).subscribe();
+            this.ajax.sendForm(formData).subscribe(this.submitObserver);
           }
         });
         this.toggleModal();

@@ -16,7 +16,7 @@ class messageObject {
 export class MessageComponent implements OnInit, OnDestroy {
   @ViewChild("container") popupContainer;
   messages: Observable<string>;
-  messageStack: Array<{message:string, animate:boolean}>;
+  messageStack: Array<{message:string, animate:boolean}> = [];
   messageCount:number = 0;
   componentDestroyed: Subject<boolean> = new Subject();
   movedPopups:number = 0;

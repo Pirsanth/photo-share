@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from "../../services/authentication.service";
 import { FormBuilder, Validators, ValidationErrors } from "@angular/forms";
 import { Router } from "@angular/router";
-
+import { MessageService } from "../../services/message.service";
 
 @Component({
   selector: 'app-sign-in',
@@ -15,10 +15,9 @@ export class SignInComponent implements OnInit {
     username: ["", Validators.required ],
     password: ["", [Validators.required, Validators.minLength(4)] ]
   })
-  message:string = "You must be logged in to post a picture";
 
   constructor(private auth:AuthenticationService, private fb:FormBuilder
-  ,private router:Router) {}
+  ,private router:Router, private message:MessageService) {}
 
   get username() {
     return this.userCredentials.get("username");
@@ -27,7 +26,6 @@ export class SignInComponent implements OnInit {
     return this.userCredentials.get("password");
   }
   ngOnInit() {
-    this.message = window.history.state.message;
   }
   handleSubmit(){
     if(this.userCredentials.valid){
@@ -39,7 +37,10 @@ export class SignInComponent implements OnInit {
       err => {
           if(err.status === 403){
             this.clearForm();
-            this.message = "The credentials supplied were incorrect"
+            this.message.addMessage("The username and password was incorrect");
+          }
+          else{
+            this.message.addMessage("An error occured while attempting to sign in");
           }
       })
     }

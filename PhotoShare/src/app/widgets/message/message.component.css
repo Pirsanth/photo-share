@@ -34,7 +34,7 @@ h4{
 }
 .animate {
   animation-name: exitRight;
-  animation-duration: 3.5s;
+  animation-duration: 2.5s;
   left: 200%;
 }
 .above{

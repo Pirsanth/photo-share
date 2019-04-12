@@ -7,6 +7,7 @@ import { AuthenticationService } from "../services/authentication.service";
 import { AlbumsService } from "../services/albums.service";
 import { Router } from "@angular/router";
 import { CachedRequestsService } from "./cached-requests.service";
+import { MessageService } from "../services/message.service";
 
 /*
   This class appends the jwt token to the header of the relevant request.
@@ -27,7 +28,7 @@ export class AuthHeaderService implements HttpInterceptor {
   refreshingToken:boolean = false;
   accessToken$ = new BehaviorSubject(null);
   cachedRequest:HttpRequest<any>;
-  constructor(private auth:AuthenticationService,private ajax: AlbumsService, private router:Router, private cache:CachedRequestsService) {
+  constructor(private auth:AuthenticationService,private ajax: AlbumsService, private router:Router, private cache:CachedRequestsService, private message:MessageService) {
   }
 
   intercept(req:HttpRequest<any>, next:HttpHandler){
@@ -69,9 +70,7 @@ export class AuthHeaderService implements HttpInterceptor {
           .pipe( switchMap(( token ) => {
             this.refreshingToken = false;
             //In between the refresh attempt there could be other requests coming in
-            /*
-
-            */
+            
             return next.handle(this.appendToken(req))
             .pipe( tap( event => {
                     //let send them all in order
@@ -88,8 +87,8 @@ export class AuthHeaderService implements HttpInterceptor {
               if(err.status === 403){
                 this.cache.addToFrontOfCache(req);
                 this.auth.clearUserData();
-                this.router.navigate(["/user", "authenticate"],
-                {state: {message: "The app requires a relogin every 24 hours. If you do not login as the same user the pending post is lost"}});
+                this.message.addMessage("The app requires a relogin every 24 hours. If you do not login as the same user the pending post is lost");
+                this.router.navigate(["/user", "authenticate"]);
               }
               return throwError(err);
           }))

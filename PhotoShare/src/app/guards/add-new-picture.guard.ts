@@ -3,12 +3,13 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angul
 import { Observable } from 'rxjs';
 import { Router } from "@angular/router";
 import { AuthenticationService } from "../services/authentication.service";
+import { MessageService } from "../services/message.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AddNewPictureGuard implements CanActivate {
-  constructor(private auth:AuthenticationService, private router:Router){}
+  constructor(private auth:AuthenticationService, private router:Router, private message:MessageService){}
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -20,9 +21,11 @@ export class AddNewPictureGuard implements CanActivate {
         return true;
       }
       else{
-        this.router.navigate(["/user", "authenticate"], {state: {message: "You must be logged in to post a picture"}});
+        this.message.addMessage("You must be logged in to post a picture");
+        this.router.navigate(["/user", "authenticate"]);
         return false;
       }
   }
 
 }
+//{state: {}}

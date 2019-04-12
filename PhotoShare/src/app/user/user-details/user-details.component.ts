@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from "../../services/authentication.service";
 import { Router } from "@angular/router";
+import { MessageService } from "../../services/message.service";
 
 @Component({
   selector: 'app-user-details',
@@ -10,7 +11,7 @@ import { Router } from "@angular/router";
 export class UserDetailsComponent implements OnInit {
   username:string;
 
-  constructor(private auth:AuthenticationService, private router: Router) { }
+  constructor(private auth:AuthenticationService, private router: Router, private message:MessageService) { }
 
   ngOnInit() {
     this.username = this.auth.currentUser;
@@ -18,8 +19,8 @@ export class UserDetailsComponent implements OnInit {
   handleLogout(){
     this.auth.logout().subscribe(
       success => {
-      console.log("User successfully logged out");
-      this.router.navigate(["/user", "authenticate"], {state: {message: "User successfully logged out"}});
+      this.message.addMessage("User successfully logged out");
+      this.router.navigate(["/user", "authenticate"]);
       }
     )
   }
