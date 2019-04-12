@@ -65,7 +65,7 @@ export class CommentsDocument {
 }
 export class User {
   _id:string;
-  constructor(username, public password){
+  constructor(username, public passwordHash){
     this._id = username;
   }
 }

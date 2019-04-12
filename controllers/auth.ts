@@ -7,7 +7,7 @@ import util from "util";
 import uuid from "uuid/v4";
 import { RefreshTokensDocument } from "../customTypes";
 import { VerifyOptions } from "jsonwebtoken";
-
+import * as bcrypt from "bcrypt";
 
 const signToken = util.promisify(jwt.sign);
 type refreshTokenPayload = {exp:number, jti:string};
@@ -16,8 +16,8 @@ const verifyRefreshToken = util.promisify<string,string,VerifyOptions, refreshTo
 async function signUp(req: Request, res: Response){
   try{
     const requestedUsername = req.body.username;
-    const password = req.body.password;
-    var user = new User(requestedUsername, password);
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    var user = new User(requestedUsername, hashedPassword);
 
     const insertedCount = await userModel.addNewUser(user);
 
@@ -42,12 +42,15 @@ async function signUp(req: Request, res: Response){
 async function signIn(req: Request, res: Response){
   try{
     const username = req.body.username;
-    const password = req.body.password;
+    const apparentPassword = req.body.password;
 
     const user: User|null = await userModel.findUser(username);
 
     if(user){
-        if(user.password === password){
+
+        const passwordsMatch = await bcrypt.compare(apparentPassword, user.passwordHash);
+
+        if(passwordsMatch){
           const tokensArray = await Promise.all([
             makeAccessToken(username),
             createAndRegisterRefreshToken(username)
