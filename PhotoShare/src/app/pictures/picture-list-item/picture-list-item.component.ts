@@ -2,8 +2,8 @@ import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { LikesService } from "../../services/likes.service";
 import { AuthenticationService } from "../../services/authentication.service";
 
+
 type voters = {name: string, value: 1 | -1};
-var a = [{name:"äsnjas", value: 1}]
 @Component({
   selector: 'app-picture-list-item',
   templateUrl: './picture-list-item.component.html',
@@ -21,26 +21,18 @@ export class PictureListItemComponent implements OnInit {
   showUploader: boolean = false;
   likePicture: boolean;
   voted: boolean;
-  constructor(private ajaxLikes:LikesService, private albumService:AuthenticationService) { }
+  isLoggedIn:boolean;
+
+  constructor(private ajaxLikes:LikesService, private authService:AuthenticationService) { }
 
   //the voters array is such that a username does not appear more than once
   ngOnInit() {
-
-    const userVotes = this.voters.filter( (value) => value.name === this.albumService.currentUser );
-    if(userVotes.length){
-      const {value} = userVotes[0];
-      this.voted = true;
-
-      if(value === 1){
-        this.likePicture = true;
-      }
-      else{
-        this.likePicture = false;
-      }
+    if(this.authService.currentUser){
+      this.setVoteStateFromServerData();
+      this.isLoggedIn = true;
     }
     else{
-      this.voted = false;
-      this.likePicture = undefined;
+      this.isLoggedIn = false;
     }
   }
   @HostListener("mouseover") toggleUploader1(){
@@ -91,6 +83,24 @@ export class PictureListItemComponent implements OnInit {
       this.likes -= 1;
       this.ajaxLikes.addLikes(-1, this.albumName, this.title)
       .subscribe(x => console.log("POST was a success"))
+    }
+  }
+  setVoteStateFromServerData(){
+    const userVotes = this.voters.filter( (value) => value.name === this.authService.currentUser );
+    if(userVotes.length){
+      const {value} = userVotes[0];
+      this.voted = true;
+
+      if(value === 1){
+        this.likePicture = true;
+      }
+      else{
+        this.likePicture = false;
+      }
+    }
+    else{
+      this.voted = false;
+      this.likePicture = undefined;
     }
   }
 }

@@ -66,6 +66,9 @@ h4{
 .green{
   color: green;
 }
+.onlyLikes {
+  justify-content: center;
+}
 @media screen and (min-width: 375px){
 
 }

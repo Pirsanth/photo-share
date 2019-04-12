@@ -6,15 +6,15 @@
           <h4 [class.show]="showUploader">Uploaded By: {{uploadedBy}}</h4>
         </a>
 
-        <div class="controls-container">
+        <div class="controls-container" [class.onlyLikes]="!isLoggedIn">
           <fa-icon [icon]="['fas', 'arrow-up']" class="icons"
-            (click)="incrementLikes()" [class.green]="likePicture&&voted">
+                   (click)="incrementLikes()" [class.green]="likePicture&&voted" *ngIf="isLoggedIn">
           </fa-icon>
 
           <span>Likes: {{likes}}</span>
 
           <fa-icon [icon]="['fas', 'arrow-down']" class="icons"
-            (click)="decrementLikes()" [class.red]="!likePicture&&voted">
+                   (click)="decrementLikes()" [class.red]="!likePicture&&voted" *ngIf="isLoggedIn">
           </fa-icon>
         </div>
       </div>
