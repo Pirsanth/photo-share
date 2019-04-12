@@ -8,6 +8,7 @@ import { AuthShellComponent } from './auth-shell/auth-shell.component';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { WidgetsModule } from "../widgets/widgets.module";
 
 @NgModule({
   declarations: [SignInComponent, SignUpComponent, AuthShellComponent, UserDetailsComponent],
@@ -16,7 +17,8 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
     UserRoutingModule,
     FontAwesomeModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    WidgetsModule
   ]
 })
 export class UserModule { }

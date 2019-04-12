@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { MessageService } from "../services/message.service";
+import { MessageService } from "../../services/message.service";
 import { Subject, Observable, fromEvent, merge, of } from "rxjs";
 import { map, scan, filter, mergeMap, takeUntil, tap, share, buffer, take } from "rxjs/operators";
 

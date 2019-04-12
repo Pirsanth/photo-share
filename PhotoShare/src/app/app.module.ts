@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FormComponent } from './form/form.component';
 
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -14,9 +13,8 @@ import { faPlusSquare, faUser, faImages, faFolder, faClock, faCamera, faArrowUp,
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {PicturesModule} from "./pictures/pictures.module";
 import { UserModule } from "./user/user.module";
-import { addLocalhostPipe } from "./pipes/addLocalhost";
 import { httpInterceptors } from "./interceptors/providersArray";
-import { ModalComponent } from './modal/modal.component';
+import { AddPicturesModule } from "./add-pictures/add-pictures.module";
 
 library.add(faPlusSquare, faUser, faImages, faFolder, faClock, faCamera, faArrowUp,
    faArrowDown, faThumbsUp, faTrashAlt, faUserPlus, faUserCircle, faInfoCircle, faBars, faPortrait, faImage, faEnvelope,
@@ -24,9 +22,7 @@ library.add(faPlusSquare, faUser, faImages, faFolder, faClock, faCamera, faArrow
 
 @NgModule({
   declarations: [
-    AppComponent,
-    FormComponent,
-    ModalComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +32,8 @@ library.add(faPlusSquare, faUser, faImages, faFolder, faClock, faCamera, faArrow
     FontAwesomeModule,
     PicturesModule,
     UserModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AddPicturesModule
   ],
   providers: [httpInterceptors],
   bootstrap: [AppComponent]

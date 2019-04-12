@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import {AlbumsService} from "../services/albums.service";
+import {AlbumsService} from "../../services/albums.service";
 import { ActivatedRoute } from "@angular/router";
 import { Validators, FormBuilder, FormArray, FormControl} from "@angular/forms";
 import { Subject } from "rxjs";
@@ -93,9 +93,6 @@ export class FormComponent implements OnInit {
   clearForm(){
     this.picturesForm.reset();
     this.clearPreview();
-  }
-  print(){
-    console.log();
   }
   makePicturePreview(fileList:FileList){
     this.clearPreview();

@@ -8,7 +8,7 @@ import {  concat } from "rxjs/operators";
   providedIn: 'root'
 })
 export class MessageService implements OnDestroy{
-  private cachedMessages: string[];
+  private cachedMessages: string[] = [];
   private messageSubject: Subject<string> = new Subject();
   messages$: Observable<string> = this.messageSubject.asObservable();
 

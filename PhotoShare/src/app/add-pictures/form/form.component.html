@@ -1,4 +1,4 @@
-
+<app-message></app-message>
 <div class="form-container">
   <form (ngSubmit)="handleSubmit(form)" #form [formGroup]="picturesForm">
 
@@ -117,4 +117,3 @@
 </div>
 
 <app-modal *ngIf="showModal" (confirmation)="toggleModal(); response$.next($event);">Some of the picture titles are empty. The server will add titles automatically for these pictures. Would you like to proceed?</app-modal>
-<button type="button" name="button" (click)="print()">Print</button>
