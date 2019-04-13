@@ -1,17 +1,28 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
+import { AuthModalService } from "../../services/auth-modal.service";
 
 @Component({
   selector: 'app-auth-shell',
   templateUrl: './auth-shell.component.html',
-  styleUrls: ['./auth-shell.component.css']
+  styleUrls: ['./auth-shell.component.css'],
+  providers: [AuthModalService]
 })
 export class AuthShellComponent implements OnInit {
-  message:string;
-  constructor(private route:ActivatedRoute) { }
+
+  showModal:boolean = false;
+  constructor(private modalService:AuthModalService) { }
 
   ngOnInit() {
-    this.route.data.subscribe(x => this.message = x["message"])
-  }
 
+    this.modalService.openModal$.subscribe( () => {
+      this.showModal = true;
+    })
+
+  }
+  emitResponse(response:boolean){
+    this.modalService.emitResponse(response);
+  }
+  closeModal(){
+    this.showModal = false;
+  }
 }

@@ -5,13 +5,14 @@ import { Validators, FormBuilder, FormArray, FormControl} from "@angular/forms";
 import { Subject } from "rxjs";
 import { take } from "rxjs/operators";
 import { MessageService } from "../../services/message.service";
+import { FormComponent as CanDeactivateComponent } from "../../customTypes";
 
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.css']
 })
-export class FormComponent implements OnInit {
+export class FormComponent implements OnInit, CanDeactivateComponent{
   useExisting: boolean = false;
   previewSrc: Array<string | ArrayBuffer> = [];
   customPictureTitle: boolean = false;
@@ -22,7 +23,7 @@ export class FormComponent implements OnInit {
     fileControl: ["", Validators.required]
   });
   showModal:boolean = false;
-  response$:Subject<boolean> = new Subject<boolean>();
+  private responseSubject:Subject<boolean> = new Subject<boolean>();
   private submitObserver = {
     next: ()=> {
                 this.message.addMessage("The picture was added successfully")
@@ -30,6 +31,13 @@ export class FormComponent implements OnInit {
                },
     error: ()=> this.message.addMessage("An error occured while adding the picture"),
    }
+  projectedModalMessage: string;
+
+  get response$(){
+    return this.responseSubject.pipe(
+      take(1)
+    )
+  }
   @ViewChild('fileInput')fileInput:ElementRef;
 
 
@@ -73,6 +81,7 @@ export class FormComponent implements OnInit {
       return Validators.required(albumName);
     }
   }
+
   handleSubmit(form: HTMLFormElement){
     if(this.picturesForm.valid){
       let formData = new FormData(form);
@@ -85,14 +94,14 @@ export class FormComponent implements OnInit {
 
       if(this.albumName.valid && this.fileControl.valid){
         //only the pictureTitle is invalid, show a confirmation dialog
-        this.response$.pipe(
-          take(1)
-        ).subscribe( (response:boolean) => {
+        this.response$.subscribe( (response:boolean) => {
           if(response){
             let formData = new FormData(form);
             this.ajax.sendForm(formData).subscribe(this.submitObserver);
           }
         });
+        const message = "Some of the picture titles are empty. The server will add titles automatically for these pictures. Would you like to proceed?";
+        this.projectedModalMessage = message;
         this.toggleModal();
       }
 
@@ -155,5 +164,15 @@ export class FormComponent implements OnInit {
     this.pictureTitles.controls.forEach(control =>{
         control.markAsDirty();
     })
+  }
+  canDeactivate(){
+    if(this.picturesForm.dirty){
+      this.projectedModalMessage = "Discard changes to the form?";
+      this.toggleModal();
+      return this.response$;
+    }
+    else{
+      return true;
+    }
   }
 }

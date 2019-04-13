@@ -116,4 +116,6 @@
   </form>
 </div>
 
-<app-modal *ngIf="showModal" (confirmation)="toggleModal(); response$.next($event);">Some of the picture titles are empty. The server will add titles automatically for these pictures. Would you like to proceed?</app-modal>
+<app-modal *ngIf="showModal" (confirmation)="toggleModal(); responseSubject.next($event);">
+  {{projectedModalMessage}}
+</app-modal>

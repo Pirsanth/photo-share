@@ -6,46 +6,19 @@ import { SignInComponent } from "./sign-in/sign-in.component";
 import { SignUpComponent } from "./sign-up/sign-up.component";
 import { UserDetailsGuard } from "../guards/user-details.guard";
 import { AuthShellGuard } from "../guards/auth-shell.guard";
-//, canActivate:[UserDetailsGuard]
+import { DirtyFormGuard } from "../guards/dirty-form.guard";
 
 const routes: Routes = [{
   path: "user", children:[
     {path:"authenticate", component:AuthShellComponent, canActivate: [AuthShellGuard] ,children:[
-      {path:"signUp", component:SignUpComponent},
-      {path:"signIn", component:SignInComponent},
+      {path:"signUp", component:SignUpComponent, canDeactivate: [DirtyFormGuard]},
+      {path:"signIn", component:SignInComponent, canDeactivate: [DirtyFormGuard]},
       {path:"", component:SignInComponent}
     ]},
     {path: "currentUser", component: UserDetailsComponent, canActivate: [UserDetailsGuard]}
   ]
 }]
 
-
-
-/*
-{path:"base", component:AuthShellComponent, canActivate:[UserDetailsGuard]
-,children:[
-{path:"signUp", component:SignUpComponent, canActivate:[UserDetailsGuard]},
-{path:"signIn", component:SignInComponent, canActivate:[UserDetailsGuard]},
-{path: "currentUser", component:UserDetailsComponent, canActivate:[UserDetailsGuard]},
-//{path:"", component:SignInComponent, pathMatch:"full"}
-
-], data: {
-state:a
-}
-}]
-[
-  {path:"base", component:AuthShellComponent, canActivate:[UserDetailsGuard]
-    ,children:[
-      {path:"signUp", component:SignUpComponent, canActivate:[UserDetailsGuard]},
-      {path:"signIn", component:SignInComponent, canActivate:[UserDetailsGuard]},
-      {path: "currentUser", component:UserDetailsComponent, canActivate:[UserDetailsGuard]},
-      //{path:"", component:SignInComponent, pathMatch:"full"}
-
-    ], data: {
-      state:a
-    }
-  }]
-*/
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

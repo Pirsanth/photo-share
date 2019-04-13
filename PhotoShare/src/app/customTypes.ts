@@ -1,3 +1,4 @@
+import { Observable } from "rxjs";
 
 export interface Album{
   _id: string,
@@ -42,4 +43,7 @@ export class CommentsDocument<T>{
 export class PictureDetailModel extends CommentsDocument<commentObjectWithLikedBoolean>{
   previousPicture: string;
   nextPicture:string;
+}
+export interface FormComponent {
+  canDeactivate():Observable<boolean> | boolean
 }

@@ -9,5 +9,10 @@
   </ul>
 </nav>
 <app-message></app-message>
+
 <router-outlet>
 </router-outlet>
+
+<app-modal *ngIf="showModal" (confirmation)="closeModal(); emitResponse($event);">
+ Discard changes to the form?
+</app-modal>

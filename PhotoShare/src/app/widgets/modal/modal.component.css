@@ -36,6 +36,7 @@ button{
   padding: 10px 20px;
   background: #985E6D;
   border: 2px solid black;
+  cursor: pointer;
 }
 h4{
   border-bottom: 2px solid black;

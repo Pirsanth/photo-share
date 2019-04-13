@@ -4,13 +4,15 @@ import { Router } from "@angular/router";
 import { FormBuilder, Validators, FormGroup, ValidationErrors, FormControl, AbstractControl, AsyncValidator } from "@angular/forms";
 import { isUsernameAvailable } from "./isUsernameAvailable";
 import { MessageService } from "../../services/message.service";
+import { FormComponent } from "../../customTypes";
+import { AuthModalService } from "../../services/auth-modal.service";
 
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.css']
 })
-export class SignUpComponent implements OnInit {
+export class SignUpComponent implements OnInit, FormComponent {
 
   previewSrc: string | ArrayBuffer;
   isValid:boolean = true;
@@ -24,7 +26,7 @@ export class SignUpComponent implements OnInit {
   })
 
   constructor(private auth:AuthenticationService, private router:Router,
-    private fb:FormBuilder, private asyncUsernameValidator:isUsernameAvailable, private message:MessageService) {}
+    private fb:FormBuilder, private asyncUsernameValidator:isUsernameAvailable, private message:MessageService, private modal:AuthModalService) {}
 
   ngOnInit() {
   }
@@ -144,5 +146,13 @@ export class SignUpComponent implements OnInit {
           control.markAsDirty();
       })
 
+  }
+  canDeactivate(){
+    if(this.registrationForm.dirty){
+      return this.modal.getUserResponse();
+    }
+    else {
+      return true;
+    }
   }
 }

@@ -3,13 +3,16 @@ import { AuthenticationService } from "../../services/authentication.service";
 import { FormBuilder, Validators, ValidationErrors } from "@angular/forms";
 import { Router } from "@angular/router";
 import { MessageService } from "../../services/message.service";
+import { Observable } from "rxjs";
+import { AuthModalService } from "../../services/auth-modal.service";
+import { FormComponent } from "../../customTypes";
 
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.css']
 })
-export class SignInComponent implements OnInit {
+export class SignInComponent implements OnInit, FormComponent {
 
   userCredentials = this.fb.group({
     username: ["", Validators.required ],
@@ -17,7 +20,7 @@ export class SignInComponent implements OnInit {
   })
 
   constructor(private auth:AuthenticationService, private fb:FormBuilder
-  ,private router:Router, private message:MessageService) {}
+  ,private router:Router, private message:MessageService, private modal:AuthModalService) {}
 
   get username() {
     return this.userCredentials.get("username");
@@ -62,5 +65,13 @@ export class SignInComponent implements OnInit {
   }
   clearForm(){
     this.userCredentials.reset();
+  }
+  canDeactivate():Observable<boolean> | boolean {
+    if(this.userCredentials.dirty){
+      return this.modal.getUserResponse();
+    }
+    else{
+      return true;
+    }
   }
 }
