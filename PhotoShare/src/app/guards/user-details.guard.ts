@@ -26,6 +26,5 @@ export class UserDetailsGuard implements CanActivate {
         return false;
       }
 
-      return true;
   }
 }
