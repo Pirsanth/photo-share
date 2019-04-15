@@ -2,8 +2,8 @@
   display: grid;
   width: 80%;
   margin: 0 auto;
-  margin-top: 30px;
-  margin-bottom: 30px;
+  margin-top: 60px;
+  margin-bottom: 60px;
   grid-template-columns: 1fr;
   grid-gap: 2em;
 }
