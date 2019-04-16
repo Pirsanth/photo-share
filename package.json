@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev index.ts",
-    "reset": "cd cmdhelper&&ts-node del.ts&&ts-node cleandb.ts"
+    "reset": "ts-node cmdhelper/cleandb.ts&&ts-node cmdhelper/del.ts"
   },
   "keywords": [],
   "author": "",
