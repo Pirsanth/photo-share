@@ -1,14 +1,26 @@
 .main-container{
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-gap: 2em;
-  width: 85%;
   margin: 0 auto;
   margin-top: 60px;
   margin-bottom: 60px;
   width: 80%;
 }
-
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 2em;
+}
+.notification{
+  background: #494E6B;
+  color: white;
+  padding: 25px;
+  text-align: center;
+}
+a {
+  color: #ffa500;
+}
+a:hover {
+  text-decoration: underline;
+}
 /*at exact width max width applies */
 @media screen and (min-width: 375px){
   .main-container{
@@ -16,20 +28,32 @@
 }
 @media screen and (min-width: 760px){
   .main-container{
+    width: 85%;
+  }
+  .grid-container {
     grid-template-columns: 1fr 1fr;
     grid-gap: 3em;
-    width: 85%;
+  }
+  .notification{
+    width: 80%;
+    margin: 0px auto;
   }
 }
 @media screen and (min-width: 1024px){
   .main-container{
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-gap: 3em;
     width: 90%;
   }
+  .grid-container {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 3em;
+  }
+
 }
 @media screen and (min-width: 1400px){
-  .main-container{
+  .grid-container {
     grid-gap: 5em;
+  }
+  .notification{
+    width: 65%;
   }
 }

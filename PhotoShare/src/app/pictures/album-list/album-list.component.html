@@ -1,21 +1,21 @@
 
-<div class="main-container">
+<div class="main-container" [class.grid-container]="albumList.length">
 
-<app-album-list-item *ngFor="let album of albumList" [album]="album" class="list-item">{{album}}</app-album-list-item>
+  <ng-container *ngIf="albumList.length;else noAlbums">
+    <app-album-list-item *ngFor="let album of albumList" [album]="album" class="list-item" >{{album}}</app-album-list-item>
+  </ng-container>
 
+  <ng-template #noAlbums>
+
+    <div class="notification">
+      <ng-container *ngIf="isLoggedIn; else notLoggedIn">
+        No photos uploaded yet. Please <a routerLink="/addNew">upload a picture</a>
+      </ng-container>
+
+      <ng-template #notLoggedIn>
+        No photos uploaded yet. Please <a routerLink="/user/authenticate">sign-in/sign-up</a> and then upload a picture
+      </ng-template>
+    </div>
+  </ng-template>
 
 </div>
-
-<!--
-
-    <div class="container">
-      <div class="" *ngIf="albumList" class="preview">
-        <img [src]="albumList[1].picsSrc[0].thumbnailSrc" alt="">
-        <img [src]="albumList[1].picsSrc[1].thumbnailSrc" alt="">
-        <img [src]="albumList[1].picsSrc[2].thumbnailSrc" alt="">
-        <img [src]="albumList[1].picsSrc[3].thumbnailSrc" alt="">
-      </div>
-        <p>Album name here</p>
-        <p>54 pictures</p>
-    </div>
--->
