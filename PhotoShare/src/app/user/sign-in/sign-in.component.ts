@@ -34,6 +34,7 @@ export class SignInComponent implements OnInit, FormComponent {
     if(this.userCredentials.valid){
       this.auth.signIn(this.userCredentials.value)
       .subscribe( x => {
+        this.userCredentials.reset();
         console.log("The sign in was successful")
         this.router.navigate(["/pictures"])
       },

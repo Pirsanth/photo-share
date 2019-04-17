@@ -119,6 +119,7 @@ export class SignUpComponent implements OnInit, FormComponent {
       var formData = new FormData(form);
       this.auth.signUp(formData).subscribe(
         x => {
+          this.registrationForm.reset();
           console.log("Sign up was a success")
           this.router.navigate(["/pictures"])
         },
