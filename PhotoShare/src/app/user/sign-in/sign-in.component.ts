@@ -41,7 +41,7 @@ export class SignInComponent implements OnInit, FormComponent {
       err => {
           if(err.status === 403){
             this.clearForm();
-            this.message.addMessage("The username and password was incorrect");
+            this.message.addMessage("The username and password were incorrect");
           }
           else{
             this.message.addMessage("An error occured while attempting to sign in");
