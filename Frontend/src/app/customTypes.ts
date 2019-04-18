@@ -47,3 +47,7 @@ export class PictureDetailModel extends CommentsDocument<commentObjectWithLikedB
 export interface FormComponent {
   canDeactivate():Observable<boolean> | boolean
 }
+export interface stateObject {
+  show: boolean,
+  message?:string
+}

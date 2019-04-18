@@ -1,0 +1,25 @@
+<div class="overlay" *ngIf="show">
+  <div class="center">
+      <fa-icon class="fa-5x" [icon]="['fas', 'snowflake']"></fa-icon>
+
+  <ng-container *ngIf="progressBar; else noBar">
+    <div class="">
+      <div class="progressContainer">
+        <div class="progressBar" [style.width]="percentageComplete"></div>
+      </div>
+      <div class="message">
+        Uploading {{percentageComplete}}
+      </div>
+    </div>
+
+    <button (click)="cancelUpload()" >Cancel upload</button>
+  </ng-container>
+
+    <ng-template #noBar>
+      <p class="">
+        Loading Content...
+      </p>
+    </ng-template>
+
+  </div>
+</div>

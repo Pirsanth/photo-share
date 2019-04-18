@@ -5,6 +5,7 @@ import { FormComponent } from "./form/form.component";
 import { FormResolverService } from "../resolvers/form-resolver.service";
 import { AddNewPictureGuard } from "../guards/add-new-picture.guard";
 import { DirtyFormGuard } from "../guards/dirty-form.guard";
+import { SpinnerService } from "../services/spinner.service";
 
 const routes: Routes = [
   { path: "addNew", component: FormComponent,
@@ -15,6 +16,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [SpinnerService]
 })
 export class AddPicturesRoutingModule { }

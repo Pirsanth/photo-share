@@ -1,26 +1,52 @@
-import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http"
-import {catchError, pluck, map} from "rxjs/operators";
-import {throwError, Observable} from "rxjs";
+import { Injectable, OnDestroy } from '@angular/core';
+import {HttpClient, HttpProgressEvent, HttpEventType} from "@angular/common/http"
+import { pluck, map, tap, last, catchError, takeUntil} from "rxjs/operators";
+import {throwError, Observable, Subject, BehaviorSubject} from "rxjs";
 import {Album, Picture} from "../customTypes";
 import { environment } from "../../environments/environment";
+import { SpinnerService } from "./spinner.service";
 
 type albumsResponse = {error: string, data: Album[]};
 
 @Injectable({
   providedIn: 'root'
 })
-export class AlbumsService {
+export class AlbumsService implements OnDestroy {
   public baseURL: string = environment.apiUrl;
-  constructor(private http: HttpClient) {}
+  public uploadingFiles: boolean = false;
+  private cancelRequest:Subject<boolean> = new Subject();
+  private uploadProgress:BehaviorSubject<string> = new BehaviorSubject("0");
+  percentageUploaded$ = this.uploadProgress.asObservable();
+  constructor(private http: HttpClient, private spinner:SpinnerService) {}
+
 
   sendForm(formData: FormData){
     formData.delete("useExistingAlbum");
     formData.delete("customPictureTitle");
     let postUrl = `${this.baseURL}/albums/`;
 
+    this.uploadingFiles = true;
+    this.uploadProgress.next("0");
     return this.http.post(postUrl, formData,
-            {observe: "body", responseType: "json"});
+            {observe: "events", responseType: "json", reportProgress: true}).pipe(
+              tap((event) => {
+
+                if(event.type === HttpEventType.UploadProgress){
+                  const percentageComplete = ((event.loaded/event.total) *100).toFixed(0) + "%";
+                  this.uploadProgress.next(percentageComplete);
+                }
+
+              }),
+              last(),
+              tap(()=>{
+                this.uploadingFiles = false;
+              }),
+              catchError(err => {
+                this.uploadingFiles = false;
+                return throwError(err);
+              }),
+              takeUntil(this.cancelRequest)
+            )
   }
 
   getAllAlbums():Observable<Album[]>{
@@ -52,5 +78,13 @@ export class AlbumsService {
        return picture;
      });
      return album;
+  }
+  cancelUpload(){
+    this.cancelRequest.next(true);
+    this.uploadingFiles = false;
+    this.uploadProgress.next("0");
+  }
+  ngOnDestroy(){
+    this.cancelRequest.complete();
   }
 }

@@ -1,9 +1,11 @@
-/*input select and button need a font-size */
+.main-container {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
 .form-container{
   width: 90%;
   margin: 0px auto;
   margin-top: 30px;
-  margin-bottom: 30px;
 }
 form{
   padding: 20px 20px;
@@ -111,6 +113,10 @@ input[type="text"].ng-invalid.ng-touched, input[type="text"].ng-invalid.ng-dirty
 
 }
 @media screen and (min-width: 760px){
+  .main-container {
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
   form{
     font-size: 20px;
     padding: 50px;

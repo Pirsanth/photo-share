@@ -1,0 +1,95 @@
+.overlay {
+  position: fixed;
+  top: 60px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  opacity: 0.75;
+  background: white;
+  z-index: 1;
+  height: 100%;
+  width: 100%;
+}
+p {
+  font-size: 20px;
+  font-weight: bold;
+}
+.center{
+  color: black;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.progressContainer {
+  width: 200px;
+  height: 20px;
+  border: 3px solid black;
+  border-top: 0px;
+  padding: 5px;
+}
+.progressBar{
+  height: 10px;
+  width: 1%;
+  background: black;
+  animation-name: blink;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-out;
+  transform-origin: center;
+}
+fa-icon{
+  font-size: 80px;
+  display: flex;
+  animation-name: rotate;
+  animation-duration: 1.2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  transform-origin: center;
+}
+.center > * {
+  margin-top: 15px;
+}
+.message {
+  text-align: center;
+  margin-top: 8px;
+}
+button {
+  padding: 5px;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+@keyframes rotate {
+  0%{
+    transform: rotate(0deg);
+  }
+  100%{
+    transform: rotate(359deg);
+  }
+}
+@keyframes blink {
+  0%{
+    opacity: 0.3;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+
+@media screen and (min-width: 1024px){
+  .overlay {
+    width: 1000px;
+    left: auto;
+    right: auto;
+  }
+}
+@media screen and (min-width: 1400px){
+  .overlay {
+    width: 1400px;
+  }
+}

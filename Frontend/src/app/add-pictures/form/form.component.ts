@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 import {AlbumsService} from "../../services/albums.service";
 import { ActivatedRoute } from "@angular/router";
 import { Validators, FormBuilder, FormArray, FormControl} from "@angular/forms";
 import { Subject } from "rxjs";
-import { take } from "rxjs/operators";
+import { take, takeUntil } from "rxjs/operators";
 import { MessageService } from "../../services/message.service";
 import { FormComponent as CanDeactivateComponent } from "../../customTypes";
 
@@ -12,7 +12,10 @@ import { FormComponent as CanDeactivateComponent } from "../../customTypes";
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.css']
 })
-export class FormComponent implements OnInit, CanDeactivateComponent{
+export class FormComponent implements OnInit, CanDeactivateComponent, OnDestroy{
+  destroyComponent: Subject<boolean> = new Subject();
+  percentageUploaded: string;
+  showSpinner:boolean = false;
   useExisting: boolean = false;
   previewSrc: Array<string | ArrayBuffer> = [];
   customPictureTitle: boolean = false;
@@ -26,10 +29,14 @@ export class FormComponent implements OnInit, CanDeactivateComponent{
   private responseSubject:Subject<boolean> = new Subject<boolean>();
   private submitObserver = {
     next: ()=> {
+                this.showSpinner = false
                 this.message.addMessage("The picture was added successfully")
                 this.clearForm();
                },
-    error: ()=> this.message.addMessage("An error occured while adding the picture"),
+    error: ()=> {
+                  this.showSpinner = false
+                  this.message.addMessage("An error occured while adding the picture")
+                }
    }
   projectedModalMessage: string;
 
@@ -56,10 +63,18 @@ export class FormComponent implements OnInit, CanDeactivateComponent{
   constructor(private ajax:AlbumsService, private route: ActivatedRoute, private fb:FormBuilder, private message:MessageService) { }
 
   ngOnInit(){
-    this.route.data.subscribe( data => this.albumList = data.albumList)
-  }
-  custom(){
-    return {someErr: "asdf"}
+
+    this.route.data.pipe(
+      takeUntil(this.destroyComponent)
+    ).subscribe( data => this.albumList = data.albumList)
+
+    this.ajax.percentageUploaded$.pipe(
+      takeUntil(this.destroyComponent)
+    ).subscribe( x => this.percentageUploaded = x)
+
+    if(this.ajax.uploadingFiles){
+      this.showSpinner = true;
+    }
   }
   ngAfterViewInit(){
       //we need the ViewChild to complete for the custorm validation function
@@ -85,6 +100,7 @@ export class FormComponent implements OnInit, CanDeactivateComponent{
   handleSubmit(form: HTMLFormElement){
     if(this.picturesForm.valid){
       let formData = new FormData(form);
+      this.showSpinner = true;
       this.ajax.sendForm(formData).subscribe(this.submitObserver);
     }
     else{
@@ -174,5 +190,13 @@ export class FormComponent implements OnInit, CanDeactivateComponent{
     else{
       return true;
     }
+  }
+  cancelRequest(){
+    this.ajax.cancelUpload();
+    this.message.addMessage("The picture upload was canceled by the user");
+  }
+  ngOnDestroy(){
+      this.destroyComponent.next(true);
+      this.destroyComponent.complete();
   }
 }

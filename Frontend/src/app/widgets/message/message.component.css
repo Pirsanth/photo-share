@@ -1,6 +1,5 @@
 .main-container {
   font-size: 20px;
-  margin-top: 25px;
 }
 .popup-container{
   position: relative;
@@ -72,7 +71,6 @@ transform: translate(2000px);
 }
 @media screen and (min-width: 760px){
   .main-container{
-    margin-top: 50px;
   }
   .popup {
     width: 50%;

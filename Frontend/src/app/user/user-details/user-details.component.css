@@ -2,8 +2,8 @@
   background: #494E6B;
   padding: 40px;
   margin: 0 auto;
-  margin-top: 60px;
-  margin-bottom: 30px;
+  margin-top: 100px;
+  margin-bottom: 40px;
   font-size: 20px;
   width: 90%;
   color: white;
@@ -31,6 +31,8 @@ button{
 @media screen and (min-width: 760px){
   .main-container{
     width: 550px;
+    margin-top: 120px;
+    margin-bottom: 60px;
   }
 }
 @media screen and (min-width: 1024px){

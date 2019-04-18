@@ -1,7 +1,7 @@
 
 <div class="main-container" [class.grid-container]="albumList.length">
 
-  <ng-container *ngIf="albumList.length;else noAlbums">
+  <ng-container *ngIf="albumList?.length;else noAlbums">
     <app-album-list-item *ngFor="let album of albumList" [album]="album" class="list-item" >{{album}}</app-album-list-item>
   </ng-container>
 

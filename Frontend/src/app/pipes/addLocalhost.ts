@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from "@angular/core";
+import { AlbumsService } from "../services/albums.service"
 
 /*Allows the use of relative imageUrls in the html by prefixing the localhost automatically
 *This pipe accepts inputs of the form:
@@ -7,13 +8,17 @@ import { Pipe, PipeTransform } from "@angular/core";
 *    /image-url
 */
 
-const prefix = "http://localhost:3000/";
 const regex = /^((\.\/)|\/)?(.+)/;
 
 @Pipe({name: "addLocalhost"})
 export class addLocalhostPipe implements PipeTransform {
+  prefix:string;
+  constructor(private ajax:AlbumsService){
+    this.prefix = this.ajax.baseURL;
+  }
+
   transform(value:string, additionalPrefix:string = ""){
-    
+
     if(regex.test(additionalPrefix)){
       [,,,additionalPrefix] = additionalPrefix.match(regex);
 
@@ -23,6 +28,6 @@ export class addLocalhostPipe implements PipeTransform {
     }
 
     const [,,,contents] = value.match(regex);
-    return prefix + additionalPrefix + contents;
+    return this.prefix + "/" + additionalPrefix + contents;
   }
 }

@@ -1,9 +1,26 @@
 nav{
   font-size: 25px;
+  color: white;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  background: #985E6D;
+  z-index: 1;
+  height: 60px;
+}
+h1 {
+  text-align: center;
+  margin: 15px;
+  display: none;
+  color: black;
 }
 button{
   height: 60px;
   width: 80px;
+  background: #985E6D;
+  border: none;
+  border-right: 2px solid black;
 }
 ul{
   list-style: none;
@@ -11,19 +28,12 @@ ul{
   flex-direction: column;
   background: #985E6D;
   position: absolute;
-  height: 400px;
   right: 0px;
   left: 0px;
   z-index: 1;
 }
 ul fa-icon{
   padding-left: 20px;
-}
-span{
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  width: 100%;
 }
 .appear{
   display: flex;
@@ -32,29 +42,33 @@ ul > *{
 }
 a{
   text-decoration: none;
-  color: white;
   display: flex;
   padding: 30px;
-  padding-left: 30px;
   border: 1px black solid;
 }
-@media screen and (min-width: 375px) and (max-width: 760px){
-
+.main-container {
+  margin-top: 60px;
 }
-@media screen and (min-width: 761px){
+
+
+@media screen and (min-width: 760px){
+  .main-container {
+    margin-top: 60px;
+  }
   nav{
     font-size: 20px;
   }
   button{
     display: none;
   }
+  h1 {
+    display: block;
+  }
   ul{
-    height: 100%;
     position:static;
     display: flex;
-    justify-content: space-between;
     flex-direction: row;
-    background: none;
+    height: 100%;
   }
   ul > * {
     display: flex;
@@ -62,14 +76,27 @@ a{
   }
   a{
     padding: 0px;
-    padding: 20px 0px;
-    border: 1px black solid;
     background: #985E6D;
     width: 200px;
     justify-content: center;
     align-items: center;
+    border: none;
+    border-right: 2px solid black;
+  }
+  li:last-child {
+    margin-left: auto;
+    border-left: 2px solid black;
   }
 }
-@media screen and (min-width: 1000px){
-
+@media screen and (min-width: 1024px){
+  nav {
+    width: 1000px;
+    left: auto;
+    right: auto;
+  }
+}
+@media screen and (min-width: 1400px){
+  nav {
+    width: 1400px;
+  }
 }

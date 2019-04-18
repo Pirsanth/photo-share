@@ -1,14 +1,18 @@
 <nav>
   <button type="button" name="button" (click)="toggleMainMenu()"><fa-icon [icon]="['fas', 'bars']"></fa-icon></button>
+  <!--
+  <h1>PhotoShare</h1>
+  -->
   <ul [class.appear]="showMainMenu">
-      <span>
+
       <li>
         <a routerLink="/pictures" (click)="toggleMainMenu()">Pictures <fa-icon [icon]="['fas', 'images']"></fa-icon></a>
       </li>
+
       <li>
         <a routerLink="/addNew" (click)="toggleMainMenu()">Add new <fa-icon [icon]="['fas', 'plus-square']"></fa-icon></a>
       </li>
-      </span>
+
       <li>
           <a routerLink="/user/currentUser" *ngIf="username; else notLoggedInBlock" (click)="toggleMainMenu()">{{username}} <fa-icon [icon]="['fas', 'user']"></fa-icon></a>
 
@@ -18,4 +22,10 @@
       </li>
   </ul>
 </nav>
-<router-outlet></router-outlet>
+
+<div class="main-container">
+  <!--
+  <app-spinner></app-spinner>
+  -->
+  <router-outlet></router-outlet>
+</div>
