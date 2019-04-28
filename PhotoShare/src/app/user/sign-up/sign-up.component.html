@@ -46,7 +46,7 @@
       </div>
 
         <label for="repeatPassword">Repeat Password</label>
-        <input type="password" name="repeatPassword" value="" id="repeatPassword" formControlName="repeatPassword" [class.customError]="passwordsDoNotMatch">
+        <input type="password" name="repeatPassword" value="" id="repeatPassword" formControlName="repeatPassword">
       <div class="validation">
         <span *ngIf="touchedOrDirty(repeatPassword) && passwordGroup.errors?.repeatPassword">{{passwordGroup.errors.repeatPassword}}</span>
       </div>

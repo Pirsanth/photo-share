@@ -132,7 +132,7 @@ export class SignUpComponent implements OnInit, FormComponent {
         this.showValidationMessages();
     }
   }
-  touchedOrDirty(control: FormControl):boolean{
+  touchedOrDirty(control: AbstractControl):boolean{
     return control.dirty || control.touched
   }
 
