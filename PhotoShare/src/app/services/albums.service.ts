@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http"
 import {catchError, pluck, map} from "rxjs/operators";
 import {throwError, Observable} from "rxjs";
 import {Album, Picture} from "../customTypes";
+import { environment } from "../../environments/environment";
 
 type albumsResponse = {error: string, data: Album[]};
 
@@ -10,7 +11,7 @@ type albumsResponse = {error: string, data: Album[]};
   providedIn: 'root'
 })
 export class AlbumsService {
-  public baseURL: string = "http://localhost:3000";
+  public baseURL: string = environment.apiUrl;
   constructor(private http: HttpClient) {}
 
   sendForm(formData: FormData){
