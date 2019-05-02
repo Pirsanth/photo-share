@@ -10,9 +10,7 @@ export class MessageService implements OnDestroy{
   private messageSubject: Subject<string> = new Subject();
   messages$: Observable<string> = this.messageSubject.asObservable();
 
- constructor() {
-   console.log("Message constructor is made")
- }
+ constructor() {}
 
  get hasSubscribers():boolean{
    return this.messageSubject.observers.length > 0;
