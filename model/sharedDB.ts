@@ -3,9 +3,10 @@ import mongodb from "mongodb";
 import {Collection, MongoError, Db, MongoCallback} from "mongodb";
 let sharedDb: Db = null;
 
+const connectionString = process.env["MONGODB_CONNECTION_STRING"];
 
 export let initializeConnection:() => Promise<void> = function () {
-    return mongodb.MongoClient.connect("mongodb://localhost:27017/photoShare", {useNewUrlParser: true})
+    return mongodb.MongoClient.connect(connectionString, {useNewUrlParser: true})
            .then(client => {sharedDb = client.db();
                             return; });
 }

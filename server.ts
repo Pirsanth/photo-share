@@ -3,6 +3,7 @@ import albumRouter from "./routes/albums";
 import commentsRouter from "./routes/comments";
 import authRouter from "./routes/auth";
 const cors = require("cors");
+const port:number = +process.env.NODE_BACKEND_PORT;
 
 const app = express();
 
@@ -16,4 +17,4 @@ app.use("/albums/", albumRouter);
 app.use("/comments/", commentsRouter);
 app.use("/auth/", authRouter);
 
-app.listen(3000);
+app.listen(port);

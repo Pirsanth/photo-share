@@ -1,3 +1,5 @@
+import env from "dotenv";
+env.config();
 
 require("./model/sharedDB")
 .initializeConnection()
