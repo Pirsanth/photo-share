@@ -24,7 +24,7 @@ A bullet point summary of the project:
 * Used **CSS Grid** where the layout needed to be defined in two directions. Still used plain CSS, though I did supplemnent it with **font-awesome**.
 ___
 ## Quick start
-> To **serve up** the aleady built application:
+> To **serve up** the already built application:
  1. Run **npm run init** in the base directory to create the required structure for the /public folder
  2. Run **npm install** in just the base directory (there is no need to install the dependencies in the Frontend subfolder where the angular project resides if you just want to serve the app).
  3. Run **npm run serve** to serve the application.
