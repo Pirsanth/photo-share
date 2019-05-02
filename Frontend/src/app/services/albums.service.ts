@@ -18,6 +18,7 @@ export class AlbumsService implements OnDestroy {
   private uploadProgress:BehaviorSubject<string> = new BehaviorSubject("0");
   percentageUploaded$ = this.uploadProgress.asObservable();
   constructor(private http: HttpClient, private spinner:SpinnerService) {}
+    private router:Router) {}
 
 
   sendForm(formData: FormData){

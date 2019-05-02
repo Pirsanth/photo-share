@@ -6,6 +6,7 @@ import { Subject } from "rxjs";
 import { take, takeUntil } from "rxjs/operators";
 import { MessageService } from "../../services/message.service";
 import { FormComponent as CanDeactivateComponent } from "../../customTypes";
+import { FormComponent as CanDeactivateComponent, FormState, FeatureArea } from "../../customTypes";
 
 @Component({
   selector: 'app-form',
@@ -13,6 +14,7 @@ import { FormComponent as CanDeactivateComponent } from "../../customTypes";
   styleUrls: ['./form.component.css']
 })
 export class FormComponent implements OnInit, CanDeactivateComponent, OnDestroy{
+  featureArea = FeatureArea.addPictures;
   destroyComponent: Subject<boolean> = new Subject();
   percentageUploaded: string;
   showSpinner:boolean = false;

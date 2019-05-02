@@ -51,3 +51,17 @@ export interface stateObject {
   show: boolean,
   message?:string
 }
+
+export interface FormState {
+  simpleValues: {
+    useExisting:boolean,
+    previewSrc:boolean,
+    customPictureTitle:boolean
+  },
+  partialFormGroupValues: any,
+}
+
+export enum FeatureArea {
+  addPictures=1,
+  users
+}

@@ -1,6 +1,7 @@
 <div class="main-container">
 
   <app-message></app-message>
+  <app-message [featureArea]="featureArea"></app-message>
   <div class="form-container">
     <form (ngSubmit)="handleSubmit(form)" #form [formGroup]="picturesForm">
 

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Router } from "@angular/router";
 import { AuthenticationService } from "../services/authentication.service";
 import { MessageService } from "../services/message.service";
+import { FeatureArea } from "../customTypes"
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class AddNewPictureGuard implements CanActivate {
         return true;
       }
       else{
-        this.message.addMessage("You must be logged in to post a picture");
+        this.message.addMessage("You must be logged in to post a picture", FeatureArea.users);
         this.router.navigate(["/user", "authenticate"]);
         return false;
       }

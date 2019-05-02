@@ -8,6 +8,7 @@ import { AlbumsService } from "../services/albums.service";
 import { Router } from "@angular/router";
 import { CachedRequestsService } from "./cached-requests.service";
 import { MessageService } from "../services/message.service";
+import { FeatureArea } from "../customTypes"
 
 /*
   This class appends the jwt token to the header of the relevant request.
@@ -70,7 +71,7 @@ export class AuthHeaderService implements HttpInterceptor {
           .pipe( switchMap(( token ) => {
             this.refreshingToken = false;
             //In between the refresh attempt there could be other requests coming in
-            
+
             return next.handle(this.appendToken(req))
             .pipe( tap( event => {
                     //let send them all in order
@@ -87,7 +88,8 @@ export class AuthHeaderService implements HttpInterceptor {
               if(err.status === 403){
                 this.cache.addToFrontOfCache(req);
                 this.auth.clearUserData();
-                this.message.addMessage("The app requires a relogin every 24 hours. If you do not login as the same user the pending post is lost");
+                this.message.addMessage("The app requires a relogin every 24 hours. If you do not login as the same user the pending post is lost"
+                , FeatureArea.users);
                 this.router.navigate(["/user", "authenticate"]);
               }
               return throwError(err);

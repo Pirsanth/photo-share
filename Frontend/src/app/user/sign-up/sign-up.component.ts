@@ -4,8 +4,8 @@ import { Router } from "@angular/router";
 import { FormBuilder, Validators, FormGroup, ValidationErrors, FormControl, AbstractControl, AsyncValidator } from "@angular/forms";
 import { isUsernameAvailable } from "./isUsernameAvailable";
 import { MessageService } from "../../services/message.service";
-import { FormComponent } from "../../customTypes";
 import { AuthModalService } from "../../services/auth-modal.service";
+import { FormComponent, FeatureArea } from "../../customTypes";
 
 @Component({
   selector: 'app-sign-up',
@@ -124,7 +124,7 @@ export class SignUpComponent implements OnInit, FormComponent {
           this.router.navigate(["/pictures"])
         },
         err => {
-          this.message.addMessage("An error occured while attempting to create a new user");
+          this.message.addMessage("An error occured while attempting to create a new user", FeatureArea.users);
         }
       );
     }

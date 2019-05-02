@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, Input } from '@angular/core';
 import { MessageService } from "../../services/message.service";
 import { Subject, Observable, fromEvent, merge, of } from "rxjs";
 import { map, scan, filter, mergeMap, takeUntil, tap, share, buffer, take } from "rxjs/operators";
+import { FeatureArea } from "../../customTypes";
 
 class messageObject {
   animate:boolean = false;
@@ -15,6 +16,7 @@ class messageObject {
 })
 export class MessageComponent implements OnInit, OnDestroy {
   @ViewChild("container") popupContainer;
+  @Input() featureArea:FeatureArea;
   messages: Observable<string>;
   messageStack: Array<{message:string, animate:boolean}> = [];
   messageCount:number = 0;
@@ -23,8 +25,8 @@ export class MessageComponent implements OnInit, OnDestroy {
   constructor(private service: MessageService) { }
 
   ngOnInit() {
-    if(this.service.isCacheFull()){
-      const stringArr = this.service.getCacheAndClear();
+    if(this.service.isCacheFull(this.featureArea)){
+      const stringArr = this.service.getCacheAndClear(this.featureArea);
       this.messageStack = stringArr.map( (message) => new messageObject(message));
       this.messageCount = stringArr.length;
     }
