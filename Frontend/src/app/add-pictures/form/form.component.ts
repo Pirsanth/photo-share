@@ -5,16 +5,18 @@ import { Validators, FormBuilder, FormArray, FormControl} from "@angular/forms";
 import { Subject } from "rxjs";
 import { take, takeUntil } from "rxjs/operators";
 import { MessageService } from "../../services/message.service";
-import { FormComponent as CanDeactivateComponent } from "../../customTypes";
 import { FormComponent as CanDeactivateComponent, FormState, FeatureArea } from "../../customTypes";
+import { AddPictureCacheService } from "../../services/add-picture-cache.service";
 
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.css']
 })
+
 export class FormComponent implements OnInit, CanDeactivateComponent, OnDestroy{
   featureArea = FeatureArea.addPictures;
+  cachedPictures: any[];
   destroyComponent: Subject<boolean> = new Subject();
   percentageUploaded: string;
   showSpinner:boolean = false;
@@ -25,19 +27,18 @@ export class FormComponent implements OnInit, CanDeactivateComponent, OnDestroy{
   picturesForm = this.fb.group({
     albumName: ["", this.customAlbumNameValidator.bind(this)],
     pictureTitles: this.fb.array([]),
-    fileControl: ["", Validators.required]
+    fileControl: ["", [this.customRequiredValidator.bind(this), this.fileControlValidator.bind(this)]]
   });
   showModal:boolean = false;
   private responseSubject:Subject<boolean> = new Subject<boolean>();
   private submitObserver = {
     next: ()=> {
-                this.showSpinner = false
-                this.message.addMessage("The picture was added successfully")
+                this.showSpinner = false;
+                this.cachedPictures = null;
                 this.clearForm();
                },
     error: ()=> {
                   this.showSpinner = false
-                  this.message.addMessage("An error occured while adding the picture")
                 }
    }
   projectedModalMessage: string;
@@ -48,7 +49,7 @@ export class FormComponent implements OnInit, CanDeactivateComponent, OnDestroy{
     )
   }
   @ViewChild('fileInput')fileInput:ElementRef;
-
+  @ViewChild("form")formElement:ElementRef;
 
   get pictureTitles(): FormArray{
     return this.picturesForm.get("pictureTitles") as FormArray;
@@ -62,7 +63,8 @@ export class FormComponent implements OnInit, CanDeactivateComponent, OnDestroy{
   get fileControl(){
     return this.picturesForm.get("fileControl");
   }
-  constructor(private ajax:AlbumsService, private route: ActivatedRoute, private fb:FormBuilder, private message:MessageService) { }
+  constructor(private ajax:AlbumsService, private route: ActivatedRoute,
+    private fb:FormBuilder, private message:MessageService, private cache:AddPictureCacheService) { }
 
   ngOnInit(){
 
@@ -77,17 +79,71 @@ export class FormComponent implements OnInit, CanDeactivateComponent, OnDestroy{
     if(this.ajax.uploadingFiles){
       this.showSpinner = true;
     }
+
+    if(this.cache.isFull){
+      const cache = this.cache.retrieveCache();
+      this.setStateFromCache(cache);
+    }
   }
+
   ngAfterViewInit(){
-      //we need the ViewChild to complete for the custorm validation function
-      this.fileControl.setValidators([Validators.required, this.fileControlValidator.bind(this)]);
+  }
+  ngAfterViewChecked(){
+  }
+  setStateFromCache({ formState, savedPictures }){
+
+    this.cachedPictures = savedPictures;
+
+    //makes the form array before setting the picsSrc
+    const numberOfPics = savedPictures.length;
+    this.makeNewFormArray(numberOfPics);
+
+    //sets the radio buttons and the previewSrc
+    const entries = Object.entries(formState.simpleValues);
+    for(const [name, value] of entries){
+        this[name] = value;
+    }
+
+    //sets the form's input values that are not the file input
+    this.picturesForm.patchValue(formState.partialFormGroupValues);
+
+    /*
+     Make the file input valid
+     The form control updates validity on a change event. If the user chooses the same
+     file(s) again (as the pictures cached) it will considered a change because the file input
+     element starts with value="".
+     This is something to keep in mind. The problem is that input's value cannot be set programmatically
+    */
+    this.fileControl.setErrors(null);
+
+    /*so as to display a confirmation dialog when the user navigates away AND
+      the spinner is not showing*/
+    this.picturesForm.markAsDirty();
   }
   fileControlValidator(control: FormControl){
-    if(this.fileInput.nativeElement.files.length > 5){
+    /*
+      This ensures that more than 5 files have not been
+      selected
+
+      If the view has not been initialized it passes (passes
+      only this validator, not the required validator one as well)
+    */
+    if(this.fileInput && this.fileInput.nativeElement.files.length > 5){
       return {maxFilesExceeded: true}
     }
     else{
       return  null;
+    }
+  }
+  customRequiredValidator(control:FormControl){
+    /*
+      If we are using cached pictures, it passes
+    */
+    if(this.cachedPictures){
+      return null;
+    }
+    else{
+      return Validators.required(control);
     }
   }
   customAlbumNameValidator(albumName:FormControl){
@@ -100,21 +156,29 @@ export class FormComponent implements OnInit, CanDeactivateComponent, OnDestroy{
   }
 
   handleSubmit(form: HTMLFormElement){
+    let formData = new FormData(form);
+
     if(this.picturesForm.valid){
-      let formData = new FormData(form);
+      if(this.cachedPictures){
+        formData = this.useCachedPicturesInstead(formData);
+      }
       this.showSpinner = true;
       this.ajax.sendForm(formData).subscribe(this.submitObserver);
     }
     else{
 
-      this.dirtyAllInputs();
       //so all the validation messages show
+      this.dirtyAllInputs();
 
+      //only the pictureTitle is invalid, show a confirmation dialog
       if(this.albumName.valid && this.fileControl.valid){
-        //only the pictureTitle is invalid, show a confirmation dialog
+
         this.response$.subscribe( (response:boolean) => {
           if(response){
-            let formData = new FormData(form);
+            if(this.cachedPictures){
+              formData = this.useCachedPicturesInstead(formData);
+            }
+            this.showSpinner = true;
             this.ajax.sendForm(formData).subscribe(this.submitObserver);
           }
         });
@@ -124,6 +188,12 @@ export class FormComponent implements OnInit, CanDeactivateComponent, OnDestroy{
       }
 
     }
+
+  }
+  useCachedPicturesInstead(formData:FormData){
+    formData.delete("picture");
+    this.cachedPictures.forEach(x => formData.append("picture", x));
+    return formData;
   }
   clearForm(){
     this.picturesForm.reset();
@@ -184,7 +254,11 @@ export class FormComponent implements OnInit, CanDeactivateComponent, OnDestroy{
     })
   }
   canDeactivate(){
-    if(this.picturesForm.dirty){
+    if(this.ajax.uploadingFiles){
+      this.savetoCache();
+      return true;
+    }
+    else if(this.picturesForm.dirty){
       this.projectedModalMessage = "Discard changes to the form?";
       this.toggleModal();
       return this.response$;
@@ -195,10 +269,51 @@ export class FormComponent implements OnInit, CanDeactivateComponent, OnDestroy{
   }
   cancelRequest(){
     this.ajax.cancelUpload();
-    this.message.addMessage("The picture upload was canceled by the user");
+    this.message.addMessage("The picture upload was canceled by the user", FeatureArea.addPictures);
   }
   ngOnDestroy(){
       this.destroyComponent.next(true);
       this.destroyComponent.complete();
+  }
+  savetoCache(){
+
+      const { useExisting, previewSrc, customPictureTitle, picturesForm } = this;
+      const simpleValues = {useExisting, previewSrc, customPictureTitle};
+
+      const formGroupValues = picturesForm.value;
+      delete formGroupValues.fileControl;
+
+      const formState = {
+                         simpleValues,
+                         partialFormGroupValues: picturesForm.value
+                        };
+
+      //saving the file input data
+      let formDataPictures:any[];
+      if(this.cachedPictures){
+        formDataPictures = this.cachedPictures;
+      }
+      else{
+        const formData =  new FormData(this.formElement.nativeElement);
+        formDataPictures = formData.getAll("picture");
+      }
+
+      this.cache.saveToCache(formState, formDataPictures);
+
+  }
+  update(){
+    console.log()
+    //this.fileControl.setErrors(null);
+  //  this.picturesForm.updateValueAndValidity();
+  }
+  print(){
+    console.log(this.picturesForm.dirty);
+    /*
+    console.log(this.formElement.nativeElement)
+    var formData = new FormData(this.formElement.nativeElement);
+    console.log(formData.getAll("picture"));
+    */
+
+  //  console.log(this.fileControl.value, this.fileControl.valid)
   }
 }

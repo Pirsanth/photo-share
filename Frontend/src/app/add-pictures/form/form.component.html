@@ -1,7 +1,11 @@
 <div class="main-container">
 
-  <app-message></app-message>
   <app-message [featureArea]="featureArea"></app-message>
+
+  <button type="button" name="button" (click)="savetoCache()" >Save</button>
+  <button type="button" name="button" (click)="print()" >Print</button>
+  <button type="button" name="button" (click)="update()" >Update</button>
+
   <div class="form-container">
     <form (ngSubmit)="handleSubmit(form)" #form [formGroup]="picturesForm">
 
@@ -25,7 +29,7 @@
         </div>
 
         <div *ngIf="useExisting; else newAlbumBlock" class="content">
-          <select class="" name="albumName">
+          <select class="" name="albumName" formControlName="albumName">
             <option value={{albumName}} *ngFor="let albumName of albumList">{{albumName}}</option>
           </select>
         </div>
@@ -65,8 +69,11 @@
         <!-- fileInput refers to the file input form element whereas fileControl refers to the form control that is attached to the file input form elemnt via formControlName -->
         <button type="button" name="button" (click)="fileInput.click();">Choose Picture/Pictures</button>
 
-        <input type="file" formControlName="fileControl" hidden name="picture" value="" accept="image/*"
-        #fileInput multiple (change)="(fileControl.errors?.maxFilesExceeded)? clearPreview() : makePicturePreview(fileInput.files)">
+        <div #fileInputContainer>
+          <input type="file" formControlName="fileControl" hidden name="picture" value="" accept="image/*"
+          #fileInput multiple (change)="cachedPictures = null;
+          (fileControl.errors?.maxFilesExceeded)? clearPreview() : makePicturePreview(fileInput.files);">
+        </div>
 
         <div class="validationMsg">
           <span *ngIf="(fileControl.dirty) && fileControl.errors?.required">
