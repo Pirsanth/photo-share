@@ -7,10 +7,9 @@ import { WidgetsModule } from "../widgets/widgets.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SpinnerComponent } from "../spinner/spinner.component";
-import {toPercentage } from "../pipes/toPercentage";
 
 @NgModule({
-  declarations: [FormComponent, SpinnerComponent, toPercentage],
+  declarations: [FormComponent, SpinnerComponent],
   imports: [
     CommonModule,
     AddPicturesRoutingModule,
