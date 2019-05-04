@@ -30,26 +30,37 @@ ___
  3. Run **npm run serve** to serve the application.
  4. By default the port of the node server is 3000, the port of the browserSync server that serves up the frontend is 4000 and the mongodb connection string is "mongodb://localhost:27017/photoShare". To change any of these values modify the .env file. These defaults can be changed without a rebuilt of the Angular frontend.
 
-> Use **npm run reset** to reset the state of the application. It will clear all the contents of the app including user accounts, comments and uploaded pictures. (This has to be run in the same folder as the backend's files because angular has its own package.json as well)
+> Use **npm run reset** to reset the state of the application. It will clear all the contents of the app including user accounts, comments and uploaded pictures. (This has to be run in the same folder as the backend's files because angular has its own package.json as well). [Please see footnote 1](#footnote)
 ___
 
 ## Checklist
 - [ ] Add a spinner animation while the app waits for resolvers/navigation
-- [ ] Add a progress bar for picture uploads
+- [x] Add a progress bar for picture uploads
 - [x] Build the angular application insteead of running it in developer mode
 ___
 
 ## Implementation Notes
 
 ### User Experience
-Bullet points of UX considerations on the Angular frontend:
+#### Bullet points of UX considerations on the Angular frontend
+
+##### In general:
+
 * For the frontend form validation messages, I designed it so that when the validation messages appear the form's other input fields do not move
 * Following the above's reasoning of not causing the form's layout to change and jitter about, I made the messages of the message component appear as a stack
 * Implemented reponsive design so that the app looks good on mobiles, tablets and computer screens
 * In the album list component, for each album we show a preview of the last four pictures uploaded (which updates with the addition of each new picture)
 * In the all the forms I show a confirmation dialog asking the user if he is sure he wants to leave if the form is dirty
-* In the add a new picture form I make it easy for the user to add a new picture by letting the app set an automatic title for the picture. If the user only wants to add custom (his own) picture titles to a few of his/her uploads, I have that situation covered with an additional confirmation dialog
 * In the picture detail component I keep fetching comments every 5 seconds. I only update the view if the comments have changed saving us an unnecessary change detection run
+
+##### The below points deal specifically with the implementation of the add a new picture form, arguably the most complex component:
+
+* In the add a new picture form I make it easy for the user to add a new picture by letting the app set an automatic title for the picture. If the user only wants to add custom (his own) picture titles to a few of his/her uploads, I have that situation covered with an additional confirmation dialog
+* There is a progress bar that is displayed that shows the progress of the file upload/form submission.
+* The implementation of the progress bar is such that only one form submission can be made at a time. I think this limitation is justified as we have allowed the user to upload multiple pictures with each form submission.
+* The user may navigate away form the form, to browse pictures for example, while the pictures are uploading.
+* The form will also cache the form's data if the user browses away from the form while the pictures are uploading. This is so that if the user decides to return to the form and cancel the request so that he may change a value in the form to be submitted he can do so without having to fill in the ENTIRE form again.
+* The form data is only cleared upon a successful form submission. If an error HTTP response is received, the form data stays. This applies to the cached form data as well.
 
 ### JWT Implementation
 The main problem with JWT tokens are that we can't invalidate an existing JWT token. I decided to address this issue by using a short-lived JWT access token and a longer lived refresh token. Refresh tokens are an Oauth2 concept that I borrowed. The short-lived refresh token is stateless meaning we do not do a call to the database whereas we do for the refresh token. The refresh token can thus be revoked restricting the time an attacker has access to less than or equal to the duration of the access token.
@@ -73,3 +84,8 @@ ___
 1. [A Stackoverflow that I referred to when figuring out how to proxy BrowserSync](https://stackoverflow.com/questions/25410284/gulp-browser-sync-redirect-api-request-via-proxy)
 2. [One of the (many) articles that convinced me to try using npm scripts](https://medium.freecodecamp.org/why-i-left-gulp-and-grunt-for-npm-scripts-3d6853dd22b8)
 3. These two links convinced me that I did not need Angular Materials for the modal component. I also took some of the CSS tips in these articles. [Link1](https://itnext.io/angular-create-your-own-modal-boxes-20bb663084a) | [Link2](https://hackernoon.com/the-ultimate-guide-for-creating-a-simple-modal-component-in-vanilla-javascript-react-angular-8733e2859b421)
+
+___
+
+## Footnote
+1. Please ensure that all users of the frontend Angular application are logged out. If any user is still logged in, please clear localStorage in particular the keys "username", "refreshToken" and "accessToken".

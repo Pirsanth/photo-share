@@ -16,7 +16,7 @@ export class AlbumsService implements OnDestroy {
   public baseURL: string = environment.apiUrl;
   public uploadingFiles: boolean = false;
   private cancelRequest:Subject<boolean> = new Subject();
-  private uploadProgress:BehaviorSubject<string> = new BehaviorSubject("0");
+  private uploadProgress:BehaviorSubject<string> = new BehaviorSubject("0%");
   percentageUploaded$ = this.uploadProgress.asObservable();
   constructor(private http: HttpClient,private cache:AddPictureCacheService,
     private message:MessageService) {}

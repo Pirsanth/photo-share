@@ -1,8 +1,6 @@
 import { Component, OnInit, Input, OnDestroy, EventEmitter, Output } from '@angular/core';
-import { SpinnerService } from "../services/spinner.service";
-import { Router, NavigationStart, NavigationEnd, NavigationError, NavigationCancel } from "@angular/router";
 import { Subject } from "rxjs";
-import { takeUntil } from "rxjs/operators";
+
 
 @Component({
   selector: 'app-spinner',
@@ -19,20 +17,7 @@ export class SpinnerComponent implements OnInit{
   componentDestroyed:Subject<boolean> = new Subject();
   constructor() { }
 
-  ngOnInit() {
-/*
-    this.router.events.subscribe(evt => {
-        if(evt instanceof NavigationStart){
-            this.show = true;
-        }
-        else if(evt instanceof NavigationEnd ||
-                evt instanceof NavigationError ||
-                evt instanceof NavigationCancel){
-          this.show = false;
-        }
-    })
-*/
-  }
+  ngOnInit() {}
   cancelUpload(){
     this.uploadCanceled.next(true);
   }

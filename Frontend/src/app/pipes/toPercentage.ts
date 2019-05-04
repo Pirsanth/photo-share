@@ -1,5 +1,7 @@
 import { Pipe, PipeTransform } from "@angular/core";
 
+//This code is not unused
+
 /*Converts a decimal fraction (0<x<=1) with 2 decimal points into a percentage
 *Examples
 *    Input 0.99 => Output 99%
