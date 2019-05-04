@@ -25,7 +25,7 @@ export class FormComponent implements OnInit, CanDeactivateComponent, OnDestroy{
   customPictureTitle: boolean = false;
   albumList: string[];
   picturesForm = this.fb.group({
-    albumName: ["", this.customAlbumNameValidator.bind(this)],
+    albumName: ["", Validators.required],
     pictureTitles: this.fb.array([]),
     fileControl: ["", [this.customRequiredValidator.bind(this), this.fileControlValidator.bind(this)]]
   });
@@ -144,14 +144,6 @@ export class FormComponent implements OnInit, CanDeactivateComponent, OnDestroy{
     }
     else{
       return Validators.required(control);
-    }
-  }
-  customAlbumNameValidator(albumName:FormControl){
-    if(this.useExisting){
-      return null;
-    }
-    else{
-      return Validators.required(albumName);
     }
   }
 
@@ -301,19 +293,17 @@ export class FormComponent implements OnInit, CanDeactivateComponent, OnDestroy{
       this.cache.saveToCache(formState, formDataPictures);
 
   }
-  update(){
-    console.log()
-    //this.fileControl.setErrors(null);
-  //  this.picturesForm.updateValueAndValidity();
-  }
-  print(){
-    console.log(this.picturesForm.dirty);
-    /*
-    console.log(this.formElement.nativeElement)
-    var formData = new FormData(this.formElement.nativeElement);
-    console.log(formData.getAll("picture"));
-    */
-
-  //  console.log(this.fileControl.value, this.fileControl.valid)
+  updateAlbumNameControl(){
+    if(!this.useExisting){
+      this.albumName.setValue("");
+    }
+    else{
+      if(this.albumList.length){
+        this.albumName.setValue(this.albumList[0]);
+      }
+      else {
+        this.albumName.setValue("");
+      }
+    }
   }
 }

@@ -2,21 +2,27 @@
 
   <app-message [featureArea]="featureArea"></app-message>
 
-  <button type="button" name="button" (click)="savetoCache()" >Save</button>
-  <button type="button" name="button" (click)="print()" >Print</button>
-  <button type="button" name="button" (click)="update()" >Update</button>
-
   <div class="form-container">
     <form (ngSubmit)="handleSubmit(form)" #form [formGroup]="picturesForm">
 
     <div class="radio-containers">
       <div class="">
         <span>
-          <input type="radio" id="existing album" name="useExistingAlbum" [value]="true" [checked]="useExisting" [(ngModel)]="useExisting" [ngModelOptions]="{standalone: true}" (ngModelChange)="albumName.updateValueAndValidity()">
+          <input type="radio" id="existing album" name="useExistingAlbum" [value]="true" [checked]="useExisting"
+          [(ngModel)]="useExisting" [ngModelOptions]="{standalone: true}" (ngModelChange)="updateAlbumNameControl()">
+          <!--
+          <input type="radio" id="existing album" name="useExistingAlbum" [value]="true" [checked]="useExisting"
+          [(ngModel)]="useExisting" [ngModelOptions]="{standalone: true}">
+          -->
           <label for="existing album">Use an existing album</label>
         </span>
         <span>
-          <input type="radio" id="new album" name="useExistingAlbum" [value]="false" [checked]="!useExisting" [(ngModel)]="useExisting" [ngModelOptions]="{standalone: true}" (ngModelChange)="albumName.updateValueAndValidity()">
+          <input type="radio" id="new album" name="useExistingAlbum" [value]="false" [checked]="!useExisting"
+          [(ngModel)]="useExisting" [ngModelOptions]="{standalone: true}" (ngModelChange)="updateAlbumNameControl()">
+          <!--
+          <input type="radio" id="new album" name="useExistingAlbum" [value]="false" [checked]="!useExisting"
+          [(ngModel)]="useExisting" [ngModelOptions]="{standalone: true}">
+          -->
           <label for="new album">Make a new album</label>
         </span>
       </div>
@@ -29,9 +35,17 @@
         </div>
 
         <div *ngIf="useExisting; else newAlbumBlock" class="content">
-          <select class="" name="albumName" formControlName="albumName">
+
+          <select class="" name="albumName" formControlName="albumName" *ngIf="albumList.length; else noAlbums">
             <option value={{albumName}} *ngFor="let albumName of albumList">{{albumName}}</option>
           </select>
+
+          <ng-template #noAlbums>
+            <select class="" name="albumName" disabled class="no-albums">
+              <option value="">There are no albums currently on the server</option>
+            </select>
+          </ng-template>
+
         </div>
 
         <div class="validationMsg">
@@ -41,10 +55,10 @@
         </div>
 
 
-
       <ng-template #newAlbumBlock>
         <div class="content">
-          <input name="albumName" value="newAlbum" placeholder="Name of new album" maxlength="100" type="text" formControlName="albumName">
+          <input name="albumName" value="newAlbum" placeholder="Name of new album"
+           maxlength="100" type="text" formControlName="albumName">
         </div>
       </ng-template>
     </div>
@@ -122,7 +136,6 @@
 
 
       <button type="submit" name="button">Send</button>
-
     </form>
   </div>
 

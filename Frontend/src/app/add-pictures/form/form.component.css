@@ -109,6 +109,10 @@ input[type="text"].ng-valid {
 input[type="text"].ng-invalid.ng-touched, input[type="text"].ng-invalid.ng-dirty {
   border-color: red;
 }
+.no-albums{
+  color: red;
+}
+
 @media screen and (min-width: 375px){
 
 }
